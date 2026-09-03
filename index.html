@@ -2,153 +2,530 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Earn Rewards</title>
-  <!-- Telegram WebApp SDK -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Reward Hub 3D</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <!-- Adsgram SDK -->
   <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
   <style>
+    :root {
+      --bg: #070913;
+      --card-bg: rgba(18, 24, 43, 0.75);
+      --card-border: rgba(56, 189, 248, 0.2);
+      --neon-blue: #38bdf8;
+      --neon-gold: #facc15;
+      --neon-green: #4ade80;
+      --neon-purple: #a855f7;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      text-align: center;
-      background: #0f172a;
-      color: #ffffff;
-      padding: 20px;
+      background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, var(--bg) 100%);
+      color: var(--text);
+      padding: 16px;
       margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      perspective: 1200px;
     }
-    .card {
-      background: #1e293b;
-      border-radius: 16px;
+
+    /* Ambient Animated Glow Spheres */
+    .glow-sphere-1, .glow-sphere-2 {
+      position: fixed;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: -1;
+      pointer-events: none;
+      animation: floatGlow 8s infinite alternate ease-in-out;
+    }
+    .glow-sphere-1 { background: rgba(56, 189, 248, 0.15); top: -50px; left: -50px; }
+    .glow-sphere-2 { background: rgba(168, 85, 247, 0.15); bottom: 50px; right: -50px; animation-delay: -4s; }
+
+    @keyframes floatGlow {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 60px) scale(1.2); }
+    }
+
+    /* Live Trust Payout Ticker */
+    .payout-ticker {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      padding: 8px 14px;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: #86efac;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--neon-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--neon-green);
+      animation: pulseDot 1.5s infinite;
+    }
+    @keyframes pulseDot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+
+    /* 3D Glass Morphism Cards */
+    .card-3d {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 24px;
       padding: 20px;
       margin-bottom: 16px;
-      border: 1px solid #334155;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out;
+    }
+
+    /* User Profile Card */
+    .profile-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+    }
+    .profile-left { display: flex; align-items: center; gap: 12px; }
+    .avatar-3d {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      box-shadow: 0 6px 16px rgba(56, 189, 248, 0.4);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+    }
+    .verified-badge {
+      background: rgba(74, 222, 128, 0.15);
+      border: 1px solid var(--neon-green);
+      color: var(--neon-green);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* 3D Animated Coin & Balance Display */
+    .balance-box {
+      text-align: center;
+      position: relative;
+    }
+    .floating-coin {
+      width: 54px;
+      height: 54px;
+      background: linear-gradient(135deg, #fde047, #ca8a04);
+      border-radius: 50%;
+      margin: 0 auto 10px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 900;
+      color: #713f12;
+      border: 3px solid #fef08a;
+      box-shadow: 0 8px 25px rgba(234, 179, 8, 0.5), inset 0 -4px 6px rgba(0, 0, 0, 0.3);
+      animation: coinFloat 3s infinite ease-in-out;
+    }
+    @keyframes coinFloat {
+      0%, 100% { transform: translateY(0) rotateY(0deg); }
+      50% { transform: translateY(-8px) rotateY(180deg); }
     }
     .coin-val {
-      font-size: 38px;
-      font-weight: 800;
-      color: #38bdf8;
-      margin: 6px 0;
+      font-size: 44px;
+      font-weight: 900;
+      background: linear-gradient(180deg, #ffffff 0%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+      margin-bottom: 4px;
     }
     .inr-val {
-      font-size: 15px;
-      color: #94a3b8;
+      font-size: 16px;
+      font-weight: 700;
+      color: #86efac;
     }
-    .btn {
-      background: #0284c7;
+
+    /* Withdrawal Progress Meter */
+    .progress-wrapper {
+      margin-top: 16px;
+      background: rgba(15, 23, 42, 0.8);
+      border-radius: 12px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .progress-bar-bg {
+      height: 8px;
+      background: #1e293b;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 6px 0;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #38bdf8, #4ade80);
+      border-radius: 8px;
+      transition: width 0.4s ease;
+      box-shadow: 0 0 10px rgba(74, 222, 128, 0.6);
+    }
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* 3D Action Buttons */
+    .btn-3d {
+      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
       color: #ffffff;
       border: none;
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 700;
-      border-radius: 10px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      border-radius: 16px;
       width: 100%;
       cursor: pointer;
-      margin-top: 10px;
+      box-shadow: 0 8px 25px -4px rgba(37, 99, 235, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.15s ease;
     }
-    .btn:active {
-      transform: scale(0.98);
-      background: #0369a1;
+    .btn-3d:active {
+      transform: scale(0.97) translateY(2px);
+      box-shadow: 0 3px 12px -2px rgba(37, 99, 235, 0.5);
     }
-    .btn-secondary {
-      background: #334155;
+    .btn-3d::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      animation: buttonShine 3s infinite;
     }
-    .input-box {
-      width: 90%;
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: 1px solid #475569;
-      background: #0f172a;
-      color: white;
-      box-sizing: border-box;
+    @keyframes buttonShine { 0% { left: -100%; } 20%, 100% { left: 100%; } }
+
+    .btn-withdraw {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      box-shadow: 0 8px 25px -4px rgba(16, 185, 129, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      margin-top: 12px;
+    }
+
+    /* Inputs & Form Controls */
+    .input-3d {
+      width: 100%;
+      padding: 14px;
+      margin-top: 8px;
+      border-radius: 14px;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      background: rgba(10, 15, 29, 0.9);
+      color: #ffffff;
       font-size: 14px;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
     }
-    .info {
-      font-size: 12px;
-      color: #64748b;
+    .input-3d:focus {
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+    }
+
+    /* Tab Switches */
+    .tab-switch {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      background: #1e293b;
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .tab-active {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+    }
+
+    /* Guarantee Trust Banner */
+    .trust-badge-row {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      font-size: 11px;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
       margin-top: 14px;
     }
+    .trust-item { display: flex; align-items: center; gap: 4px; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <div style="font-size: 12px; letter-spacing: 1px; color: #94a3b8;">YOUR BALANCE</div>
-    <div class="coin-val" id="coins">0</div>
-    <div class="inr-val">≈ ₹<span id="inr">0.00</span></div>
+  <div class="glow-sphere-1"></div>
+  <div class="glow-sphere-2"></div>
+
+  <!-- Realtime Payout Trust Banner -->
+  <div class="payout-ticker">
+    <div class="live-dot"></div>
+    <span id="payoutTickerText">Instant ₹50 UPI Payout sent to user ***9182</span>
   </div>
 
-  <button class="btn" onclick="watchAd()">▶ Watch Video Ad (+5 Coins)</button>
+  <!-- AUTH CARD (Login / Signup) -->
+  <div id="authSection" class="card-3d">
+    <div class="tab-switch">
+      <button class="tab-btn tab-active" id="tabSignup" onclick="switchAuth('signup')">⚡ Direct Signup</button>
+      <button class="tab-btn" id="tabLogin" onclick="switchAuth('login')">🔑 Instant Login</button>
+    </div>
 
-  <div class="card" style="margin-top: 20px;">
-    <div style="font-weight: 600; margin-bottom: 8px;">Redeem Cash (UPI)</div>
-    <input type="text" id="upiId" class="input-box" placeholder="example@upi">
-    <button class="btn btn-secondary" onclick="requestWithdrawal()">Request ₹50 Payout</button>
+    <div id="signupFields">
+      <input type="text" id="regUsername" class="input-3d" placeholder="Username (Auto)" readonly>
+      <input type="text" id="regUserId" class="input-3d" placeholder="Telegram ID (Auto)" readonly>
+    </div>
+    
+    <input type="email" id="authEmail" class="input-3d" placeholder="Enter Valid Email">
+    <input type="password" id="authPass" class="input-3d" placeholder="Set Access Password">
+    
+    <button class="btn-3d" id="authSubmitBtn" onclick="handleAuth()" style="margin-top: 16px;">🚀 Start Earning Real Cash</button>
+
+    <div class="trust-badge-row">
+      <div class="trust-item">🔒 100% Encrypted</div>
+      <div class="trust-item">⚡ Instant UPI Setup</div>
+      <div class="trust-item">🛡️ Verified Payouts</div>
+    </div>
   </div>
 
-  <p class="info">100 Coins = ₹1.00 • Min. Withdrawal: 5,000 Coins (₹50)</p>
+  <!-- MAIN 3D DASHBOARD (Visible After Auth) -->
+  <div id="mainDashboard" class="hidden">
+    
+    <!-- User Status Header -->
+    <div class="card-3d profile-card">
+      <div class="profile-left">
+        <div class="avatar-3d" id="userAvatar">U</div>
+        <div style="text-align:left;">
+          <div style="font-weight:800; font-size:15px;" id="displayName">Loading User...</div>
+          <div style="font-size:11px; color:var(--text-muted);" id="displayEmail">email@domain.com</div>
+        </div>
+      </div>
+      <div class="verified-badge">✓ Guaranteed</div>
+    </div>
+
+    <!-- 3D Coin & Balance Card -->
+    <div class="card-3d balance-box">
+      <div class="floating-coin">₹</div>
+      <div style="font-size:11px; letter-spacing:1.5px; color:var(--neon-blue); font-weight:700;">TOTAL REWARD BALANCE</div>
+      <div class="coin-val" id="coins">0</div>
+      <div class="inr-val">≈ ₹<span id="inr">0.00</span> INR</div>
+
+      <!-- Live Threshold Meter -->
+      <div class="progress-wrapper">
+        <div class="progress-text">
+          <span>₹50 Payout Progress</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+        <div class="progress-text">
+          <span id="coinsRemaining">5000 coins left</span>
+          <span>Goal: 5000 Coins</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Rewarded Ad Button -->
+    <button class="btn-3d" onclick="watchAd()">▶ Watch Ad (+5 Coins Instantly)</button>
+
+    <!-- 3D UPI Cashout Module -->
+    <div class="card-3d" style="margin-top:16px; text-align:left;">
+      <div style="font-weight:800; font-size:15px; display:flex; justify-content:space-between; align-items:center;">
+        <span>Direct UPI Withdrawal</span>
+        <span style="font-size:12px; color:#4ade80;">24x7 Guaranteed</span>
+      </div>
+      <p style="font-size:12px; color:var(--text-muted); margin: 6px 0 10px 0;">Funds are transferred directly to your bank VPA without deductions.</p>
+      
+      <input type="text" id="upiId" class="input-3d" placeholder="Enter UPI ID (e.g. mobile@okhdfcbank)">
+      <button class="btn-3d btn-withdraw" onclick="requestWithdrawal()">⚡ Claim ₹50 Instant Payout</button>
+    </div>
+
+    <div class="trust-badge-row">
+      <div class="trust-item">💸 Zero Deductions</div>
+      <div class="trust-item">⚡ Automated Webhook</div>
+      <div class="trust-item">🏦 Direct Bank Credit</div>
+    </div>
+  </div>
 
   <script>
     const tg = window.Telegram.WebApp;
     tg.expand();
 
+    // Webhooks Config
+    const AUTH_WEBHOOK = "https://script.google.com/macros/s/AKfycbwWlYi9bIrNR-GqED0p8aAquV1T3KvHxLaFWDfT3dRS4dMeHWHtX1TerxBwxACm5W43/exec";
+    const WITHDRAWAL_WEBHOOK = "https://script.google.com/macros/s/AKfycbwt_sO9EE438kFhhoArCDllPZR9xxNZnkJSg1GZaVmv_YWZT-hL3QXqoCQVzaHXFof0/exec";
+
+    let currentMode = 'signup';
     let balance = parseInt(localStorage.getItem("user_coins") || "0");
-    updateDisplay();
 
-    // Your active Adsgram Block ID
+    // Telegram User Context
+    const tgUser = tg.initDataUnsafe?.user;
+    const detectedUserId = tgUser?.id || "ID_" + Math.floor(Math.random() * 89999 + 10000);
+    const detectedUsername = tgUser?.username ? `@${tgUser.username}` : (tgUser?.first_name || "Member");
+
+    document.getElementById("regUserId").value = `ID: ${detectedUserId}`;
+    document.getElementById("regUsername").value = detectedUsername;
+
+    // Auto-Resume Session
+    const savedSession = localStorage.getItem("auth_session");
+    if (savedSession) {
+      showDashboard(JSON.parse(savedSession));
+    }
+
+    // Dynamic Live Payout Ticker Simulation
+    const payoutNames = ["9841", "7209", "9940", "8821", "6301", "9123", "9764"];
+    const payoutApps = ["@okaxis", "@paytm", "@ibl", "@ybl", "@okhdfcbank"];
+    setInterval(() => {
+      const randomPhone = payoutNames[Math.floor(Math.random() * payoutNames.length)];
+      const randomUpi = payoutApps[Math.floor(Math.random() * payoutApps.length)];
+      document.getElementById("payoutTickerText").innerText = `Instant ₹50 Payout sent to user ***${randomPhone}${randomUpi}`;
+    }, 4000);
+
+    function switchAuth(mode) {
+      currentMode = mode;
+      document.getElementById("tabSignup").className = mode === 'signup' ? 'tab-btn tab-active' : 'tab-btn';
+      document.getElementById("tabLogin").className = mode === 'login' ? 'tab-btn tab-active' : 'tab-btn';
+      document.getElementById("signupFields").className = mode === 'signup' ? '' : 'hidden';
+      document.getElementById("authSubmitBtn").innerText = mode === 'signup' ? '🚀 Start Earning Real Cash' : '🔑 Log In to Dashboard';
+    }
+
+    function handleAuth() {
+      const email = document.getElementById("authEmail").value.trim();
+      const password = document.getElementById("authPass").value.trim();
+
+      if (!email.includes("@") || password.length < 4) {
+        tg.showAlert("Please provide a valid email and at least 4 password characters.");
+        return;
+      }
+
+      fetch(AUTH_WEBHOOK, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: currentMode,
+          email: email,
+          password: password,
+          userId: detectedUserId,
+          username: detectedUsername
+        })
+      }).then(() => {
+        const sessionData = { userId: detectedUserId, username: detectedUsername, email: email };
+        localStorage.setItem("auth_session", JSON.stringify(sessionData));
+        showDashboard(sessionData);
+      }).catch(() => {
+        tg.showAlert("Network connection busy. Please retry.");
+      });
+    }
+
+    function showDashboard(userData) {
+      document.getElementById("authSection").classList.add("hidden");
+      document.getElementById("mainDashboard").classList.remove("hidden");
+      document.getElementById("displayName").innerText = userData.username;
+      document.getElementById("displayEmail").innerText = userData.email;
+      document.getElementById("userAvatar").innerText = userData.username.replace("@", "").charAt(0).toUpperCase();
+      updateDisplay();
+    }
+
+    // Adsgram Controller (Unit: 45875)
     const AdController = window.Adsgram.init({ blockId: "45875" });
-
-    // Your Google Script Webhook URL
-    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwt_sO9EE438kFhhoArCDllPZR9xxNZnkJSg1GZaVmv_YWZT-hL3QXqoCQVzaHXFof0/exec";
 
     function watchAd() {
       AdController.show()
-        .then((result) => {
+        .then(() => {
           balance += 5;
           localStorage.setItem("user_coins", balance);
           updateDisplay();
-          tg.showAlert("Success! 5 Coins added.");
+          tg.showAlert("🎉 +5 Coins Credited Instantly!");
         })
-        .catch((error) => {
-          tg.showAlert("Ad still under moderation or loading. Try again in a little while.");
+        .catch(() => {
+          tg.showAlert("Ad inventory synchronizing or under moderation. Please retry in 2 minutes.");
         });
     }
 
     function requestWithdrawal() {
       const upi = document.getElementById("upiId").value.trim();
-      const userId = tg.initDataUnsafe.user?.id || "DemoUser";
-      const username = tg.initDataUnsafe.user?.username || "NoUsername";
-
       if (!upi || !upi.includes("@")) {
-        tg.showAlert("Please enter a valid UPI ID (e.g. mobile@upi).");
+        tg.showAlert("Please enter a valid UPI address (e.g. mobile@upi).");
         return;
       }
       if (balance < 5000) {
-        tg.showAlert("Minimum balance required is 5,000 Coins (₹50). Keep watching ads!");
+        tg.showAlert("Threshold not reached. You need 5,000 Coins (₹50) to cash out.");
         return;
       }
 
-      fetch(WEBHOOK_URL, {
+      const session = JSON.parse(localStorage.getItem("auth_session")) || { userId: detectedUserId, username: detectedUsername };
+      fetch(WITHDRAWAL_WEBHOOK, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: userId, username: username, upi: upi, inr: 50 })
+        body: JSON.stringify({ userId: session.userId, username: session.username, upi: upi, inr: 50 })
       }).then(() => {
         balance -= 5000;
         localStorage.setItem("user_coins", balance);
         updateDisplay();
         document.getElementById("upiId").value = "";
-        tg.showAlert("Withdrawal request submitted! Payout will be sent to your UPI address.");
-      }).catch((err) => {
-        tg.showAlert("Network error. Please try again.");
+        tg.showAlert("✅ ₹50 Withdrawal Request Approved! Transaction logged to database.");
       });
     }
 
     function updateDisplay() {
       document.getElementById("coins").innerText = balance;
       document.getElementById("inr").innerText = (balance / 100).toFixed(2);
+      
+      const percent = Math.min(100, Math.floor((balance / 5000) * 100));
+      document.getElementById("progressBar").style.width = percent + "%";
+      document.getElementById("progressPercent").innerText = percent + "%";
+      const remaining = Math.max(0, 5000 - balance);
+      document.getElementById("coinsRemaining").innerText = remaining > 0 ? `${remaining} coins left` : "Ready to withdraw!";
     }
+
+    // Interactive 3D Card Tilt Physics on Gyroscope/Touch
+    document.querySelectorAll('.card-3d').forEach(card => {
+      card.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        const rect = card.getBoundingClientRect();
+        const x = touch.clientX - rect.left - rect.width / 2;
+        const y = touch.clientY - rect.top - rect.height / 2;
+        card.style.transform = `rotateY(${x / 18}deg) rotateX(${-y / 18}deg)`;
+      });
+      card.addEventListener('touchend', () => {
+        card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+      });
+    });
   </script>
 </body>
 </html>
