@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earn Rewards</title>
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <!-- Adsgram SDK -->
+  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      text-align: center;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 24px;
+      margin: 0;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid #334155;
+    }
+    .coin-val {
+      font-size: 40px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin: 8px 0;
+    }
+    .inr-val {
+      font-size: 16px;
+      color: #94a3b8;
+    }
+    .btn {
+      background: #0284c7;
+      color: #ffffff;
+      border: none;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 12px;
+      width: 100%;
+      cursor: pointer;
+    }
+    .btn:active {
+      transform: scale(0.98);
+      background: #0369a1;
+    }
+    .info {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div style="font-size: 13px; letter-spacing: 1px; color: #94a3b8;">YOUR BALANCE</div>
+    <div class="coin-val" id="coins">0</div>
+    <div class="inr-val">≈ ₹<span id="inr">0.00</span></div>
+  </div>
+
+  <button class="btn" onclick="watchAd()">▶ Watch Video Ad (+5 Coins)</button>
+
+  <p class="info">100 Coins = ₹1.00 • Min. Withdrawal: ₹50</p>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    // Load saved balance from browser storage
+    let balance = parseInt(localStorage.getItem("user_coins") || "0");
+    updateDisplay();
+
+    // Replace YOUR_ADSGRAM_BLOCK_ID with your real numeric/string ID from Adsgram
+    const AdController = window.Adsgram.init({ blockId: "45875" });
+
+
+    function watchAd() {
+      AdController.show()
+        .then((result) => {
+          // Completed full video: add 5 coins (₹0.05 value)
+          balance += 5;
+          localStorage.setItem("user_coins", balance);
+          updateDisplay();
+          alert("Success! 5 Coins added to your balance.");
+        })
+        .catch((error) => {
+          alert("Ad not finished or unavailable. Please try again later.");
+        });
+    }
+
+    function updateDisplay() {
+      document.getElementById("coins").innerText = balance;
+      document.getElementById("inr").innerText = (balance / 100).toFixed(2);
+    }
+  </script>
+</body>
+</html>
