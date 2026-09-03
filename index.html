@@ -14,84 +14,135 @@
       text-align: center;
       background: #0f172a;
       color: #ffffff;
-      padding: 24px;
+      padding: 20px;
       margin: 0;
     }
     .card {
       background: #1e293b;
       border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 24px;
+      padding: 20px;
+      margin-bottom: 16px;
       border: 1px solid #334155;
     }
     .coin-val {
-      font-size: 40px;
+      font-size: 38px;
       font-weight: 800;
       color: #38bdf8;
-      margin: 8px 0;
+      margin: 6px 0;
     }
     .inr-val {
-      font-size: 16px;
+      font-size: 15px;
       color: #94a3b8;
     }
     .btn {
       background: #0284c7;
       color: #ffffff;
       border: none;
-      padding: 16px;
-      font-size: 16px;
+      padding: 14px;
+      font-size: 15px;
       font-weight: 700;
-      border-radius: 12px;
+      border-radius: 10px;
       width: 100%;
       cursor: pointer;
+      margin-top: 10px;
     }
     .btn:active {
       transform: scale(0.98);
       background: #0369a1;
     }
+    .btn-secondary {
+      background: #334155;
+    }
+    .input-box {
+      width: 90%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #475569;
+      background: #0f172a;
+      color: white;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
     .info {
       font-size: 12px;
       color: #64748b;
-      margin-top: 16px;
+      margin-top: 14px;
     }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <div style="font-size: 13px; letter-spacing: 1px; color: #94a3b8;">YOUR BALANCE</div>
+    <div style="font-size: 12px; letter-spacing: 1px; color: #94a3b8;">YOUR BALANCE</div>
     <div class="coin-val" id="coins">0</div>
     <div class="inr-val">≈ ₹<span id="inr">0.00</span></div>
   </div>
 
   <button class="btn" onclick="watchAd()">▶ Watch Video Ad (+5 Coins)</button>
 
-  <p class="info">100 Coins = ₹1.00 • Min. Withdrawal: ₹50</p>
+  <div class="card" style="margin-top: 20px;">
+    <div style="font-weight: 600; margin-bottom: 8px;">Redeem Cash (UPI)</div>
+    <input type="text" id="upiId" class="input-box" placeholder="example@upi">
+    <button class="btn btn-secondary" onclick="requestWithdrawal()">Request ₹50 Payout</button>
+  </div>
+
+  <p class="info">100 Coins = ₹1.00 • Min. Withdrawal: 5,000 Coins (₹50)</p>
 
   <script>
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    // Load saved balance from browser storage
     let balance = parseInt(localStorage.getItem("user_coins") || "0");
     updateDisplay();
 
-    // Replace YOUR_ADSGRAM_BLOCK_ID with your real numeric/string ID from Adsgram
+    // Your active Adsgram Block ID
     const AdController = window.Adsgram.init({ blockId: "45875" });
 
+    // Your Google Script Webhook URL
+    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwt_sO9EE438kFhhoArCDllPZR9xxNZnkJSg1GZaVmv_YWZT-hL3QXqoCQVzaHXFof0/exec";
 
     function watchAd() {
       AdController.show()
         .then((result) => {
-          // Completed full video: add 5 coins (₹0.05 value)
           balance += 5;
           localStorage.setItem("user_coins", balance);
           updateDisplay();
-          alert("Success! 5 Coins added to your balance.");
+          tg.showAlert("Success! 5 Coins added.");
         })
         .catch((error) => {
-          alert("Ad not finished or unavailable. Please try again later.");
+          tg.showAlert("Ad still under moderation or loading. Try again in a little while.");
         });
+    }
+
+    function requestWithdrawal() {
+      const upi = document.getElementById("upiId").value.trim();
+      const userId = tg.initDataUnsafe.user?.id || "DemoUser";
+      const username = tg.initDataUnsafe.user?.username || "NoUsername";
+
+      if (!upi || !upi.includes("@")) {
+        tg.showAlert("Please enter a valid UPI ID (e.g. mobile@upi).");
+        return;
+      }
+      if (balance < 5000) {
+        tg.showAlert("Minimum balance required is 5,000 Coins (₹50). Keep watching ads!");
+        return;
+      }
+
+      fetch(WEBHOOK_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: userId, username: username, upi: upi, inr: 50 })
+      }).then(() => {
+        balance -= 5000;
+        localStorage.setItem("user_coins", balance);
+        updateDisplay();
+        document.getElementById("upiId").value = "";
+        tg.showAlert("Withdrawal request submitted! Payout will be sent to your UPI address.");
+      }).catch((err) => {
+        tg.showAlert("Network error. Please try again.");
+      });
     }
 
     function updateDisplay() {
