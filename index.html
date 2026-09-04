@@ -42,8 +42,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        html { scroll-behavior: smooth; }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             background: var(--bg);
@@ -153,12 +151,6 @@
             letter-spacing: -1.5px;
         }
 
-        .money span {
-            color: var(--muted);
-            font-size: 15px;
-            font-weight: 750;
-        }
-
         .coins-line {
             display: flex;
             align-items: center;
@@ -234,11 +226,10 @@
             color: var(--text);
             text-align: left;
             margin-bottom: 9px;
-            transition: transform 0.15s ease, background 0.2s ease;
+            transition: transform 0.15s ease;
         }
 
         .action:active { transform: scale(0.975); }
-        .action:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .action-icon {
             flex: 0 0 43px;
@@ -254,10 +245,9 @@
 
         .action-main { flex: 1; }
         .action-title { font-size: 13px; font-weight: 850; }
-        .action-sub { color: var(--muted); margin-top: 3px; font-size: 10px; line-height: 1.35; }
+        .action-sub { color: var(--muted); margin-top: 3px; font-size: 10px; }
 
         .reward {
-            white-space: nowrap;
             padding: 6px 9px;
             border-radius: 10px;
             background: rgba(16, 185, 129, 0.11);
@@ -280,7 +270,6 @@
         }
 
         .primary-btn:active { transform: scale(0.97); }
-        .primary-btn:disabled { opacity: 0.55; cursor: not-allowed; }
 
         .ref-card {
             padding: 17px;
@@ -294,7 +283,6 @@
         }
 
         .ref-link input {
-            min-width: 0;
             flex: 1;
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -313,7 +301,6 @@
             color: #fff;
             font-size: 11px;
             font-weight: 850;
-            cursor: pointer;
         }
 
         .steps {
@@ -344,12 +331,6 @@
             font-weight: 900;
         }
 
-        .step.done { color: var(--success); }
-        .step.done .step-number {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--success);
-        }
-
         .wallet-card { text-align: center; padding: 22px; }
         .wallet-amount { margin-top: 7px; font-size: 35px; font-weight: 950; }
 
@@ -366,8 +347,6 @@
             font-size: 13px;
         }
 
-        .input:focus { border-color: var(--primary); }
-
         .withdraw-status {
             display: flex;
             align-items: center;
@@ -375,7 +354,6 @@
             padding: 13px;
             border-radius: 14px;
             background: var(--surface2);
-            margin-top: 10px;
         }
 
         .status-icon {
@@ -421,29 +399,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 15px 2px;
-            border-bottom: 1px solid var(--border);
         }
-
-        .setting:last-child { border-bottom: 0; }
-
-        .setting-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .setting-icon {
-            width: 34px;
-            height: 34px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            background: var(--surface2);
-        }
-
-        .setting-title { font-size: 12px; font-weight: 800; }
-        .setting-sub { margin-top: 2px; color: var(--muted); font-size: 9px; }
 
         .toggle {
             width: 46px;
@@ -497,20 +453,13 @@
             gap: 3px;
             font-size: 9px;
             font-weight: 850;
-            transition: color 0.2s, transform 0.15s;
             cursor: pointer;
         }
 
-        .nav-item:active { transform: scale(0.92); }
         .nav-item.active { color: var(--primary2); }
-
         .nav-icon { font-size: 18px; line-height: 18px; }
 
-        .tab {
-            display: none;
-            animation: fadeIn 0.25s ease;
-        }
-
+        .tab { display: none; }
         .tab.active { display: block; }
 
         .toast {
@@ -538,34 +487,23 @@
             transform: translate(-50%, 0) scale(1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            50% { opacity: 0.45; }
-        }
+        @keyframes pulse { 50% { opacity: 0.45; } }
     </style>
 </head>
 
 <body>
 
 <div class="app">
-
     <!-- HEADER -->
     <header class="header">
         <div class="profile-mini">
             <div class="avatar" id="uAvatar">U</div>
             <div>
-                <div class="user-name" id="uName">Connecting...</div>
+                <div class="user-name" id="uName">Loading...</div>
                 <div class="user-id" id="uId">ID: --</div>
             </div>
         </div>
-        <div class="live">
-            <span class="live-dot"></span>
-            LIVE
-        </div>
+        <div class="live"><span class="live-dot"></span> LIVE</div>
     </header>
 
     <!-- HOME TAB -->
@@ -587,26 +525,14 @@
         </div>
 
         <div class="stats">
-            <div class="stat">
-                <div class="stat-value" id="todayTxt">0</div>
-                <div class="stat-label">TODAY</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value" id="taskTxt">0</div>
-                <div class="stat-label">TASKS</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value" id="refTxt">0</div>
-                <div class="stat-label">REFERRALS</div>
-            </div>
+            <div class="stat"><div class="stat-value" id="todayTxt">0</div><div class="stat-label">TODAY</div></div>
+            <div class="stat"><div class="stat-value" id="taskTxt">0</div><div class="stat-label">TASKS</div></div>
+            <div class="stat"><div class="stat-value" id="refTxt">0</div><div class="stat-label">REFERRALS</div></div>
         </div>
 
-        <div class="section-title">
-            <h2>Quick Earn</h2>
-            <span>Available now</span>
-        </div>
+        <div class="section-title"><h2>Quick Earn</h2><span>Available now</span></div>
 
-        <button class="action" id="dailyCheckinBtn" onclick="claimDaily()">
+        <button class="action" onclick="claimDaily()">
             <div class="action-icon">🎁</div>
             <div class="action-main">
                 <div class="action-title">Daily Check-in</div>
@@ -615,28 +541,25 @@
             <div class="reward">+25</div>
         </button>
 
-        <button class="action" id="adButton" onclick="watchAd()">
-            <div class="action-icon" id="adIcon">▶️</div>
+        <button class="action" onclick="watchAd()">
+            <div class="action-icon">▶️</div>
             <div class="action-main">
-                <div class="action-title" id="adTitle">Watch Rewarded Video</div>
-                <div class="action-sub" id="adSub">Adsgram Unit 46024</div>
+                <div class="action-title">Watch Rewarded Video</div>
+                <div class="action-sub">Adsgram Unit 46024</div>
             </div>
-            <div class="reward" id="adReward">+5</div>
+            <div class="reward">+5</div>
         </button>
 
         <button class="action" onclick="goTab('earn')">
             <div class="action-icon">👥</div>
             <div class="action-main">
                 <div class="action-title">Invite Friends</div>
-                <div class="action-sub">Earn 100 coins per eligible referral</div>
+                <div class="action-sub">Earn 100 coins per referral</div>
             </div>
             <div class="reward">+100</div>
         </button>
 
-        <div class="section-title">
-            <h2>Withdrawal</h2>
-            <span>₹50 minimum</span>
-        </div>
+        <div class="section-title"><h2>Withdrawal</h2><span>₹50 minimum</span></div>
 
         <div class="card card-pad" onclick="goTab('wallet')" style="cursor:pointer;">
             <div class="withdraw-status">
@@ -651,10 +574,7 @@
 
     <!-- EARN TAB -->
     <section id="tab-earn" class="tab">
-        <div class="section-title">
-            <h2>Earn Coins</h2>
-            <span>More ways to earn</span>
-        </div>
+        <div class="section-title"><h2>Earn Coins</h2><span>More ways to earn</span></div>
 
         <button class="action" onclick="watchAd()">
             <div class="action-icon">▶️</div>
@@ -674,4 +594,51 @@
             <div class="reward">+50</div>
         </button>
 
-        <div c
+        <div class="section-title"><h2>Referral Program</h2><span>100 coins / user</span></div>
+
+        <div class="card ref-card">
+            <div style="font-size:16px;font-weight:900;">Invite friends & earn</div>
+            <div style="color:var(--muted);font-size:10px;line-height:1.5;margin-top:5px;">
+                Earn 100 coins whenever a friend joins via your invite link.
+            </div>
+
+            <div class="ref-link">
+                <input id="refInput" readonly value="Loading...">
+                <button class="copy-btn" onclick="copyReferral()">COPY</button>
+            </div>
+
+            <button class="primary-btn" style="margin-top:14px;" onclick="shareReferral()">
+                🚀 Share Invite Link
+            </button>
+        </div>
+    </section>
+
+    <!-- TASKS TAB -->
+    <section id="tab-tasks" class="tab">
+        <div class="section-title"><h2>Community Tasks</h2><span>Complete to earn</span></div>
+
+        <div class="card card-pad">
+            <div class="action" style="margin-bottom:0;" onclick="completeTask('tg_sub', 50, 'https://t.me/REWARD4ADBOT')">
+                <div class="action-icon">📢</div>
+                <div class="action-main">
+                    <div class="action-title">Join Official Channel</div>
+                    <div class="action-sub">Stay updated with prime announcements</div>
+                </div>
+                <div class="reward">+50</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WALLET TAB -->
+    <section id="tab-wallet" class="tab">
+        <div class="card wallet-card">
+            <div class="label">WITHDRAWABLE AMOUNT</div>
+            <div class="wallet-amount">₹<span id="walletInrTxt">0.00</span></div>
+            <div class="coins-line" style="justify-content:center;margin-top:6px;">
+                🪙 <span id="walletCoinTxt">0</span> Available Coins
+            </div>
+        </div>
+
+        <div class="card card-pad">
+            <label class="input-label" for="upiInput">UPI ID / Bank Details</label>
+            <input
