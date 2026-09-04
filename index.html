@@ -99,12 +99,10 @@ button{
 }
 
 /* HEADER */
-
 .header{
     display:flex;
     align-items:center;
     justify-content:space-between;
-
     padding:12px 4px 18px;
 }
 
@@ -117,25 +115,15 @@ button{
 .avatar{
     width:42px;
     height:42px;
-
     border-radius:13px;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
-    background:
-        linear-gradient(135deg,
-        var(--primary),
-        var(--primary2));
-
+    background:linear-gradient(135deg, var(--primary), var(--primary2));
     color:#fff;
-
     font-weight:900;
     font-size:17px;
-
-    box-shadow:
-        0 8px 20px rgba(99,102,241,.25);
+    box-shadow:0 8px 20px rgba(99,102,241,.25);
 }
 
 .user-name{
@@ -153,9 +141,7 @@ button{
     display:flex;
     align-items:center;
     gap:6px;
-
     color:var(--success);
-
     font-size:10px;
     font-weight:850;
 }
@@ -165,21 +151,16 @@ button{
     height:7px;
     border-radius:50%;
     background:var(--success);
-
     box-shadow:0 0 0 5px rgba(16,185,129,.08);
-
     animation:pulse 1.8s infinite;
 }
 
 /* CARDS */
-
 .card{
     background:var(--surface);
     border:1px solid var(--border);
     border-radius:20px;
-
     box-shadow:var(--shadow);
-
     margin-bottom:12px;
 }
 
@@ -188,20 +169,11 @@ button{
 }
 
 /* BALANCE */
-
 .balance{
     position:relative;
     overflow:hidden;
-
     padding:21px;
-
-    background:
-        radial-gradient(
-            circle at 90% 0%,
-            rgba(99,102,241,.20),
-            transparent 35%
-        ),
-        var(--surface);
+    background:radial-gradient(circle at 90% 0%, rgba(99,102,241,.20), transparent 35%), var(--surface);
 }
 
 .balance-top{
@@ -220,21 +192,16 @@ button{
 .status{
     background:rgba(16,185,129,.12);
     color:var(--success);
-
     border-radius:20px;
-
     padding:5px 9px;
-
     font-size:9px;
     font-weight:850;
 }
 
 .money{
     margin-top:8px;
-
     font-size:38px;
     line-height:1;
-
     font-weight:950;
     letter-spacing:-1.5px;
 }
@@ -250,74 +217,50 @@ button{
     display:flex;
     align-items:center;
     gap:6px;
-
     margin-top:7px;
-
     color:var(--success);
-
     font-size:12px;
     font-weight:800;
 }
 
 .progress{
     height:8px;
-
     margin-top:18px;
-
     background:var(--surface3);
-
     border-radius:999px;
     overflow:hidden;
 }
 
 .progress-fill{
     width:0%;
-
     height:100%;
-
     border-radius:999px;
-
-    background:
-        linear-gradient(
-            90deg,
-            var(--primary),
-            var(--success)
-        );
-
+    background:linear-gradient(90deg, var(--primary), var(--success));
     transition:width .7s cubic-bezier(.2,.8,.2,1);
 }
 
 .progress-info{
     display:flex;
     justify-content:space-between;
-
     margin-top:7px;
-
     color:var(--muted);
-
     font-size:10px;
     font-weight:700;
 }
 
 /* QUICK STATS */
-
 .stats{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:9px;
-
     margin-bottom:12px;
 }
 
 .stat{
     padding:14px 10px;
-
     text-align:center;
-
     background:var(--surface);
-
     border:1px solid var(--border);
-
     border-radius:17px;
 }
 
@@ -328,20 +271,16 @@ button{
 
 .stat-label{
     margin-top:4px;
-
     color:var(--muted);
-
     font-size:9px;
     font-weight:700;
 }
 
 /* SECTION */
-
 .section-title{
     display:flex;
     align-items:center;
     justify-content:space-between;
-
     margin:19px 3px 9px;
 }
 
@@ -356,30 +295,19 @@ button{
 }
 
 /* ACTION */
-
 .action{
     width:100%;
-
     display:flex;
     align-items:center;
     gap:12px;
-
     padding:14px;
-
     border:1px solid var(--border);
     border-radius:17px;
-
     background:var(--surface);
-
     color:var(--text);
-
     text-align:left;
-
     margin-bottom:9px;
-
-    transition:
-        transform .15s ease,
-        background .2s ease;
+    transition:transform .15s ease, background .2s ease;
 }
 
 .action:active{
@@ -388,18 +316,13 @@ button{
 
 .action-icon{
     flex:0 0 43px;
-
     width:43px;
     height:43px;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     border-radius:13px;
-
     background:var(--surface2);
-
     font-size:19px;
 }
 
@@ -414,54 +337,32 @@ button{
 
 .action-sub{
     color:var(--muted);
-
     margin-top:3px;
-
     font-size:10px;
     line-height:1.35;
 }
 
 .reward{
     white-space:nowrap;
-
     padding:6px 9px;
-
     border-radius:10px;
-
     background:rgba(16,185,129,.11);
-
     color:var(--success);
-
     font-size:10px;
     font-weight:900;
 }
 
 /* PRIMARY BUTTON */
-
 .primary-btn{
     width:100%;
-
     border:none;
-
     padding:14px;
-
     border-radius:14px;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--primary),
-            var(--primary2)
-        );
-
+    background:linear-gradient(135deg, var(--primary), var(--primary2));
     color:#fff;
-
     font-size:13px;
     font-weight:900;
-
-    box-shadow:
-        0 10px 25px rgba(99,102,241,.20);
-
+    box-shadow:0 10px 25px rgba(99,102,241,.20);
     transition:transform .15s ease;
 }
 
@@ -475,66 +376,43 @@ button{
 }
 
 /* REFERRAL */
-
 .ref-card{
     padding:17px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(99,102,241,.13),
-            rgba(16,185,129,.06)
-        ),
-        var(--surface);
+    background:linear-gradient(135deg, rgba(99,102,241,.13), rgba(16,185,129,.06)), var(--surface);
 }
 
 .ref-link{
     display:flex;
     gap:7px;
-
     margin-top:12px;
 }
 
 .ref-link input{
     min-width:0;
     flex:1;
-
     border:1px solid var(--border);
-
     border-radius:12px;
-
     padding:11px;
-
     background:var(--surface2);
-
     color:var(--text);
-
     outline:none;
-
     font-size:11px;
 }
 
 .copy-btn{
     border:none;
-
     padding:0 14px;
-
     border-radius:12px;
-
     background:var(--primary);
-
     color:#fff;
-
     font-size:11px;
     font-weight:850;
 }
 
 /* REFERRAL STEPS */
-
 .steps{
     display:grid;
     gap:8px;
-
     margin-top:13px;
 }
 
@@ -542,9 +420,7 @@ button{
     display:flex;
     align-items:center;
     gap:9px;
-
     color:var(--muted);
-
     font-size:10px;
     font-weight:700;
 }
@@ -552,17 +428,12 @@ button{
 .step-number{
     width:24px;
     height:24px;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     border-radius:50%;
-
     background:var(--surface3);
-
     color:var(--text);
-
     font-size:9px;
     font-weight:900;
 }
@@ -577,7 +448,6 @@ button{
 }
 
 /* WALLET */
-
 .wallet-card{
     text-align:center;
     padding:22px;
@@ -585,37 +455,26 @@ button{
 
 .wallet-amount{
     margin-top:7px;
-
     font-size:35px;
     font-weight:950;
 }
 
 .input-label{
     display:block;
-
     margin-bottom:6px;
-
     color:var(--muted);
-
     font-size:10px;
     font-weight:800;
 }
 
 .input{
     width:100%;
-
     padding:13px;
-
     border:1px solid var(--border);
-
     border-radius:13px;
-
     outline:none;
-
     background:var(--surface2);
-
     color:var(--text);
-
     font-size:13px;
 }
 
@@ -624,33 +483,24 @@ button{
 }
 
 /* STATUS */
-
 .withdraw-status{
     display:flex;
     align-items:center;
     gap:10px;
-
     padding:13px;
-
     border-radius:14px;
-
     background:var(--surface2);
-
     margin-top:10px;
 }
 
 .status-icon{
     width:34px;
     height:34px;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     border-radius:10px;
-
     background:rgba(245,158,11,.12);
-
     font-size:16px;
 }
 
@@ -661,14 +511,11 @@ button{
 
 .status-sub{
     color:var(--muted);
-
     margin-top:2px;
-
     font-size:9px;
 }
 
 /* PROFILE */
-
 .profile-card{
     padding:20px;
 }
@@ -682,22 +529,12 @@ button{
 .profile-avatar{
     width:58px;
     height:58px;
-
     border-radius:18px;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--primary),
-            var(--primary2)
-        );
-
+    background:linear-gradient(135deg, var(--primary), var(--primary2));
     color:#fff;
-
     font-size:23px;
     font-weight:950;
 }
@@ -709,21 +546,16 @@ button{
 
 .profile-id{
     margin-top:3px;
-
     color:var(--muted);
-
     font-size:10px;
 }
 
 /* SETTINGS */
-
 .setting{
     display:flex;
     align-items:center;
     justify-content:space-between;
-
     padding:15px 2px;
-
     border-bottom:1px solid var(--border);
 }
 
@@ -740,13 +572,10 @@ button{
 .setting-icon{
     width:34px;
     height:34px;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     border-radius:10px;
-
     background:var(--surface2);
 }
 
@@ -757,39 +586,28 @@ button{
 
 .setting-sub{
     margin-top:2px;
-
     color:var(--muted);
-
     font-size:9px;
 }
 
 /* TOGGLE */
-
 .toggle{
     width:46px;
     height:26px;
-
     padding:3px;
-
     border:0;
-
     border-radius:20px;
-
     background:var(--surface3);
+    cursor:pointer;
 }
 
 .toggle::after{
     content:"";
-
     display:block;
-
     width:20px;
     height:20px;
-
     border-radius:50%;
-
     background:#fff;
-
     transition:transform .2s;
 }
 
@@ -802,63 +620,36 @@ body.light .toggle::after{
 }
 
 /* BOTTOM NAV */
-
 .bottom-nav{
     position:fixed;
-
     left:0;
     right:0;
     bottom:0;
-
     z-index:100;
-
-    height:
-        calc(68px + env(safe-area-inset-bottom));
-
-    padding:
-        5px 7px
-        env(safe-area-inset-bottom);
-
+    height:calc(68px + env(safe-area-inset-bottom));
+    padding:5px 7px env(safe-area-inset-bottom);
     display:flex;
     align-items:flex-start;
     justify-content:space-around;
-
-    background:
-        color-mix(
-            in srgb,
-            var(--surface) 94%,
-            transparent
-        );
-
+    background:color-mix(in srgb, var(--surface) 94%, transparent);
     backdrop-filter:blur(18px);
-
     border-top:1px solid var(--border);
 }
 
 .nav-item{
     flex:1;
-
     height:58px;
-
     border:0;
     background:none;
-
     color:var(--muted);
-
     display:flex;
     flex-direction:column;
-
     align-items:center;
     justify-content:center;
-
     gap:3px;
-
     font-size:9px;
-    font-weight:800;
-
-    transition:
-        color .2s,
-        transform .15s;
+    font-weight:850;
+    transition:color .2s, transform .15s;
 }
 
 .nav-item:active{
@@ -875,10 +666,8 @@ body.light .toggle::after{
 }
 
 /* TABS */
-
 .tab{
     display:none;
-
     animation:fadeIn .25s ease;
 }
 
@@ -887,127 +676,63 @@ body.light .toggle::after{
 }
 
 /* TOAST */
-
 .toast{
     position:fixed;
-
     left:50%;
     bottom:86px;
-
     z-index:300;
-
-    transform:
-        translate(-50%,20px)
-        scale(.95);
-
+    transform:translate(-50%,20px) scale(.95);
     opacity:0;
-
     pointer-events:none;
-
     min-width:220px;
-
     padding:12px 15px;
-
     border-radius:14px;
-
     background:#111827;
-
     color:#fff;
-
     box-shadow:0 12px 35px rgba(0,0,0,.35);
-
     text-align:center;
-
     font-size:11px;
     font-weight:850;
-
-    transition:
-        opacity .25s,
-        transform .25s;
+    transition:opacity .25s, transform .25s;
 }
 
 .toast.show{
     opacity:1;
-
-    transform:
-        translate(-50%,0)
-        scale(1);
+    transform:translate(-50%,0) scale(1);
 }
 
 /* COIN POP */
-
 .coin-pop{
     position:fixed;
-
     z-index:400;
-
     pointer-events:none;
-
     color:var(--success);
-
     font-size:20px;
     font-weight:950;
-
     animation:coinPop .9s ease forwards;
 }
 
 /* ANIMATIONS */
-
 @keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(5px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+    from{ opacity:0; transform:translateY(5px); }
+    to{ opacity:1; transform:translateY(0); }
 }
 
 @keyframes pulse{
-    50%{
-        opacity:.45;
-    }
+    50%{ opacity:.45; }
 }
 
 @keyframes coinPop{
-    0%{
-        opacity:0;
-        transform:translateY(10px) scale(.7);
-    }
-
-    20%{
-        opacity:1;
-        transform:translateY(0) scale(1.15);
-    }
-
-    100%{
-        opacity:0;
-        transform:translateY(-65px) scale(1);
-    }
+    0%{ opacity:0; transform:translateY(10px) scale(.7); }
+    20%{ opacity:1; transform:translateY(0) scale(1.15); }
+    100%{ opacity:0; transform:translateY(-65px) scale(1); }
 }
 
-/* SMALL PHONES */
-
 @media(max-width:360px){
-
-    body{
-        padding-left:10px;
-        padding-right:10px;
-    }
-
-    .money{
-        font-size:33px;
-    }
-
-    .action{
-        padding:12px;
-    }
-
-    .reward{
-        font-size:9px;
-    }
+    body{ padding-left:10px; padding-right:10px; }
+    .money{ font-size:33px; }
+    .action{ padding:12px; }
+    .reward{ font-size:9px; }
 }
 </style>
 </head>
@@ -1016,386 +741,206 @@ body.light .toggle::after{
 
 <div class="app">
 
-<!-- HEADER -->
-
-<header class="header">
-
-    <div class="profile-mini">
-
-        <div class="avatar" id="uAvatar">
-            U
-        </div>
-
-        <div>
-            <div class="user-name" id="uName">
-                Loading...
-            </div>
-
-            <div class="user-id" id="uId">
-                ID: Loading
-            </div>
-        </div>
-
-    </div>
-
-    <div class="live">
-        <span class="live-dot"></span>
-        LIVE
-    </div>
-
-</header>
-
-
-<!-- ================= HOME ================= -->
-
-<section id="tab-home" class="tab active">
-
-    <!-- BALANCE -->
-
-    <div class="card balance">
-
-        <div class="balance-top">
-
-            <div class="label">
-                TOTAL BALANCE
-            </div>
-
-            <div class="status">
-                ● ACTIVE
-            </div>
-
-        </div>
-
-        <div class="money">
-            ₹<span id="inrTxt">0.00</span>
-        </div>
-
-        <div class="coins-line">
-            🪙 <span id="coinTxt">0</span> Coins
-        </div>
-
-        <div class="progress">
-            <div
-                class="progress-fill"
-                id="pBar">
-            </div>
-        </div>
-
-        <div class="progress-info">
-
-            <span id="pTxt">
-                0%
-            </span>
-
-            <span id="rTxt">
-                5,000 coins → ₹50
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <!-- STATS -->
-
-    <div class="stats">
-
-        <div class="stat">
-
-            <div
-                class="stat-value"
-                id="todayTxt">
-                0
-            </div>
-
-            <div class="stat-label">
-                TODAY
-            </div>
-
-        </div>
-
-        <div class="stat">
-
-            <div
-                class="stat-value"
-                id="taskTxt">
-                0
-            </div>
-
-            <div class="stat-label">
-                TASKS
-            </div>
-
-        </div>
-
-        <div class="stat">
-
-            <div
-                class="stat-value"
-                id="refTxt">
-                0
-            </div>
-
-            <div class="stat-label">
-                REFERRALS
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="section-title">
-        <h2>Quick Earn</h2>
-        <span>Available now</span>
-    </div>
-
-
-    <!-- AD -->
-
-    <button
-        class="action"
-        id="adButton"
-        onclick="watchAd()">
-
-        <div class="action-icon">
-            ▶️
-        </div>
-
-        <div class="action-main">
-
-            <div class="action-title">
-                Watch Rewarded Video
-            </div>
-
-            <div class="action-sub">
-                Adsgram Unit 46024
-            </div>
-
-        </div>
-
-        <div class="reward">
-            +5
-        </div>
-
-    </button>
-
-
-    <!-- REFERRAL -->
-
-    <button
-        class="action"
-        onclick="goTab('earn')">
-
-        <div class="action-icon">
-            👥
-        </div>
-
-        <div class="action-main">
-
-            <div class="action-title">
-                Invite Friends
-            </div>
-
-            <div class="action-sub">
-                Earn 100 coins per eligible referral
-            </div>
-
-        </div>
-
-        <div class="reward">
-            +100
-        </div>
-
-    </button>
-
-
-    <!-- WITHDRAWAL STATUS -->
-
-    <div class="section-title">
-        <h2>Withdrawal</h2>
-        <span>₹50 minimum</span>
-    </div>
-
-    <div class="card card-pad">
-
-        <div class="withdraw-status">
-
-            <div class="status-icon">
-                💳
-            </div>
-
+    <!-- HEADER -->
+    <header class="header">
+        <div class="profile-mini">
+            <div class="avatar" id="uAvatar">U</div>
             <div>
+                <div class="user-name" id="uName">Loading...</div>
+                <div class="user-id" id="uId">ID: Loading</div>
+            </div>
+        </div>
+        <div class="live">
+            <span class="live-dot"></span>
+            LIVE
+        </div>
+    </header>
 
-                <div class="status-title">
-                    Instant Bank Transfer
-                </div>
-
-                <div class="status-sub">
-                    5,000 coins required for ₹50
-                </div>
-
+    <!-- ================= HOME ================= -->
+    <section id="tab-home" class="tab active">
+        <div class="card balance">
+            <div class="balance-top">
+                <div class="label">TOTAL BALANCE</div>
+                <div class="status">● ACTIVE</div>
             </div>
 
-        </div>
+            <div class="money">₹<span id="inrTxt">0.00</span></div>
+            <div class="coins-line">🪙 <span id="coinTxt">0</span> Coins</div>
 
-    </div>
-
-</section>
-
-
-<!-- ================= EARN ================= -->
-
-<section id="tab-earn" class="tab">
-
-    <div class="section-title">
-        <h2>Earn Coins</h2>
-        <span>More ways to earn</span>
-    </div>
-
-
-    <button
-        class="action"
-        onclick="watchAd()">
-
-        <div class="action-icon">
-            ▶️
-        </div>
-
-        <div class="action-main">
-
-            <div class="action-title">
-                Rewarded Video
+            <div class="progress">
+                <div class="progress-fill" id="pBar"></div>
             </div>
 
-            <div class="action-sub">
-                Watch full video to credit coins
+            <div class="progress-info">
+                <span id="pTxt">0%</span>
+                <span id="rTxt">5,000 coins → ₹50</span>
             </div>
-
         </div>
 
-        <div class="reward">
-            +5
-        </div>
-
-    </button>
-
-
-    <button
-        class="action"
-        onclick="goTab('tasks')">
-
-        <div class="action-icon">
-            ✓
-        </div>
-
-        <div class="action-main">
-
-            <div class="action-title">
-                Community Tasks
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="todayTxt">0</div>
+                <div class="stat-label">TODAY</div>
             </div>
-
-            <div class="action-sub">
-                Complete available tasks
+            <div class="stat">
+                <div class="stat-value" id="taskTxt">0</div>
+                <div class="stat-label">TASKS</div>
             </div>
-
-        </div>
-
-        <div class="reward">
-            +50
-        </div>
-
-    </button>
-
-
-    <!-- REFERRAL DASHBOARD -->
-
-    <div class="section-title">
-        <h2>Referral Program</h2>
-        <span>100 coins / eligible user</span>
-    </div>
-
-    <div class="card ref-card">
-
-        <div style="font-size:16px;font-weight:900;">
-            Invite friends & earn
-        </div>
-
-        <div style="
-            color:var(--muted);
-            font-size:10px;
-            line-height:1.5;
-            margin-top:5px;">
-            Earn 100 coins whenever a friend joins via your invite link.
-        </div>
-
-
-        <div class="ref-link">
-
-            <input
-                id="refInput"
-                readonly>
-
-            <button
-                class="copy-btn"
-                onclick="copyReferral()">
-                COPY
-            </button>
-
-        </div>
-
-
-        <div class="steps">
-
-            <div
-                class="step done"
-                id="step1">
-
-                <div class="step-number">
-                    1
-                </div>
-
-                Invited
-
+            <div class="stat">
+                <div class="stat-value" id="refTxt">0</div>
+                <div class="stat-label">REFERRALS</div>
             </div>
-
-
-            <div
-                class="step done"
-                id="step2">
-
-                <div class="step-number">
-                    2
-                </div>
-
-                Joined
-
-            </div>
-
-            <div
-                class="step done"
-                id="step3">
-
-                <div class="step-number">
-                    3
-                </div>
-
-                Eligible action (+100 Coins)
-
-            </div>
-
         </div>
 
-        <button
-            class="primary-btn"
-            style="margin-top:14px;"
-            onclick="shareReferral()">
-            🚀 Share Invite Link
+        <div class="section-title">
+            <h2>Quick Earn</h2>
+            <span>Available now</span>
+        </div>
+
+        <button class="action" id="adButton" onclick="watchAd()">
+            <div class="action-icon">▶️</div>
+            <div class="action-main">
+                <div class="action-title">Watch Rewarded Video</div>
+                <div class="action-sub">Adsgram Unit 46024</div>
+            </div>
+            <div class="reward">+5</div>
         </button>
 
-    </div>
+        <button class="action" onclick="goTab('earn')">
+            <div class="action-icon">👥</div>
+            <div class="action-main">
+                <div class="action-title">Invite Friends</div>
+                <div class="action-sub">Earn 100 coins per eligible referral</div>
+            </div>
+            <div class="reward">+100</div>
+        </button>
 
-</section>
+        <div class="section-title">
+            <h2>Withdrawal</h2>
+            <span>₹50 minimum</span>
+        </div>
 
+        <div class="card card-pad">
+            <div class="withdraw-status">
+                <div class="status-icon">💳</div>
+                <div>
+                    <div class="status-title">Instant Bank / UPI Transfer</div>
+                    <div class="status-sub">5,000 coins required for ₹50</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- ================= TASKS =================
+    <!-- ================= EARN ================= -->
+    <section id="tab-earn" class="tab">
+        <div class="section-title">
+            <h2>Earn Coins</h2>
+            <span>More ways to earn</span>
+        </div>
+
+        <button class="action" onclick="watchAd()">
+            <div class="action-icon">▶️</div>
+            <div class="action-main">
+                <div class="action-title">Rewarded Video</div>
+                <div class="action-sub">Watch full video to credit coins</div>
+            </div>
+            <div class="reward">+5</div>
+        </button>
+
+        <button class="action" onclick="goTab('tasks')">
+            <div class="action-icon">✓</div>
+            <div class="action-main">
+                <div class="action-title">Community Tasks</div>
+                <div class="action-sub">Complete available tasks</div>
+            </div>
+            <div class="reward">+50</div>
+        </button>
+
+        <div class="section-title">
+            <h2>Referral Program</h2>
+            <span>100 coins / eligible user</span>
+        </div>
+
+        <div class="card ref-card">
+            <div style="font-size:16px;font-weight:900;">Invite friends & earn</div>
+            <div style="color:var(--muted);font-size:10px;line-height:1.5;margin-top:5px;">
+                Earn 100 coins whenever a friend joins via your invite link.
+            </div>
+
+            <div class="ref-link">
+                <input id="refInput" readonly>
+                <button class="copy-btn" onclick="copyReferral()">COPY</button>
+            </div>
+
+            <div class="steps">
+                <div class="step done" id="step1">
+                    <div class="step-number">1</div>
+                    Invited
+                </div>
+                <div class="step done" id="step2">
+                    <div class="step-number">2</div>
+                    Joined
+                </div>
+                <div class="step done" id="step3">
+                    <div class="step-number">3</div>
+                    Eligible action (+100 Coins)
+                </div>
+            </div>
+
+            <button class="primary-btn" style="margin-top:14px;" onclick="shareReferral()">
+                🚀 Share Invite Link
+            </button>
+        </div>
+    </section>
+
+    <!-- ================= TASKS ================= -->
+    <section id="tab-tasks" class="tab">
+        <div class="section-title">
+            <h2>Available Tasks</h2>
+            <span>Complete & claim</span>
+        </div>
+
+        <div class="card card-pad">
+            <div class="action" style="margin-bottom:0;" onclick="completeTask('t1', 30, 'https://t.me/telegram')">
+                <div class="action-icon">📢</div>
+                <div class="action-main">
+                    <div class="action-title">Join Telegram Channel</div>
+                    <div class="action-sub">Stay updated with official news</div>
+                </div>
+                <div class="reward" id="btn-task-t1">+30</div>
+            </div>
+        </div>
+
+        <div class="card card-pad">
+            <div class="action" style="margin-bottom:0;" onclick="completeTask('t2', 20, 'https://youtube.com')">
+                <div class="action-icon">📺</div>
+                <div class="action-main">
+                    <div class="action-title">Subscribe YouTube Channel</div>
+                    <div class="action-sub">Watch guides & updates</div>
+                </div>
+                <div class="reward" id="btn-task-t2">+20</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= WALLET ================= -->
+    <section id="tab-wallet" class="tab">
+        <div class="card wallet-card">
+            <div class="label">WITHDRAWABLE AMOUNT</div>
+            <div class="wallet-amount">₹<span id="walletInrTxt">0.00</span></div>
+            <div class="coins-line" style="justify-content:center;margin-top:6px;">
+                🪙 <span id="walletCoinTxt">0</span> Available Coins
+            </div>
+        </div>
+
+        <div class="card card-pad">
+            <label class="input-label" for="upiInput">UPI ID / Bank Details</label>
+            <input class="input" id="upiInput" type="text" placeholder="example@upi">
+            
+            <button class="primary-btn" style="margin-top:14px;" onclick="requestWithdrawal()">
+                Withdraw to Bank / UPI
+            </button>
+        </div>
+    </section>
+
+    <!-- ================= PROFILE ================= 
