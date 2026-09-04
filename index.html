@@ -2,20 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0, user-scalable=no,
-      viewport-fit=cover">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>RewardHub Prime</title>
-
-<!-- Telegram WebApp SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-<!-- AdsGram SDK -->
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-
 <style>
 :root{
     --primary:#6366f1;
@@ -23,16 +13,13 @@
     --success:#10b981;
     --warning:#f59e0b;
     --danger:#ef4444;
-
     --bg:#080b14;
     --surface:#101522;
     --surface2:#171d2b;
     --surface3:#20283a;
-
     --text:#f8fafc;
     --muted:#94a3b8;
     --border:rgba(255,255,255,.08);
-
     --shadow:0 10px 35px rgba(0,0,0,.20);
 }
 
@@ -41,11 +28,9 @@ body.light{
     --surface:#ffffff;
     --surface2:#f1f4f9;
     --surface3:#e8edf5;
-
     --text:#111827;
     --muted:#64748b;
     --border:rgba(15,23,42,.08);
-
     --shadow:0 10px 30px rgba(15,23,42,.08);
 }
 
@@ -56,49 +41,22 @@ body.light{
     -webkit-tap-highlight-color:transparent;
 }
 
-html{
-    scroll-behavior:smooth;
-}
+html{ scroll-behavior:smooth; }
 
 body{
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     background:var(--bg);
     color:var(--text);
-
     min-height:100vh;
-
-    padding:
-        calc(12px + env(safe-area-inset-top))
-        14px
-        calc(92px + env(safe-area-inset-bottom));
-
-    transition:
-        background .25s ease,
-        color .25s ease;
+    padding: calc(12px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));
+    transition: background .25s ease, color .25s ease;
 }
 
-button,
-input{
-    font:inherit;
-}
+button, input{ font:inherit; }
+button{ cursor:pointer; }
 
-button{
-    cursor:pointer;
-}
+.app{ max-width:600px; margin:auto; }
 
-.app{
-    max-width:600px;
-    margin:auto;
-}
-
-/* HEADER */
 .header{
     display:flex;
     align-items:center;
@@ -126,16 +84,8 @@ button{
     box-shadow:0 8px 20px rgba(99,102,241,.25);
 }
 
-.user-name{
-    font-size:14px;
-    font-weight:850;
-}
-
-.user-id{
-    margin-top:2px;
-    color:var(--muted);
-    font-size:10px;
-}
+.user-name{ font-size:14px; font-weight:850; }
+.user-id{ margin-top:2px; color:var(--muted); font-size:10px; }
 
 .live{
     display:flex;
@@ -155,7 +105,6 @@ button{
     animation:pulse 1.8s infinite;
 }
 
-/* CARDS */
 .card{
     background:var(--surface);
     border:1px solid var(--border);
@@ -164,11 +113,8 @@ button{
     margin-bottom:12px;
 }
 
-.card-pad{
-    padding:17px;
-}
+.card-pad{ padding:17px; }
 
-/* BALANCE */
 .balance{
     position:relative;
     overflow:hidden;
@@ -210,7 +156,6 @@ button{
     color:var(--muted);
     font-size:15px;
     font-weight:750;
-    letter-spacing:0;
 }
 
 .coins-line{
@@ -248,7 +193,6 @@ button{
     font-weight:700;
 }
 
-/* QUICK STATS */
 .stats{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -264,19 +208,9 @@ button{
     border-radius:17px;
 }
 
-.stat-value{
-    font-size:17px;
-    font-weight:900;
-}
+.stat-value{ font-size:17px; font-weight:900; }
+.stat-label{ margin-top:4px; color:var(--muted); font-size:9px; font-weight:700; }
 
-.stat-label{
-    margin-top:4px;
-    color:var(--muted);
-    font-size:9px;
-    font-weight:700;
-}
-
-/* SECTION */
 .section-title{
     display:flex;
     align-items:center;
@@ -284,17 +218,9 @@ button{
     margin:19px 3px 9px;
 }
 
-.section-title h2{
-    font-size:13px;
-    font-weight:900;
-}
+.section-title h2{ font-size:13px; font-weight:900; }
+.section-title span{ color:var(--muted); font-size:10px; }
 
-.section-title span{
-    color:var(--muted);
-    font-size:10px;
-}
-
-/* ACTION */
 .action{
     width:100%;
     display:flex;
@@ -310,9 +236,7 @@ button{
     transition:transform .15s ease, background .2s ease;
 }
 
-.action:active{
-    transform:scale(.975);
-}
+.action:active{ transform:scale(.975); }
 
 .action-icon{
     flex:0 0 43px;
@@ -326,21 +250,9 @@ button{
     font-size:19px;
 }
 
-.action-main{
-    flex:1;
-}
-
-.action-title{
-    font-size:13px;
-    font-weight:850;
-}
-
-.action-sub{
-    color:var(--muted);
-    margin-top:3px;
-    font-size:10px;
-    line-height:1.35;
-}
+.action-main{ flex:1; }
+.action-title{ font-size:13px; font-weight:850; }
+.action-sub{ color:var(--muted); margin-top:3px; font-size:10px; line-height:1.35; }
 
 .reward{
     white-space:nowrap;
@@ -352,7 +264,6 @@ button{
     font-weight:900;
 }
 
-/* PRIMARY BUTTON */
 .primary-btn{
     width:100%;
     border:none;
@@ -366,16 +277,9 @@ button{
     transition:transform .15s ease;
 }
 
-.primary-btn:active{
-    transform:scale(.97);
-}
+.primary-btn:active{ transform:scale(.97); }
+.primary-btn:disabled{ opacity:.55; cursor:not-allowed; }
 
-.primary-btn:disabled{
-    opacity:.55;
-    cursor:not-allowed;
-}
-
-/* REFERRAL */
 .ref-card{
     padding:17px;
     background:linear-gradient(135deg, rgba(99,102,241,.13), rgba(16,185,129,.06)), var(--surface);
@@ -407,9 +311,9 @@ button{
     color:#fff;
     font-size:11px;
     font-weight:850;
+    cursor:pointer;
 }
 
-/* REFERRAL STEPS */
 .steps{
     display:grid;
     gap:8px;
@@ -438,34 +342,16 @@ button{
     font-weight:900;
 }
 
-.step.done{
-    color:var(--success);
-}
-
+.step.done{ color:var(--success); }
 .step.done .step-number{
     background:rgba(16,185,129,.15);
     color:var(--success);
 }
 
-/* WALLET */
-.wallet-card{
-    text-align:center;
-    padding:22px;
-}
+.wallet-card{ text-align:center; padding:22px; }
+.wallet-amount{ margin-top:7px; font-size:35px; font-weight:950; }
 
-.wallet-amount{
-    margin-top:7px;
-    font-size:35px;
-    font-weight:950;
-}
-
-.input-label{
-    display:block;
-    margin-bottom:6px;
-    color:var(--muted);
-    font-size:10px;
-    font-weight:800;
-}
+.input-label{ display:block; margin-bottom:6px; color:var(--muted); font-size:10px; font-weight:800; }
 
 .input{
     width:100%;
@@ -478,11 +364,8 @@ button{
     font-size:13px;
 }
 
-.input:focus{
-    border-color:var(--primary);
-}
+.input:focus{ border-color:var(--primary); }
 
-/* STATUS */
 .withdraw-status{
     display:flex;
     align-items:center;
@@ -504,21 +387,10 @@ button{
     font-size:16px;
 }
 
-.status-title{
-    font-size:11px;
-    font-weight:850;
-}
+.status-title{ font-size:11px; font-weight:850; }
+.status-sub{ color:var(--muted); margin-top:2px; font-size:9px; }
 
-.status-sub{
-    color:var(--muted);
-    margin-top:2px;
-    font-size:9px;
-}
-
-/* PROFILE */
-.profile-card{
-    padding:20px;
-}
+.profile-card{ padding:20px; }
 
 .profile-big{
     display:flex;
@@ -539,18 +411,9 @@ button{
     font-weight:950;
 }
 
-.profile-name{
-    font-size:17px;
-    font-weight:900;
-}
+.profile-name{ font-size:17px; font-weight:900; }
+.profile-id{ margin-top:3px; color:var(--muted); font-size:10px; }
 
-.profile-id{
-    margin-top:3px;
-    color:var(--muted);
-    font-size:10px;
-}
-
-/* SETTINGS */
 .setting{
     display:flex;
     align-items:center;
@@ -559,9 +422,7 @@ button{
     border-bottom:1px solid var(--border);
 }
 
-.setting:last-child{
-    border-bottom:0;
-}
+.setting:last-child{ border-bottom:0; }
 
 .setting-left{
     display:flex;
@@ -579,18 +440,9 @@ button{
     background:var(--surface2);
 }
 
-.setting-title{
-    font-size:12px;
-    font-weight:800;
-}
+.setting-title{ font-size:12px; font-weight:800; }
+.setting-sub{ margin-top:2px; color:var(--muted); font-size:9px; }
 
-.setting-sub{
-    margin-top:2px;
-    color:var(--muted);
-    font-size:9px;
-}
-
-/* TOGGLE */
 .toggle{
     width:46px;
     height:26px;
@@ -611,15 +463,9 @@ button{
     transition:transform .2s;
 }
 
-body.light .toggle{
-    background:var(--primary);
-}
+body.light .toggle{ background:var(--primary); }
+body.light .toggle::after{ transform:translateX(20px); }
 
-body.light .toggle::after{
-    transform:translateX(20px);
-}
-
-/* BOTTOM NAV */
 .bottom-nav{
     position:fixed;
     left:0;
@@ -650,32 +496,21 @@ body.light .toggle::after{
     font-size:9px;
     font-weight:850;
     transition:color .2s, transform .15s;
+    cursor:pointer;
 }
 
-.nav-item:active{
-    transform:scale(.92);
-}
+.nav-item:active{ transform:scale(.92); }
+.nav-item.active{ color:var(--primary2); }
 
-.nav-item.active{
-    color:var(--primary2);
-}
+.nav-icon{ font-size:18px; line-height:18px; }
 
-.nav-icon{
-    font-size:18px;
-    line-height:18px;
-}
-
-/* TABS */
 .tab{
     display:none;
     animation:fadeIn .25s ease;
 }
 
-.tab.active{
-    display:block;
-}
+.tab.active{ display:block; }
 
-/* TOAST */
 .toast{
     position:fixed;
     left:50%;
@@ -701,7 +536,6 @@ body.light .toggle::after{
     transform:translate(-50%,0) scale(1);
 }
 
-/* COIN POP */
 .coin-pop{
     position:fixed;
     z-index:400;
@@ -712,7 +546,6 @@ body.light .toggle::after{
     animation:coinPop .9s ease forwards;
 }
 
-/* ANIMATIONS */
 @keyframes fadeIn{
     from{ opacity:0; transform:translateY(5px); }
     to{ opacity:1; transform:translateY(0); }
@@ -756,21 +589,18 @@ body.light .toggle::after{
         </div>
     </header>
 
-    <!-- ================= HOME ================= -->
+    <!-- HOME TAB -->
     <section id="tab-home" class="tab active">
         <div class="card balance">
             <div class="balance-top">
                 <div class="label">TOTAL BALANCE</div>
                 <div class="status">● ACTIVE</div>
             </div>
-
             <div class="money">₹<span id="inrTxt">0.00</span></div>
             <div class="coins-line">🪙 <span id="coinTxt">0</span> Coins</div>
-
             <div class="progress">
                 <div class="progress-fill" id="pBar"></div>
             </div>
-
             <div class="progress-info">
                 <span id="pTxt">0%</span>
                 <span id="rTxt">5,000 coins → ₹50</span>
@@ -820,7 +650,7 @@ body.light .toggle::after{
             <span>₹50 minimum</span>
         </div>
 
-        <div class="card card-pad">
+        <div class="card card-pad" onclick="goTab('wallet')" style="cursor:pointer;">
             <div class="withdraw-status">
                 <div class="status-icon">💳</div>
                 <div>
@@ -831,7 +661,7 @@ body.light .toggle::after{
         </div>
     </section>
 
-    <!-- ================= EARN ================= -->
+    <!-- EARN TAB -->
     <section id="tab-earn" class="tab">
         <div class="section-title">
             <h2>Earn Coins</h2>
@@ -893,37 +723,37 @@ body.light .toggle::after{
         </div>
     </section>
 
-    <!-- ================= TASKS ================= -->
+    <!-- TASKS TAB -->
     <section id="tab-tasks" class="tab">
         <div class="section-title">
-            <h2>Available Tasks</h2>
-            <span>Complete & claim</span>
+            <h2>Community Tasks</h2>
+            <span>Complete to earn instant coins</span>
         </div>
 
         <div class="card card-pad">
-            <div class="action" style="margin-bottom:0;" onclick="completeTask('t1', 30, 'https://t.me/telegram')">
+            <div class="action" style="margin-bottom:0;" onclick="completeTask('tg_sub', 50, 'https://t.me/telegram')">
                 <div class="action-icon">📢</div>
                 <div class="action-main">
-                    <div class="action-title">Join Telegram Channel</div>
-                    <div class="action-sub">Stay updated with official news</div>
+                    <div class="action-title">Join Official Channel</div>
+                    <div class="action-sub">Stay updated with prime announcements</div>
                 </div>
-                <div class="reward" id="btn-task-t1">+30</div>
+                <div class="reward" id="task-btn-tg_sub">+50</div>
             </div>
         </div>
 
         <div class="card card-pad">
-            <div class="action" style="margin-bottom:0;" onclick="completeTask('t2', 20, 'https://youtube.com')">
+            <div class="action" style="margin-bottom:0;" onclick="completeTask('yt_sub', 30, 'https://youtube.com')">
                 <div class="action-icon">📺</div>
                 <div class="action-main">
                     <div class="action-title">Subscribe YouTube Channel</div>
-                    <div class="action-sub">Watch guides & updates</div>
+                    <div class="action-sub">Watch guides and payment proofs</div>
                 </div>
-                <div class="reward" id="btn-task-t2">+20</div>
+                <div class="reward" id="task-btn-yt_sub">+30</div>
             </div>
         </div>
     </section>
 
-    <!-- ================= WALLET ================= -->
+    <!-- WALLET TAB -->
     <section id="tab-wallet" class="tab">
         <div class="card wallet-card">
             <div class="label">WITHDRAWABLE AMOUNT</div>
@@ -936,11 +766,230 @@ body.light .toggle::after{
         <div class="card card-pad">
             <label class="input-label" for="upiInput">UPI ID / Bank Details</label>
             <input class="input" id="upiInput" type="text" placeholder="example@upi">
-            
             <button class="primary-btn" style="margin-top:14px;" onclick="requestWithdrawal()">
                 Withdraw to Bank / UPI
             </button>
         </div>
     </section>
 
-    <!-- ================= PROFILE ================= 
+    <!-- PROFILE TAB -->
+    <section id="tab-profile" class="tab">
+        <div class="card profile-card">
+            <div class="profile-big">
+                <div class="profile-avatar" id="pAvatar">U</div>
+                <div>
+                    <div class="profile-name" id="pName">Loading...</div>
+                    <div class="profile-id" id="pId">ID: Loading</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-pad">
+            <div class="setting">
+                <div class="setting-left">
+                    <div class="setting-icon">🌙</div>
+                    <div>
+                        <div class="setting-title">Dark Mode</div>
+                        <div class="setting-sub">Toggle theme</div>
+                    </div>
+                </div>
+                <button class="toggle" onclick="toggleTheme()"></button>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
+    <button class="nav-item active" onclick="goTab('home')">
+        <div class="nav-icon">🏠</div>
+        Home
+    </button>
+    <button class="nav-item" onclick="goTab('earn')">
+        <div class="nav-icon">💰</div>
+        Earn
+    </button>
+    <button class="nav-item" onclick="goTab('tasks')">
+        <div class="nav-icon">✓</div>
+        Tasks
+    </button>
+    <button class="nav-item" onclick="goTab('wallet')">
+        <div class="nav-icon">💳</div>
+        Wallet
+    </button>
+    <button class="nav-item" onclick="goTab('profile')">
+        <div class="nav-icon">👤</div>
+        Profile
+    </button>
+</nav>
+
+<script>
+// Initialize Telegram Web App
+const tg = window.Telegram.WebApp;
+tg.ready();
+
+// User data (mock - replace with backend API)
+let userData = {
+    coins: 0,
+    inr: 0.00,
+    todayEarnings: 0,
+    tasksCompleted: 0,
+    referrals: 0,
+    completedTasks: []
+};
+
+// Tab Navigation
+function goTab(tabName) {
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    document.getElementById(`tab-${tabName}`).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+    event.target.closest('.nav-item').classList.add('active');
+}
+
+// Watch Ad
+function watchAd() {
+    if (window.ADSGRAM) {
+        ADSGRAM.show({blockId: 46024}).then(result => {
+            if (result) {
+                addCoins(5);
+                showToast('✅ +5 Coins earned!');
+            }
+        }).catch(err => {
+            showToast('❌ Ad failed');
+        });
+    } else {
+        showToast('⏳ Loading ad...');
+    }
+}
+
+// Copy Referral Link
+function copyReferral() {
+    const refInput = document.getElementById('refInput');
+    refInput.select();
+    document.execCommand('copy');
+    showToast('✅ Link copied!');
+}
+
+// Share Referral
+function shareReferral() {
+    const refInput = document.getElementById('refInput').value;
+    if (navigator.share) {
+        navigator.share({
+            title: 'RewardHub Prime',
+            text: 'Join me and earn rewards!',
+            url: refInput
+        });
+    } else {
+        copyReferral();
+    }
+}
+
+// Complete Task
+function completeTask(taskId, coins, url) {
+    if (!userData.completedTasks.includes(taskId)) {
+        window.open(url, '_blank');
+        userData.completedTasks.push(taskId);
+        addCoins(coins);
+        document.getElementById(`task-btn-${taskId}`).textContent = '✓ Done';
+        showToast(`✅ +${coins} Coins earned!`);
+        userData.tasksCompleted++;
+        updateUI();
+    } else {
+        showToast('Task already completed');
+    }
+}
+
+// Request Withdrawal
+function requestWithdrawal() {
+    const upi = document.getElementById('upiInput').value;
+    if (!upi) {
+        showToast('❌ Please enter UPI ID');
+        return;
+    }
+    if (userData.coins < 5000) {
+        showToast('❌ Minimum 5,000 coins required');
+        return;
+    }
+    showToast('✅ Withdrawal request submitted!');
+}
+
+// Add Coins
+function addCoins(amount) {
+    userData.coins += amount;
+    userData.inr = (userData.coins / 100).toFixed(2);
+    userData.todayEarnings += amount;
+    updateUI();
+    createCoinPop();
+}
+
+// Toggle Theme
+function toggleTheme() {
+    document.body.classList.toggle('light');
+}
+
+// Show Toast
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast show';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+}
+
+// Coin Pop Animation
+function createCoinPop() {
+    const pop = document.createElement('div');
+    pop.className = 'coin-pop';
+    pop.textContent = '+5 🪙';
+    pop.style.left = Math.random() * 80 + 10 + '%';
+    pop.style.top = Math.random() * 60 + 20 + '%';
+    document.body.appendChild(pop);
+    setTimeout(() => pop.remove(), 1000);
+}
+
+// Update UI
+function updateUI() {
+    document.getElementById('inrTxt').textContent = userData.inr;
+    document.getElementById('coinTxt').textContent = userData.coins;
+    document.getElementById('todayTxt').textContent = userData.todayEarnings;
+    document.getElementById('taskTxt').textContent = userData.tasksCompleted;
+    document.getElementById('refTxt').textContent = userData.referrals;
+    document.getElementById('walletInrTxt').textContent = userData.inr;
+    document.getElementById('walletCoinTxt').textContent = userData.coins;
+
+    // Update progress bar
+    const maxCoins = 5000;
+    const progress = (userData.coins / maxCoins) * 100;
+    document.getElementById('pBar').style.width = Math.min(progress, 100) + '%';
+    document.getElementById('pTxt').textContent = Math.min(Math.round(progress), 100) + '%';
+}
+
+// Load User Data from Telegram
+function loadUserData() {
+    const user = tg.initDataUnsafe?.user;
+    if (user) {
+        const initial = user.first_name?.charAt(0).toUpperCase() || 'U';
+        document.getElementById('uName').textContent = user.first_name || 'User';
+        document.getElementById('uId').textContent = `ID: ${user.id}`;
+        document.getElementById('uAvatar').textContent = initial;
+        document.getElementById('pName').textContent = user.first_name || 'User';
+        document.getElementById('pId').textContent = `ID: ${user.id}`;
+        document.getElementById('pAvatar').textContent = initial;
+    }
+    
+    // Generate referral link
+    const userId = user?.id || '12345';
+    const refLink = `https://t.me/YourBotName?start=ref_${userId}`;
+    document.getElementById('refInput').value = refLink;
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+    loadUserData();
+    updateUI();
+});
+</script>
+
+</body>
+</html>
