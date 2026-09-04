@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Reward For Earn</title>
 
-<!-- Telegram SDK -->
+<!-- Telegram WebApp SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
 <!-- AdsGram SDK -->
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
@@ -13,10 +13,11 @@
 <style>
 :root {
   --bg: #070913;
-  --card-bg: rgba(18,24,43,.75);
-  --card-border: rgba(56,189,248,.2);
+  --card-bg: rgba(18, 24, 43, 0.85);
+  --card-border: rgba(56, 189, 248, 0.25);
   --neon-blue: #38bdf8;
   --neon-green: #4ade80;
+  --neon-gold: #facc15;
   --text: #f8fafc;
   --text-muted: #94a3b8;
 }
@@ -34,7 +35,6 @@ body {
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
-  perspective: 1200px;
 }
 
 button, input { font-family: inherit; }
@@ -51,8 +51,8 @@ button:disabled { opacity: .65; cursor: not-allowed; transform: none !important;
   animation: floatGlow 8s infinite alternate ease-in-out;
 }
 
-.glow-sphere-1 { background: rgba(56,189,248,.15); top: -50px; left: -50px; }
-.glow-sphere-2 { background: rgba(168,85,247,.15); bottom: 50px; right: -50px; animation-delay: -4s; }
+.glow-sphere-1 { background: rgba(56, 189, 248, 0.15); top: -50px; left: -50px; }
+.glow-sphere-2 { background: rgba(168, 85, 247, 0.15); bottom: 50px; right: -50px; animation-delay: -4s; }
 
 @keyframes floatGlow {
   0% { transform: translate(0,0) scale(1); }
@@ -60,254 +60,89 @@ button:disabled { opacity: .65; cursor: not-allowed; transform: none !important;
 }
 
 .payout-ticker {
-  background: rgba(30,41,59,.6);
-  border: 1px solid rgba(74,222,128,.25);
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(74, 222, 128, 0.3);
   backdrop-filter: blur(10px);
   border-radius: 30px;
-  padding: 9px 14px;
+  padding: 8px 14px;
   font-size: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 6px;
   color: #86efac;
   margin-bottom: 14px;
-  box-shadow: 0 4px 15px rgba(0,0,0,.3);
 }
 
 .live-dot {
-  width: 7px;
-  height: 7px;
+  width: 7px; height: 7px;
   background: var(--neon-green);
   border-radius: 50%;
   box-shadow: 0 0 8px var(--neon-green);
   animation: pulseDot 1.5s infinite;
-  flex-shrink: 0;
 }
 
-@keyframes pulseDot {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50% { opacity: .4; transform: scale(.8); }
-}
+@keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
 .card-3d {
   background: var(--card-bg);
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: 24px;
-  padding: 20px;
-  margin-bottom: 16px;
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 14px;
   border: 1px solid var(--card-border);
-  box-shadow: 0 20px 40px -15px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.15);
-  transform-style: preserve-3d;
-  transition: transform .15s ease-out;
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.7);
 }
 
 .profile-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 18px;
-}
-
-.profile-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
+  padding: 12px 16px;
 }
 
 .avatar-3d {
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
+  width: 44px; height: 44px;
+  border-radius: 12px;
   background: linear-gradient(135deg, #38bdf8, #818cf8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: 800;
-  box-shadow: 0 6px 16px rgba(56,189,248,.4);
-  border: 1.5px solid rgba(255,255,255,.4);
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 800;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
 }
 
 .verified-badge {
-  background: rgba(74,222,128,.15);
+  background: rgba(74, 222, 128, 0.15);
   border: 1px solid var(--neon-green);
   color: var(--neon-green);
-  padding: 4px 9px;
+  padding: 4px 10px;
   border-radius: 20px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
-  white-space: nowrap;
 }
 
-.balance-box {
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.floating-coin {
-  width: 54px;
-  height: 54px;
-  background: linear-gradient(135deg, #fde047, #ca8a04);
-  border-radius: 50%;
-  margin: 0 auto 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  font-weight: 900;
-  color: #713f12;
-  border: 3px solid #fef08a;
-  box-shadow: 0 8px 25px rgba(234,179,8,.5), inset 0 -4px 6px rgba(0,0,0,.3);
-  animation: coinFloat 3s infinite ease-in-out;
-}
-
-@keyframes coinFloat {
-  0%,100% { transform: translateY(0) rotateY(0deg); }
-  50% { transform: translateY(-8px) rotateY(180deg); }
-}
+.balance-box { text-align: center; }
 
 .coin-val {
-  font-size: 44px;
-  font-weight: 900;
-  background: linear-gradient(180deg, #fff 0%, #38bdf8 100%);
+  font-size: 42px; font-weight: 900;
+  background: linear-gradient(180deg, #ffffff 0%, #38bdf8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  line-height: 1.1;
-  margin-bottom: 4px;
+  margin: 2px 0;
 }
 
-.inr-val {
-  font-size: 16px;
-  font-weight: 700;
-  color: #86efac;
-}
-
-.progress-wrapper {
-  margin-top: 16px;
-  background: rgba(15,23,42,.8);
-  border-radius: 12px;
-  padding: 10px;
-  border: 1px solid rgba(255,255,255,.05);
-}
+.inr-val { font-size: 15px; font-weight: 700; color: #86efac; }
 
 .progress-bar-bg {
-  height: 8px;
-  background: #1e293b;
-  border-radius: 8px;
-  overflow: hidden;
-  margin: 6px 0;
+  height: 8px; background: #1e293b;
+  border-radius: 8px; overflow: hidden;
+  margin: 8px 0 4px 0;
 }
 
 .progress-bar-fill {
-  height: 100%;
-  width: 0%;
+  height: 100%; width: 0%;
   background: linear-gradient(90deg, #38bdf8, #4ade80);
-  border-radius: 8px;
-  transition: width .5s ease;
-  box-shadow: 0 0 10px rgba(74,222,128,.6);
+  border-radius: 8px; transition: width 0.4s ease;
 }
-
-.progress-text {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.btn-3d {
-  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-  color: #fff;
-  border: none;
-  padding: 16px;
-  font-size: 16px;
-  font-weight: 800;
-  border-radius: 16px;
-  width: 100%;
-  cursor: pointer;
-  box-shadow: 0 8px 25px -4px rgba(37,99,235,.6), inset 0 1px 0 rgba(255,255,255,.3);
-  position: relative;
-  overflow: hidden;
-  transition: transform .15s ease, box-shadow .15s ease, opacity .2s ease;
-}
-
-.btn-3d:active { transform: scale(.97) translateY(2px); }
-
-.btn-3d::after {
-  content: "";
-  position: absolute;
-  top: 0; left: -100%; width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
-  animation: buttonShine 3s infinite;
-  pointer-events: none;
-}
-
-@keyframes buttonShine {
-  0%, 20% { left: -100%; }
-  100% { left: 100%; }
-}
-
-.btn-withdraw {
-  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-  box-shadow: 0 8px 25px -4px rgba(16,185,129,.6), inset 0 1px 0 rgba(255,255,255,.3);
-  margin-top: 12px;
-}
-
-.input-3d {
-  width: 100%;
-  padding: 14px;
-  margin-top: 8px;
-  border-radius: 14px;
-  border: 1px solid rgba(56,189,248,.3);
-  background: rgba(10,15,29,.9);
-  color: #fff;
-  font-size: 14px;
-  outline: none;
-  transition: border .2s, box-shadow .2s;
-}
-
-.input-3d:focus {
-  border-color: var(--neon-blue);
-  box-shadow: 0 0 12px rgba(56,189,248,.4);
-}
-
-.input-3d[readonly] { opacity: .9; cursor: default; }
-
-.tab-switch { display: flex; gap: 10px; margin-bottom: 16px; }
-
-.tab-btn {
-  flex: 1;
-  padding: 12px;
-  border-radius: 12px;
-  background: #1e293b;
-  color: var(--text-muted);
-  border: 1px solid rgba(255,255,255,.08);
-  font-weight: 700;
-  cursor: pointer;
-  transition: .2s;
-}
-
-.tab-active {
-  background: linear-gradient(135deg, #0284c7, #2563eb);
-  color: #fff;
-  box-shadow: 0 4px 15px rgba(2,132,199,.4);
-}
-
-.trust-badge-row {
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  font-size: 11px;
-  color: var(--text-muted);
-  border-top: 1px solid rgba(255,255,255,.08);
-  margin-top: 14px;
-}
-
-.trust-item { display: flex; align-items: center; gap: 4px; }
 
 .stats-grid {
   display: grid;
@@ -316,90 +151,99 @@ button:disabled { opacity: .65; cursor: not-allowed; transform: none !important;
 }
 
 .stat-card {
-  background: rgba(15,23,42,.65);
-  border: 1px solid rgba(255,255,255,.06);
-  border-radius: 16px;
-  padding: 12px 5px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 10px 4px;
   text-align: center;
 }
 
-.stat-icon { font-size: 21px; margin-bottom: 3px; }
-.stat-value { font-size: 15px; font-weight: 900; }
+.stat-icon { font-size: 18px; margin-bottom: 2px; }
+.stat-value { font-size: 14px; font-weight: 900; }
 .stat-label { color: var(--text-muted); font-size: 9px; margin-top: 2px; }
 
+.btn-3d {
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+  color: #ffffff;
+  border: none;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 800;
+  border-radius: 14px;
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 0 6px 20px -4px rgba(37, 99, 235, 0.6);
+  margin-top: 8px;
+  display: block;
+}
+
+.btn-3d:active { transform: scale(0.97); }
+
+.btn-withdraw {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  box-shadow: 0 6px 20px -4px rgba(16, 185, 129, 0.6);
+  margin-top: 10px;
+}
+
+.input-3d {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: rgba(10, 15, 29, 0.9);
+  color: #ffffff;
+  font-size: 14px;
+  outline: none;
+}
+
+.input-3d:focus { border-color: var(--neon-blue); }
+
+.tab-switch { display: flex; gap: 10px; margin-bottom: 14px; }
+.tab-btn {
+  flex: 1; padding: 10px; border-radius: 10px;
+  background: #1e293b; color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 700; cursor: pointer;
+}
+.tab-active {
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  color: #fff;
+}
+
 .reward-popup {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%) scale(.65);
-  width: 270px;
-  padding: 28px;
-  text-align: center;
-  border-radius: 28px;
-  background: rgba(15,23,42,.97);
-  border: 1px solid rgba(56,189,248,.5);
-  box-shadow: 0 30px 100px rgba(0,0,0,.75), 0 0 50px rgba(56,189,248,.2);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 9999;
-  transition: .35s cubic-bezier(.2,1.4,.4,1);
+  position: fixed; left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(0.7);
+  width: 260px; padding: 24px; text-align: center;
+  border-radius: 24px; background: rgba(15, 23, 42, 0.97);
+  border: 1px solid var(--neon-blue);
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
+  opacity: 0; pointer-events: none; z-index: 9999;
+  transition: 0.3s cubic-bezier(0.2, 1.4, 0.4, 1);
 }
-
-.reward-popup.show {
-  opacity: 1;
-  transform: translate(-50%,-50%) scale(1);
-}
-
-.reward-coin {
-  font-size: 60px;
-  animation: rewardCoin .7s infinite alternate;
-}
-
-@keyframes rewardCoin {
-  from { transform: translateY(0) rotateY(0deg); }
-  to { transform: translateY(-10px) rotateY(180deg); }
-}
-
-.reward-title { margin-top: 10px; font-size: 15px; font-weight: 900; }
-.reward-amount { margin-top: 6px; font-size: 27px; font-weight: 900; color: #4ade80; }
+.reward-popup.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
 .toast {
-  position: fixed;
-  bottom: 25px;
-  left: 50%;
+  position: fixed; bottom: 25px; left: 50%;
   transform: translateX(-50%) translateY(25px);
-  background: rgba(15,23,42,.96);
-  border: 1px solid rgba(255,255,255,.1);
-  padding: 12px 18px;
-  border-radius: 15px;
-  font-size: 13px;
-  font-weight: 700;
-  opacity: 0;
-  pointer-events: none;
-  transition: .3s;
-  z-index: 10000;
-  max-width: 90%;
-  text-align: center;
+  background: rgba(15, 23, 42, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 12px 18px; border-radius: 14px;
+  font-size: 13px; font-weight: 700;
+  opacity: 0; pointer-events: none; transition: 0.3s;
+  z-index: 10000; max-width: 90%; text-align: center;
 }
-
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 .hidden { display: none !important; }
 
 .spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(255,255,255,.3);
-  border-top-color: #fff;
-  border-radius: 50%;
-  display: inline-block;
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff; border-radius: 50%;
+  display: inline-block; animation: spin 0.7s linear infinite;
   vertical-align: middle;
-  animation: spin .7s linear infinite;
 }
-
 @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
@@ -409,57 +253,52 @@ button:disabled { opacity: .65; cursor: not-allowed; transform: none !important;
 <div class="glow-sphere-1"></div>
 <div class="glow-sphere-2"></div>
 
-<!-- STATUS -->
+<!-- Live Trust Notification -->
 <div class="payout-ticker">
   <div class="live-dot"></div>
-  <span id="payoutTickerText">🟢 Reward system online • Ads available</span>
+  <span id="payoutTickerText">🟢 Reward system online • Ads ready</span>
 </div>
 
-<!-- AUTH -->
+<!-- AUTO-VERIFIED AUTHENTICATION -->
 <div id="authSection" class="card-3d">
   <div class="tab-switch">
     <button class="tab-btn tab-active" id="tabSignup" onclick="switchAuth('signup')">⚡ Direct Signup</button>
     <button class="tab-btn" id="tabLogin" onclick="switchAuth('login')">🔑 Instant Login</button>
   </div>
 
-  <div id="signupFields">
-    <input type="text" id="regUsername" class="input-3d" placeholder="Telegram Username" readonly>
-    <input type="text" id="regUserId" class="input-3d" placeholder="Telegram ID" readonly>
+  <!-- Auto Telegram Profile Badge -->
+  <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(56,189,248,0.3); border-radius:12px; padding:12px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span style="font-size:18px;">✈️</span>
+      <span id="detectedTelegramTag" style="font-weight:700; font-size:13px; color:var(--neon-blue);">Detecting Telegram...</span>
+    </div>
+    <span style="font-size:10px; background:rgba(74,222,128,0.2); color:#4ade80; border:1px solid #4ade80; padding:2px 8px; border-radius:20px; font-weight:800;">VERIFIED</span>
   </div>
 
   <input type="email" id="authEmail" class="input-3d" placeholder="Enter Valid Email">
-  <input type="password" id="authPass" class="input-3d" placeholder="Set Access Password">
+  <input type="password" id="authPass" class="input-3d" placeholder="Set Password (Min 4 chars)">
 
-  <button class="btn-3d" id="authSubmitBtn" onclick="handleAuth()" style="margin-top:16px;">
+  <button class="btn-3d" id="authSubmitBtn" onclick="handleAuth()" style="margin-top:14px;">
     🚀 Start Earning
   </button>
-
-  <div class="trust-badge-row">
-    <div class="trust-item">🔒 Secure</div>
-    <div class="trust-item">⚡ Fast</div>
-    <div class="trust-item">🛡️ Protected</div>
-  </div>
 </div>
 
-<!-- DASHBOARD -->
+<!-- MAIN APPLICATION DASHBOARD -->
 <div id="mainDashboard" class="hidden">
-  <!-- PROFILE -->
+  
+  <!-- Profile Bar -->
   <div class="card-3d profile-card">
-    <div class="profile-left">
+    <div style="display:flex; align-items:center; gap:10px;">
       <div class="avatar-3d" id="userAvatar">U</div>
-      <div style="text-align:left; min-width:0;">
-        <div style="font-weight:800; font-size:15px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:170px;" id="displayName">
-          Loading User...
-        </div>
-        <div style="font-size:11px; color:var(--text-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:170px;" id="displayEmail">
-          email@domain.com
-        </div>
+      <div>
+        <div style="font-weight:800; font-size:14px;" id="displayName">Telegram User</div>
+        <div style="font-size:11px; color:var(--text-muted);" id="displayEmail">email@domain.com</div>
       </div>
     </div>
     <div class="verified-badge">✓ ACTIVE</div>
   </div>
 
-  <!-- STATS -->
+  <!-- Performance Stats -->
   <div class="card-3d">
     <div class="stats-grid">
       <div class="stat-card">
@@ -474,77 +313,62 @@ button:disabled { opacity: .65; cursor: not-allowed; transform: none !important;
       </div>
       <div class="stat-card">
         <div class="stat-icon">💰</div>
-        <div class="stat-value" id="statValue">₹0</div>
+        <div class="stat-value" id="statValue">₹0.00</div>
         <div class="stat-label">VALUE</div>
       </div>
     </div>
   </div>
 
-  <!-- BALANCE -->
+  <!-- Reward Balance & Meter -->
   <div class="card-3d balance-box">
-    <div class="floating-coin">₹</div>
-    <div style="font-size:11px; letter-spacing:1.5px; color:var(--neon-blue); font-weight:700;">TOTAL REWARD BALANCE</div>
+    <div style="font-size:11px; letter-spacing:1px; color:var(--neon-blue); font-weight:700;">WALLET BALANCE</div>
     <div class="coin-val" id="coins">0</div>
     <div class="inr-val">≈ ₹<span id="inr">0.00</span> INR</div>
 
-    <div class="progress-wrapper">
-      <div class="progress-text">
-        <span>₹50 Payout Progress</span>
-        <span id="progressPercent">0%</span>
-      </div>
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" id="progressBar"></div>
-      </div>
-      <div class="progress-text">
-        <span id="coinsRemaining">5000 coins left</span>
-        <span>Goal: 5000</span>
-      </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressBar"></div>
+    </div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted);">
+      <span id="progressPercent">0% of ₹50</span>
+      <span id="coinsRemaining">5,000 to cashout</span>
     </div>
   </div>
 
-  <!-- ADSGRAM -->
+  <!-- Adsgram Rewarded Video -->
   <button id="watchAdButton" class="btn-3d" onclick="watchAd()">
-    ▶ WATCH AD <span style="opacity:.8">• +5 COINS</span>
+    ▶ WATCH AD <span style="opacity:0.8">• +5 COINS</span>
   </button>
-  <div id="adStatus" style="text-align:center; margin-top:8px; font-size:11px; color:#94a3b8;">
-    AdsGram • Block 46020
+  <div style="text-align:center; margin-top:6px; font-size:11px; color:var(--text-muted);">
+    Adsgram Network • Block 46020
   </div>
 
-  <!-- WITHDRAW -->
-  <div class="card-3d" style="margin-top:16px; text-align:left;">
-    <div style="font-weight:800; font-size:15px; display:flex; justify-content:space-between; align-items:center;">
-      <span>Direct UPI Withdrawal</span>
-      <span style="font-size:12px; color:#4ade80;">₹50 MIN</span>
+  <!-- Direct UPI Disbursal Form -->
+  <div class="card-3d" style="margin-top:14px;">
+    <div style="font-weight:800; font-size:14px; display:flex; justify-content:space-between;">
+      <span>Direct UPI Payout</span>
+      <span style="font-size:12px; color:#4ade80;">Min: ₹50</span>
     </div>
-    <p style="font-size:12px; color:var(--text-muted); margin:6px 0 10px 0;">
-      Minimum withdrawal: 5,000 coins = ₹50.
-    </p>
-    <input type="text" id="upiId" class="input-3d" placeholder="Enter UPI ID (e.g. mobile@upi)">
+    <p style="font-size:12px; color:var(--text-muted); margin: 6px 0 10px 0;">5,000 Coins = ₹50 instant direct bank transfer.</p>
+    <input type="text" id="upiId" class="input-3d" placeholder="Enter UPI ID (e.g. mobile@paytm)">
     <button class="btn-3d btn-withdraw" id="withdrawButton" onclick="requestWithdrawal()">
       ⚡ CLAIM ₹50 PAYOUT
     </button>
   </div>
-
-  <div class="trust-badge-row">
-    <div class="trust-item">💸 Withdrawal</div>
-    <div class="trust-item">⚡ Automated Request</div>
-    <div class="trust-item">🏦 UPI</div>
-  </div>
 </div>
 
-<!-- REWARD POPUP -->
+<!-- Reward Animation Modal -->
 <div id="rewardPopup" class="reward-popup">
-  <div class="reward-coin">🪙</div>
-  <div class="reward-title">REWARD RECEIVED</div>
-  <div class="reward-amount">+5 COINS</div>
+  <div style="font-size:48px;">🪙</div>
+  <div style="font-size:15px; font-weight:800; margin-top:6px;">REWARD UNLOCKED</div>
+  <div style="font-size:24px; font-weight:900; color:#4ade80; margin-top:4px;">+5 COINS</div>
 </div>
 
-<!-- TOAST -->
+<!-- Toast Popup -->
 <div id="toast" class="toast"></div>
 
 <script>
 /* =========================================================
-   CONFIG
+   CORE CONFIGURATION
 ========================================================= */
 const AUTH_WEBHOOK = "https://script.google.com/macros/s/AKfycbwWlYi9bIrNR-GqED0p8aAquV1T3KvHxLaFWDfT3dRS4dMeHWHtX1TerxBwxACm5W43/exec";
 const WITHDRAWAL_WEBHOOK = "https://script.google.com/macros/s/AKfycbwt_sO9EE438kFhhoArCDllPZR9xxNZnkJSg1GZaVmv_YWZT-hL3QXqoCQVzaHXFof0/exec";
@@ -554,7 +378,7 @@ const COINS_PER_AD = 5;
 const WITHDRAW_COINS = 5000;
 
 /* =========================================================
-   TELEGRAM INITIALIZATION
+   TELEGRAM USER IDENTITY EXTRACTION
 ========================================================= */
 const tg = window.Telegram?.WebApp;
 let tgUser = null;
@@ -565,29 +389,27 @@ if (tg) {
   tgUser = tg.initDataUnsafe?.user || null;
 }
 
-function loadTelegramUser() {
-  if (!tgUser) {
-    document.getElementById("regUsername").value = "Open inside Telegram";
-    document.getElementById("regUserId").value = "Telegram ID unavailable";
-    document.getElementById("displayName").textContent = "Web User";
-    document.getElementById("userAvatar").textContent = "U";
-    return;
-  }
-
-  const telegramId = String(tgUser.id);
-  const username = tgUser.username ? "@" + tgUser.username : ((tgUser.first_name || "") + " " + (tgUser.last_name || "")).trim() || "Telegram User";
-
-  document.getElementById("regUsername").value = username;
-  document.getElementById("regUserId").value = telegramId;
-  document.getElementById("displayName").textContent = username;
-  document.getElementById("userAvatar").textContent = (tgUser.first_name || "U").charAt(0).toUpperCase();
+function getVerifiedUsername() {
+  if (tgUser && tgUser.username) return `@${tgUser.username}`;
+  if (tgUser && tgUser.first_name) return tgUser.first_name;
+  return "@TelegramUser";
 }
 
-function getUserId() { return tgUser && tgUser.id ? String(tgUser.id) : "GUEST_" + Math.floor(Math.random() * 89999 + 10000); }
-function getUsername() { return tgUser?.username ? "@" + tgUser.username : (tgUser?.first_name || "Guest User"); }
+function getUserId() {
+  return tgUser && tgUser.id ? String(tgUser.id) : "GUEST_" + Math.floor(Math.random() * 89999 + 10000);
+}
+
+function loadTelegramUser() {
+  const badge = document.getElementById("detectedTelegramTag");
+  const username = getVerifiedUsername();
+  
+  if (badge) badge.textContent = username;
+  document.getElementById("displayName").textContent = username;
+  document.getElementById("userAvatar").textContent = username.replace("@", "").charAt(0).toUpperCase();
+}
 
 /* =========================================================
-   BALANCE & UI
+   BALANCE STATE MANAGEMENT
 ========================================================= */
 let balance = parseInt(localStorage.getItem("user_coins") || "0", 10);
 let adCount = parseInt(localStorage.getItem("ad_count") || "0", 10);
@@ -600,20 +422,20 @@ function updateBalanceUI() {
   document.getElementById("statCoins").textContent = balance.toLocaleString();
   document.getElementById("statAds").textContent = adCount.toLocaleString();
 
-  const rupees = balance / 100;
-  document.getElementById("inr").textContent = rupees.toFixed(2);
-  document.getElementById("statValue").textContent = "₹" + rupees.toFixed(2);
+  const inr = (balance / 100).toFixed(2);
+  document.getElementById("inr").textContent = inr;
+  document.getElementById("statValue").textContent = "₹" + inr;
 
   const progress = Math.min((balance / WITHDRAW_COINS) * 100, 100);
   document.getElementById("progressBar").style.width = progress + "%";
-  document.getElementById("progressPercent").textContent = Math.floor(progress) + "%";
+  document.getElementById("progressPercent").textContent = Math.floor(progress) + "% of ₹50";
 
   const remaining = Math.max(WITHDRAW_COINS - balance, 0);
-  document.getElementById("coinsRemaining").textContent = remaining.toLocaleString() + " coins left";
+  document.getElementById("coinsRemaining").textContent = remaining > 0 ? `${remaining.toLocaleString()} coins left` : "Ready to withdraw!";
 }
 
 /* =========================================================
-   TOAST & POPUP ALERTS
+   UI ALERTS
 ========================================================= */
 function showToast(msg) {
   const toast = document.getElementById("toast");
@@ -625,11 +447,11 @@ function showToast(msg) {
 function showRewardPopup() {
   const popup = document.getElementById("rewardPopup");
   popup.classList.add("show");
-  setTimeout(() => popup.classList.remove("show"), 2000);
+  setTimeout(() => popup.classList.remove("show"), 1800);
 }
 
 /* =========================================================
-   AUTH TAB & LOGIC
+   AUTHENTICATION LOGIC
 ========================================================= */
 let authMode = "signup";
 
@@ -637,18 +459,17 @@ function switchAuth(mode) {
   authMode = mode;
   document.getElementById("tabSignup").classList.toggle("tab-active", mode === "signup");
   document.getElementById("tabLogin").classList.toggle("tab-active", mode === "login");
-  document.getElementById("signupFields").classList.toggle("hidden", mode !== "signup");
   document.getElementById("authSubmitBtn").textContent = mode === "signup" ? "🚀 Start Earning" : "🔑 Login";
 }
 
 async function handleAuth() {
   const email = document.getElementById("authEmail").value.trim();
   const password = document.getElementById("authPass").value.trim();
+  const username = getVerifiedUsername();
   const userId = getUserId();
-  const username = getUsername();
 
   if (!email || !email.includes("@")) {
-    showToast("❌ Enter a valid email");
+    showToast("❌ Enter a valid email address");
     return;
   }
   if (!password || password.length < 4) {
@@ -680,11 +501,12 @@ async function handleAuth() {
     document.getElementById("authSection").classList.add("hidden");
     document.getElementById("mainDashboard").classList.remove("hidden");
     document.getElementById("displayEmail").textContent = email;
+    document.getElementById("displayName").textContent = username;
 
     updateBalanceUI();
-    showToast("✅ Login successful");
-  } catch (error) {
-    showToast("❌ Connection error. Try again.");
+    showToast("✅ Connected successfully!");
+  } catch (err) {
+    showToast("❌ Connection failed. Please retry.");
   } finally {
     btn.disabled = false;
     btn.textContent = authMode === "signup" ? "🚀 Start Earning" : "🔑 Login";
@@ -692,11 +514,113 @@ async function handleAuth() {
 }
 
 /* =========================================================
-   ADSGRAM INTEGRATION
+   ADSGRAM INITIALIZATION & REWARD LOGIC
 ========================================================= */
 let AdController = null;
 
 function initAds() {
   try {
     if (window.Adsgram && typeof window.Adsgram.init === "function") {
-      AdController = window.Adsgram.init({ blockId: ADSGRAM
+      AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
+    }
+  } catch (e) {
+    console.error("Adsgram init error:", e);
+  }
+}
+
+async function watchAd() {
+  const btn = document.getElementById("watchAdButton");
+  btn.disabled = true;
+
+  if (!AdController) initAds();
+
+  if (!AdController) {
+    showToast("❌ Ad network loading. Please retry in 10s.");
+    btn.disabled = false;
+    return;
+  }
+
+  AdController.show()
+    .then(() => {
+      balance += COINS_PER_AD;
+      adCount += 1;
+      localStorage.setItem("user_coins", balance);
+      localStorage.setItem("ad_count", adCount);
+      updateBalanceUI();
+      showRewardPopup();
+    })
+    .catch(() => {
+      showToast("⚠️ Ad unavailable or loading. Try again shortly.");
+    })
+    .finally(() => {
+      btn.disabled = false;
+    });
+}
+
+/* =========================================================
+   UPI WITHDRAWAL REQUEST LOGIC
+========================================================= */
+async function requestWithdrawal() {
+  const upiId = document.getElementById("upiId").value.trim();
+
+  if (!upiId || !upiId.includes("@")) {
+    showToast("❌ Enter a valid UPI handle (e.g. name@paytm)");
+    return;
+  }
+
+  if (balance < WITHDRAW_COINS) {
+    showToast("❌ Minimum withdrawal is 5,000 Coins (₹50)");
+    return;
+  }
+
+  const btn = document.getElementById("withdrawButton");
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Processing...';
+
+  try {
+    await fetch(WITHDRAWAL_WEBHOOK, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: `[PAYOUT] ${getUserId()}`,
+        username: getVerifiedUsername(),
+        upi: upiId,
+        inr: 50
+      })
+    });
+
+    balance -= WITHDRAW_COINS;
+    localStorage.setItem("user_coins", balance);
+    updateBalanceUI();
+    document.getElementById("upiId").value = "";
+    showToast("✅ ₹50 Payout Requested Successfully!");
+  } catch (err) {
+    showToast("❌ Request error. Please retry.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "⚡ CLAIM ₹50 PAYOUT";
+  }
+}
+
+/* =========================================================
+   PAGE INITIALIZATION
+========================================================= */
+window.addEventListener("DOMContentLoaded", () => {
+  loadTelegramUser();
+  initAds();
+
+  const savedUser = localStorage.getItem("logged_user");
+  const savedEmail = localStorage.getItem("user_email");
+
+  if (savedUser) {
+    document.getElementById("authSection").classList.add("hidden");
+    document.getElementById("mainDashboard").classList.remove("hidden");
+    if (savedEmail) document.getElementById("displayEmail").textContent = savedEmail;
+  }
+
+  updateBalanceUI();
+});
+</script>
+</body>
+</html>
