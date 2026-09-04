@@ -10,10 +10,10 @@
 
 <title>RewardHub Prime</title>
 
-<!-- Telegram -->
+<!-- Telegram WebApp SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<!-- AdsGram -->
+<!-- AdsGram SDK -->
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
 <style>
@@ -886,34 +886,6 @@ body.light .toggle::after{
     display:block;
 }
 
-/* LOADING */
-
-.skeleton{
-    position:relative;
-    overflow:hidden;
-
-    background:var(--surface2);
-}
-
-.skeleton::after{
-    content:"";
-
-    position:absolute;
-    inset:0;
-
-    transform:translateX(-100%);
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.06),
-            transparent
-        );
-
-    animation:skeleton 1.2s infinite;
-}
-
 /* TOAST */
 
 .toast{
@@ -947,7 +919,7 @@ body.light .toggle::after{
     text-align:center;
 
     font-size:11px;
-    font-weight:800;
+    font-weight:850;
 
     transition:
         opacity .25s,
@@ -973,7 +945,7 @@ body.light .toggle::after{
 
     color:var(--success);
 
-    font-size:18px;
+    font-size:20px;
     font-weight:950;
 
     animation:coinPop .9s ease forwards;
@@ -996,12 +968,6 @@ body.light .toggle::after{
 @keyframes pulse{
     50%{
         opacity:.45;
-    }
-}
-
-@keyframes skeleton{
-    100%{
-        transform:translateX(100%);
     }
 }
 
@@ -1203,7 +1169,7 @@ body.light .toggle::after{
             </div>
 
             <div class="action-sub">
-                Complete the ad to receive your reward
+                Adsgram Unit 46024
             </div>
 
         </div>
@@ -1262,7 +1228,7 @@ body.light .toggle::after{
             <div>
 
                 <div class="status-title">
-                    Minimum withdrawal
+                    Instant Bank Transfer
                 </div>
 
                 <div class="status-sub">
@@ -1303,7 +1269,7 @@ body.light .toggle::after{
             </div>
 
             <div class="action-sub">
-                Watch the complete rewarded ad
+                Watch full video to credit coins
             </div>
 
         </div>
@@ -1360,8 +1326,7 @@ body.light .toggle::after{
             font-size:10px;
             line-height:1.5;
             margin-top:5px;">
-            Your friend must join through your referral
-            and complete the required eligible action.
+            Earn 100 coins whenever a friend joins via your invite link.
         </div>
 
 
@@ -1383,7 +1348,7 @@ body.light .toggle::after{
         <div class="steps">
 
             <div
-                class="step"
+                class="step done"
                 id="step1">
 
                 <div class="step-number">
@@ -1396,7 +1361,7 @@ body.light .toggle::after{
 
 
             <div
-                class="step"
+                class="step done"
                 id="step2">
 
                 <div class="step-number">
@@ -1405,4 +1370,32 @@ body.light .toggle::after{
 
                 Joined
 
-    
+            </div>
+
+            <div
+                class="step done"
+                id="step3">
+
+                <div class="step-number">
+                    3
+                </div>
+
+                Eligible action (+100 Coins)
+
+            </div>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            style="margin-top:14px;"
+            onclick="shareReferral()">
+            🚀 Share Invite Link
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TASKS =================
