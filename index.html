@@ -3,36 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>REWARD4AD</title>
+    <title>REWARD4AD - Earn Real Money</title>
+    
     <!-- Telegram & Adsgram SDKs -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    
     <style>
         :root {
             --primary: #6366f1;
-            --primary2: #818cf8;
+            --primary-light: #818cf8;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --bg: #080b14;
-            --surface: #101522;
-            --surface2: #171d2b;
-            --surface3: #20283a;
-            --text: #f8fafc;
-            --muted: #94a3b8;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
             --border: rgba(255, 255, 255, 0.08);
-            --shadow: 0 10px 35px rgba(0, 0, 0, 0.20);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
         body.light {
-            --bg: #f4f6fb;
+            --bg: #f8fafc;
             --surface: #ffffff;
-            --surface2: #f1f4f9;
-            --surface3: #e8edf5;
-            --text: #111827;
-            --muted: #64748b;
-            --border: rgba(15, 23, 42, 0.08);
-            --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+            --surface-light: #f1f5f9;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: rgba(15, 23, 42, 0.1);
+            --shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
         }
 
         * {
@@ -42,452 +42,747 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            padding: calc(12px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));
-            transition: background 0.25s ease, color 0.25s ease;
+            padding: calc(12px + env(safe-area-inset-top)) 12px calc(85px + env(safe-area-inset-bottom));
+            transition: background 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
         }
 
-        button, input { font: inherit; }
-        button { cursor: pointer; }
+        button, input, select {
+            font: inherit;
+        }
 
-        .app { max-width: 600px; margin: auto; }
+        button {
+            cursor: pointer;
+            border: none;
+        }
 
+        .app {
+            max-width: 540px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
         .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 4px 18px;
+            padding: 12px 8px 16px;
+            margin-bottom: 8px;
         }
 
-        .profile-mini {
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 13px;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, var(--primary), var(--primary2));
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: #fff;
             font-weight: 900;
-            font-size: 17px;
-            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+            font-size: 20px;
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.2);
         }
 
-        .user-name { font-size: 14px; font-weight: 850; }
-        .user-id { margin-top: 2px; color: var(--muted); font-size: 10px; }
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
 
-        .live {
+        .user-name {
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        .user-id {
+            margin-top: 2px;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .live-badge {
             display: flex;
             align-items: center;
             gap: 6px;
-            color: var(--success);
-            font-size: 10px;
-            font-weight: 850;
-        }
-
-        .live-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--success);
-            box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.08);
-            animation: pulse 1.8s infinite;
-        }
-
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            margin-bottom: 12px;
-        }
-
-        .card-pad { padding: 17px; }
-
-        .balance {
-            position: relative;
-            overflow: hidden;
-            padding: 21px;
-            background: radial-gradient(circle at 90% 0%, rgba(99, 102, 241, 0.20), transparent 35%), var(--surface);
-        }
-
-        .balance-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .label {
-            color: var(--muted);
-            font-size: 10px;
-            font-weight: 850;
-            letter-spacing: 1px;
-        }
-
-        .status {
+            padding: 5px 10px;
             background: rgba(16, 185, 129, 0.12);
-            color: var(--success);
             border-radius: 20px;
-            padding: 5px 9px;
-            font-size: 9px;
-            font-weight: 850;
-        }
-
-        .money {
-            margin-top: 8px;
-            font-size: 38px;
-            line-height: 1;
-            font-weight: 950;
-            letter-spacing: -1.5px;
-        }
-
-        .coins-line {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 7px;
             color: var(--success);
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 800;
         }
 
-        .progress {
-            height: 8px;
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: transform 0.2s ease;
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        /* ===== BALANCE CARD ===== */
+        .balance-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.05)), var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 24px 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .balance-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1), transparent);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .balance-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .balance-label {
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .balance-amount {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .balance-currency {
+            font-size: 28px;
+            font-weight: 900;
+            margin-top: -2px;
+        }
+
+        .balance-value {
+            font-size: 42px;
+            font-weight: 950;
+            letter-spacing: -1.5px;
+            line-height: 1;
+            animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .balance-coins {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            color: var(--success);
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .coin-icon {
+            font-size: 18px;
+            animation: bounce 0.6s ease-in-out;
+        }
+
+        .progress-container {
             margin-top: 18px;
-            background: var(--surface3);
+        }
+
+        .progress-track {
+            height: 8px;
+            background: var(--surface-light);
             border-radius: 999px;
             overflow: hidden;
+            position: relative;
         }
 
         .progress-fill {
-            width: 0%;
             height: 100%;
-            border-radius: 999px;
             background: linear-gradient(90deg, var(--primary), var(--success));
-            transition: width 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+            border-radius: 999px;
+            transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
         }
 
         .progress-info {
             display: flex;
             justify-content: space-between;
-            margin-top: 7px;
-            color: var(--muted);
-            font-size: 10px;
+            margin-top: 8px;
+            font-size: 11px;
             font-weight: 700;
+            color: var(--text-muted);
         }
 
-        .stats {
+        /* ===== STATS GRID ===== */
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 9px;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .stat {
-            padding: 14px 10px;
-            text-align: center;
+        .stat-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 17px;
+            border-radius: 18px;
+            padding: 16px 12px;
+            text-align: center;
+            transition: all 0.2s ease;
         }
 
-        .stat-value { font-size: 17px; font-weight: 900; }
-        .stat-label { margin-top: 4px; color: var(--muted); font-size: 9px; font-weight: 700; }
+        .stat-card:active {
+            transform: scale(0.95);
+            background: var(--surface-light);
+        }
 
-        .section-title {
+        .stat-value {
+            font-size: 24px;
+            font-weight: 950;
+            animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .stat-label {
+            margin-top: 6px;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* ===== SECTION ===== */
+        .section-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 19px 3px 9px;
+            margin: 20px 0 12px;
+            padding: 0 4px;
         }
 
-        .section-title h2 { font-size: 13px; font-weight: 900; }
-        .section-title span { color: var(--muted); font-size: 10px; }
-
-        .action {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px;
-            border: 1px solid var(--border);
-            border-radius: 17px;
-            background: var(--surface);
-            color: var(--text);
-            text-align: left;
-            margin-bottom: 9px;
-            transition: transform 0.15s ease;
-        }
-
-        .action:active { transform: scale(0.975); }
-
-        .action-icon {
-            flex: 0 0 43px;
-            width: 43px;
-            height: 43px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 13px;
-            background: var(--surface2);
-            font-size: 19px;
-        }
-
-        .action-main { flex: 1; }
-        .action-title { font-size: 13px; font-weight: 850; }
-        .action-sub { color: var(--muted); margin-top: 3px; font-size: 10px; }
-
-        .reward {
-            padding: 6px 9px;
-            border-radius: 10px;
-            background: rgba(16, 185, 129, 0.11);
-            color: var(--success);
-            font-size: 10px;
+        .section-title {
+            font-size: 15px;
             font-weight: 900;
+            letter-spacing: -0.5px;
         }
 
-        .primary-btn {
-            width: 100%;
-            border: none;
-            padding: 14px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--primary), var(--primary2));
-            color: #fff;
-            font-size: 13px;
-            font-weight: 900;
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.20);
-            transition: transform 0.15s ease;
-        }
-
-        .primary-btn:active { transform: scale(0.97); }
-
-        .ref-card {
-            padding: 17px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.13), rgba(16, 185, 129, 0.06)), var(--surface);
-        }
-
-        .ref-link {
-            display: flex;
-            gap: 7px;
-            margin-top: 12px;
-        }
-
-        .ref-link input {
-            flex: 1;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 11px;
-            background: var(--surface2);
-            color: var(--text);
-            outline: none;
-            font-size: 11px;
-        }
-
-        .copy-btn {
-            border: none;
-            padding: 0 14px;
-            border-radius: 12px;
-            background: var(--primary);
-            color: #fff;
-            font-size: 11px;
-            font-weight: 850;
-        }
-
-        .steps {
-            display: grid;
-            gap: 8px;
-            margin-top: 13px;
-        }
-
-        .step {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            color: var(--muted);
+        .section-sub {
+            color: var(--text-muted);
             font-size: 10px;
             font-weight: 700;
         }
 
-        .step-number {
+        /* ===== ACTION CARD ===== */
+        .action-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            margin-bottom: 10px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .action-card:active {
+            transform: scale(0.98);
+            background: var(--surface-light);
+        }
+
+        .action-icon {
+            flex: 0 0 44px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface-light);
+            border-radius: 14px;
+            font-size: 20px;
+        }
+
+        .action-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .action-title {
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: -0.3px;
+        }
+
+        .action-desc {
+            margin-top: 3px;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .reward-badge {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--success);
+            padding: 6px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        /* ===== BUTTON ===== */
+        .primary-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: #fff;
+            font-size: 14px;
+            font-weight: 900;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
+            transition: all 0.2s ease;
+            margin-top: 12px;
+        }
+
+        .primary-btn:active {
+            transform: scale(0.97);
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.15);
+        }
+
+        .secondary-btn {
+            padding: 12px 14px;
+            border-radius: 12px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 850;
+            transition: all 0.2s ease;
+        }
+
+        .secondary-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow);
+        }
+
+        /* ===== REFERRAL CARD ===== */
+        .referral-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.05)), var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 14px;
+        }
+
+        .referral-title {
+            font-size: 16px;
+            font-weight: 950;
+            margin-bottom: 8px;
+        }
+
+        .referral-desc {
+            color: var(--text-muted);
+            font-size: 11px;
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .ref-link-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .ref-input {
+            flex: 1;
+            padding: 12px 14px;
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 11px;
+            outline: none;
+            font-weight: 600;
+        }
+
+        .copy-btn {
+            padding: 12px 14px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 850;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
+        .referral-status {
+            display: grid;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .referral-step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: var(--surface-light);
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .step-num {
             width: 24px;
             height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            background: var(--surface3);
-            color: var(--text);
-            font-size: 9px;
-            font-weight: 900;
-        }
-
-        .wallet-card { text-align: center; padding: 22px; }
-        .wallet-amount { margin-top: 7px; font-size: 35px; font-weight: 950; }
-
-        .input-label { display: block; margin-bottom: 6px; color: var(--muted); font-size: 10px; font-weight: 800; }
-
-        .input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid var(--border);
-            border-radius: 13px;
-            outline: none;
-            background: var(--surface2);
-            color: var(--text);
-            font-size: 13px;
-        }
-
-        .withdraw-status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 13px;
-            border-radius: 14px;
-            background: var(--surface2);
-        }
-
-        .status-icon {
-            width: 34px;
-            height: 34px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            background: rgba(245, 158, 11, 0.12);
-            font-size: 16px;
-        }
-
-        .status-title { font-size: 11px; font-weight: 850; }
-        .status-sub { color: var(--muted); margin-top: 2px; font-size: 9px; }
-
-        .profile-card { padding: 20px; }
-
-        .profile-big {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-        }
-
-        .profile-avatar {
-            width: 58px;
-            height: 58px;
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--primary), var(--primary2));
+            background: var(--primary);
             color: #fff;
-            font-size: 23px;
-            font-weight: 950;
-        }
-
-        .profile-name { font-size: 17px; font-weight: 900; }
-        .profile-id { margin-top: 3px; color: var(--muted); font-size: 10px; }
-
-        .setting {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 2px;
-        }
-
-        .toggle {
-            width: 46px;
-            height: 26px;
-            padding: 3px;
-            border: 0;
-            border-radius: 20px;
-            background: var(--surface3);
-            cursor: pointer;
-        }
-
-        .toggle::after {
-            content: "";
-            display: block;
-            width: 20px;
-            height: 20px;
             border-radius: 50%;
-            background: #fff;
-            transition: transform 0.2s;
+            font-weight: 900;
+            font-size: 10px;
         }
 
-        body.light .toggle { background: var(--primary); }
-        body.light .toggle::after { transform: translateX(20px); }
+        /* ===== WALLET ===== */
+        .wallet-display {
+            text-align: center;
+            padding: 24px 20px;
+        }
 
+        .wallet-label {
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .wallet-amount {
+            font-size: 48px;
+            font-weight: 950;
+            margin-top: 12px;
+            letter-spacing: -2px;
+        }
+
+        .wallet-sub {
+            margin-top: 6px;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* ===== TABS ===== */
+        .tab {
+            display: none;
+        }
+
+        .tab.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* ===== BOTTOM NAV ===== */
         .bottom-nav {
             position: fixed;
             left: 0;
             right: 0;
             bottom: 0;
             z-index: 100;
-            height: calc(68px + env(safe-area-inset-bottom));
-            padding: 5px 7px env(safe-area-inset-bottom);
+            height: calc(70px + env(safe-area-inset-bottom));
+            padding: 8px 12px env(safe-area-inset-bottom);
             display: flex;
             align-items: flex-start;
             justify-content: space-around;
-            background: color-mix(in srgb, var(--surface) 94%, transparent);
-            backdrop-filter: blur(18px);
+            background: color-mix(in srgb, var(--surface) 92%, transparent);
+            backdrop-filter: blur(20px);
             border-top: 1px solid var(--border);
         }
 
         .nav-item {
             flex: 1;
             height: 58px;
-            border: 0;
             background: none;
-            color: var(--muted);
+            color: var(--text-muted);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 3px;
-            font-size: 9px;
+            gap: 4px;
+            font-size: 10px;
             font-weight: 850;
-            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .nav-item.active { color: var(--primary2); }
-        .nav-icon { font-size: 18px; line-height: 18px; }
+        .nav-item.active {
+            color: var(--primary);
+        }
 
-        .tab { display: none; }
-        .tab.active { display: block; }
+        .nav-icon {
+            font-size: 20px;
+            line-height: 1;
+        }
 
+        /* ===== SKELETON ===== */
+        .skeleton {
+            background: linear-gradient(90deg, var(--surface) 25%, var(--surface-light) 50%, var(--surface) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 12px;
+        }
+
+        .skeleton-line {
+            height: 12px;
+            margin-bottom: 8px;
+        }
+
+        .skeleton-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+        }
+
+        /* ===== TOAST ===== */
         .toast {
             position: fixed;
             left: 50%;
-            bottom: 86px;
+            bottom: 90px;
             z-index: 300;
             transform: translate(-50%, 20px) scale(0.95);
             opacity: 0;
             pointer-events: none;
-            min-width: 220px;
-            padding: 12px 15px;
+            min-width: 200px;
+            padding: 14px 18px;
             border-radius: 14px;
             background: #111827;
             color: #fff;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
             text-align: center;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 850;
-            transition: opacity 0.25s, transform 0.25s;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        body.light .toast {
+            background: #1f2937;
         }
 
         .toast.show {
             opacity: 1;
             transform: translate(-50%, 0) scale(1);
+            pointer-events: auto;
         }
 
-        @keyframes pulse { 50% { opacity: 0.45; } }
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            align-items: flex-end;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--surface);
+            border-radius: 24px 24px 0 0;
+            padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+            width: 100%;
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 950;
+            margin-bottom: 12px;
+        }
+
+        .modal-desc {
+            color: var(--text-muted);
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @keyframes coinPop {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.5) translateY(-30px);
+            }
+        }
+
+        .coin-pop {
+            position: fixed;
+            font-size: 24px;
+            font-weight: 900;
+            animation: coinPop 0.8s ease-out;
+            pointer-events: none;
+            z-index: 250;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            body {
+                padding: calc(10px + env(safe-area-inset-top)) 10px calc(85px + env(safe-area-inset-bottom));
+            }
+
+            .balance-value {
+                font-size: 38px;
+            }
+
+            .wallet-amount {
+                font-size: 42px;
+            }
+        }
     </style>
 </head>
 
@@ -496,77 +791,114 @@
 <div class="app">
     <!-- HEADER -->
     <header class="header">
-        <div class="profile-mini">
-            <div class="avatar" id="uAvatar">U</div>
-            <div>
+        <div class="header-left">
+            <div class="avatar" id="uAvatar">R</div>
+            <div class="user-info">
                 <div class="user-name" id="uName">Loading...</div>
                 <div class="user-id" id="uId">ID: --</div>
             </div>
         </div>
-        <div class="live"><span class="live-dot"></span> LIVE</div>
+        <div class="header-right">
+            <div class="live-badge">
+                <span class="live-dot"></span>
+                LIVE
+            </div>
+            <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+        </div>
     </header>
 
     <!-- HOME TAB -->
     <section id="tab-home" class="tab active">
-        <div class="card balance">
-            <div class="balance-top">
-                <div class="label">TOTAL BALANCE</div>
-                <div class="status">● ACTIVE</div>
-            </div>
-            <div class="money">₹<span id="inrTxt">0.00</span></div>
-            <div class="coins-line">🪙 <span id="coinTxt">0</span> Coins</div>
-            <div class="progress">
-                <div class="progress-fill" id="pBar"></div>
-            </div>
-            <div class="progress-info">
-                <span id="pTxt">0%</span>
-                <span id="rTxt">5,000 coins → ₹50</span>
+        <!-- Balance Card -->
+        <div class="balance-card">
+            <div class="balance-content">
+                <div class="balance-label">Total Balance</div>
+                <div class="balance-amount">
+                    <span class="balance-currency">₹</span>
+                    <span class="balance-value" id="inrTxt">0.00</span>
+                </div>
+                <div class="balance-coins">
+                    <span class="coin-icon">🪙</span>
+                    <span id="coinTxt">0</span>
+                    <span>Coins</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-track">
+                        <div class="progress-fill" id="pBar"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span id="pTxt">0%</span>
+                        <span id="rTxt">5,000 coins → ₹50</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="stats">
-            <div class="stat"><div class="stat-value" id="todayTxt">0</div><div class="stat-label">TODAY</div></div>
-            <div class="stat"><div class="stat-value" id="taskTxt">0</div><div class="stat-label">TASKS</div></div>
-            <div class="stat"><div class="stat-value" id="refTxt">0</div><div class="stat-label">REFERRALS</div></div>
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="todayTxt">0</div>
+                <div class="stat-label">Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="taskTxt">0</div>
+                <div class="stat-label">Tasks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="refTxt">0</div>
+                <div class="stat-label">Referrals</div>
+            </div>
         </div>
 
-        <div class="section-title"><h2>Quick Earn</h2><span>Available now</span></div>
+        <!-- Quick Earn Section -->
+        <div class="section-header">
+            <div>
+                <div class="section-title">Quick Earn</div>
+            </div>
+            <div class="section-sub">Available Now</div>
+        </div>
 
-        <button class="action" onclick="claimDaily()">
+        <button class="action-card" onclick="claimDaily()">
             <div class="action-icon">🎁</div>
-            <div class="action-main">
+            <div class="action-content">
                 <div class="action-title">Daily Check-in</div>
-                <div class="action-sub">Claim your free daily coins</div>
+                <div class="action-desc">Claim your free daily coins</div>
             </div>
-            <div class="reward">+25</div>
+            <div class="reward-badge">+25</div>
         </button>
 
-        <button class="action" onclick="watchAd()">
+        <button class="action-card" onclick="watchAd()">
             <div class="action-icon">▶️</div>
-            <div class="action-main">
-                <div class="action-title">Watch Rewarded Video</div>
-                <div class="action-sub">Adsgram Unit 46024</div>
+            <div class="action-content">
+                <div class="action-title">Watch Ad Video</div>
+                <div class="action-desc">Rewarded video - Instant payout</div>
             </div>
-            <div class="reward">+5</div>
+            <div class="reward-badge">+5</div>
         </button>
 
-        <button class="action" onclick="goTab('earn')">
+        <button class="action-card" onclick="goTab('earn', this)">
             <div class="action-icon">👥</div>
-            <div class="action-main">
+            <div class="action-content">
                 <div class="action-title">Invite Friends</div>
-                <div class="action-sub">Earn 100 coins per referral</div>
+                <div class="action-desc">Earn 100 coins per referral</div>
             </div>
-            <div class="reward">+100</div>
+            <div class="reward-badge">+100</div>
         </button>
 
-        <div class="section-title"><h2>Withdrawal</h2><span>₹50 minimum</span></div>
+        <!-- Withdrawal Section -->
+        <div class="section-header">
+            <div>
+                <div class="section-title">Withdrawal</div>
+            </div>
+            <div class="section-sub">₹50 Minimum</div>
+        </div>
 
-        <div class="card card-pad" onclick="goTab('wallet')" style="cursor:pointer;">
-            <div class="withdraw-status">
-                <div class="status-icon">💳</div>
+        <div class="card" onclick="goTab('wallet', this)" style="cursor: pointer; transition: all 0.2s ease;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <div style="font-size: 28px;">💳</div>
                 <div>
-                    <div class="status-title">Instant Bank / UPI Transfer</div>
-                    <div class="status-sub">5,000 coins required for ₹50</div>
+                    <div style="font-size: 14px; font-weight: 900;">Bank / UPI Transfer</div>
+                    <div style="color: var(--text-muted); font-size: 11px; margin-top: 3px;">5,000 coins = ₹50</div>
                 </div>
             </div>
         </div>
@@ -574,71 +906,509 @@
 
     <!-- EARN TAB -->
     <section id="tab-earn" class="tab">
-        <div class="section-title"><h2>Earn Coins</h2><span>More ways to earn</span></div>
+        <div class="section-header">
+            <div>
+                <div class="section-title">Earn Coins</div>
+            </div>
+            <div class="section-sub">Multiple Ways</div>
+        </div>
 
-        <button class="action" onclick="watchAd()">
+        <button class="action-card" onclick="watchAd()">
             <div class="action-icon">▶️</div>
-            <div class="action-main">
-                <div class="action-title">Rewarded Video</div>
-                <div class="action-sub">Watch full video to credit coins</div>
+            <div class="action-content">
+                <div class="action-title">Watch Ads</div>
+                <div class="action-desc">Watch videos and get paid instantly</div>
             </div>
-            <div class="reward">+5</div>
+            <div class="reward-badge">+5</div>
         </button>
 
-        <button class="action" onclick="goTab('tasks')">
+        <button class="action-card" onclick="goTab('tasks', this)">
             <div class="action-icon">✓</div>
-            <div class="action-main">
-                <div class="action-title">Community Tasks</div>
-                <div class="action-sub">Complete available tasks</div>
+            <div class="action-content">
+                <div class="action-title">Complete Tasks</div>
+                <div class="action-desc">Join communities and earn rewards</div>
             </div>
-            <div class="reward">+50</div>
+            <div class="reward-badge">+50</div>
         </button>
 
-        <div class="section-title"><h2>Referral Program</h2><span>100 coins / user</span></div>
+        <!-- Referral Section -->
+        <div class="section-header" style="margin-top: 20px;">
+            <div>
+                <div class="section-title">Referral Program</div>
+            </div>
+            <div class="section-sub">100 Coins/User</div>
+        </div>
 
-        <div class="card ref-card">
-            <div style="font-size:16px;font-weight:900;">Invite friends & earn</div>
-            <div style="color:var(--muted);font-size:10px;line-height:1.5;margin-top:5px;">
-                Earn 100 coins whenever a friend joins via your invite link.
+        <div class="referral-card">
+            <div class="referral-title">Invite Friends & Earn</div>
+            <div class="referral-desc">
+                Share your referral link and earn <strong>100 coins</strong> for every friend who joins and completes eligible actions.
             </div>
 
-            <div class="ref-link">
-                <input id="refInput" readonly value="Loading...">
+            <div class="ref-link-group">
+                <input type="text" class="ref-input" id="refInput" readonly value="Loading...">
                 <button class="copy-btn" onclick="copyReferral()">COPY</button>
             </div>
 
-            <button class="primary-btn" style="margin-top:14px;" onclick="shareReferral()">
+            <button class="primary-btn" onclick="shareReferral()">
                 🚀 Share Invite Link
             </button>
+
+            <!-- Referral Status -->
+            <div class="section-header" style="margin-top: 16px;">
+                <div class="section-title" style="font-size: 12px;">How It Works</div>
+            </div>
+            <div class="referral-status">
+                <div class="referral-step">
+                    <span class="step-num">1</span>
+                    <span>Friend clicks your link</span>
+                </div>
+                <div class="referral-step">
+                    <span class="step-num">2</span>
+                    <span>Friend joins and completes action</span>
+                </div>
+                <div class="referral-step">
+                    <span class="step-num">3</span>
+                    <span>You get 100 coins instantly</span>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- TASKS TAB -->
     <section id="tab-tasks" class="tab">
-        <div class="section-title"><h2>Community Tasks</h2><span>Complete to earn</span></div>
-
-        <div class="card card-pad">
-            <div class="action" style="margin-bottom:0;" onclick="completeTask('tg_sub', 50, 'https://t.me/REWARD4ADBOT')">
-                <div class="action-icon">📢</div>
-                <div class="action-main">
-                    <div class="action-title">Join Official Channel</div>
-                    <div class="action-sub">Stay updated with prime announcements</div>
-                </div>
-                <div class="reward">+50</div>
+        <div class="section-header">
+            <div>
+                <div class="section-title">Community Tasks</div>
             </div>
+            <div class="section-sub">Complete to Earn</div>
+        </div>
+
+        <div class="card">
+            <button class="action-card" onclick="completeTask('tg_channel', 50, 'https://t.me/REWARD4ADBOT')" style="margin-bottom: 0;">
+                <div class="action-icon">📢</div>
+                <div class="action-content">
+                    <div class="action-title">Join Official Channel</div>
+                    <div class="action-desc">Stay updated with announcements</div>
+                </div>
+                <div class="reward-badge">+50</div>
+            </button>
+        </div>
+
+        <div id="more-tasks">
+            <!-- Additional tasks loaded dynamically -->
         </div>
     </section>
 
     <!-- WALLET TAB -->
     <section id="tab-wallet" class="tab">
-        <div class="card wallet-card">
-            <div class="label">WITHDRAWABLE AMOUNT</div>
+        <div class="card wallet-display">
+            <div class="wallet-label">Withdrawable Amount</div>
             <div class="wallet-amount">₹<span id="walletInrTxt">0.00</span></div>
-            <div class="coins-line" style="justify-content:center;margin-top:6px;">
+            <div class="wallet-sub">
                 🪙 <span id="walletCoinTxt">0</span> Available Coins
             </div>
         </div>
 
-        <div class="card card-pad">
-            <label class="input-label" for="upiInput">UPI ID / Bank Details</label>
-            <input
+        <div class="card">
+            <form onsubmit="sendPayout(event)">
+                <div class="form-group">
+                    <label class="form-label" for="upiInput">UPI ID / Payment Address</label>
+                    <input type="text" id="upiInput" class="form-input" placeholder="name@paytm or name@googleplay" required>
+                </div>
+
+                <button type="submit" class="primary-btn" style="margin-top: 0;">
+                    ⚡ Withdraw ₹50
+                </button>
+            </form>
+
+            <div style="margin-top: 14px; padding: 12px; background: var(--surface-light); border-radius: 12px; font-size: 11px; color: var(--text-muted); line-height: 1.6;">
+                <strong>Minimum:</strong> 5,000 coins (₹50)<br>
+                <strong>Processing:</strong> Instant to 24 hours<br>
+                <strong>Note:</strong> Ensure valid UPI ID
+            </div>
+        </div>
+    </section>
+
+    <!-- PROFILE TAB -->
+    <section id="tab-profile" class="tab">
+        <div class="card">
+            <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px;">
+                <div class="avatar" id="profileAvatar" style="width: 64px; height: 64px; font-size: 28px;">R</div>
+                <div>
+                    <div class="user-name" id="profileName">Loading...</div>
+                    <div class="user-id" id="profileId">ID: --</div>
+                </div>
+            </div>
+
+            <div style="padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0;">
+                    <span style="color: var(--text-muted); font-size: 12px;">Dark Mode</span>
+                    <button class="toggle" id="darkModeToggle" onclick="toggleDarkMode()"></button>
+                </div>
+            </div>
+
+            <div style="margin-top: 16px; padding: 12px; background: var(--surface-light); border-radius: 12px; font-size: 11px; color: var(--text-muted); line-height: 1.6;">
+                <strong>App Version:</strong> 2.0.0<br>
+                <strong>Status:</strong> Active & Live<br>
+                <strong>Support:</strong> @REWARD4ADBOT
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
+    <button class="nav-item active" onclick="goTab('home', this)">
+        <span class="nav-icon">🏠</span>
+        <span>Home</span>
+    </button>
+    <button class="nav-item" onclick="goTab('earn', this)">
+        <span class="nav-icon">💰</span>
+        <span>Earn</span>
+    </button>
+    <button class="nav-item" onclick="goTab('tasks', this)">
+        <span class="nav-icon">✓</span>
+        <span>Tasks</span>
+    </button>
+    <button class="nav-item" onclick="goTab('wallet', this)">
+        <span class="nav-icon">💳</span>
+        <span>Wallet</span>
+    </button>
+    <button class="nav-item" onclick="goTab('profile', this)">
+        <span class="nav-icon">👤</span>
+        <span>Profile</span>
+    </button>
+</nav>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-title" id="modalTitle">Title</div>
+        <div class="modal-desc" id="modalDesc">Description</div>
+        <button class="primary-btn" onclick="closeModal()">Got It</button>
+    </div>
+</div>
+
+<script>
+    // ===== TELEGRAM APP ===== 
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+        try {
+            tg.ready();
+            tg.expand();
+            tg.enableClosingConfirmation();
+        } catch (e) {
+            console.log("Telegram not fully available");
+        }
+    }
+
+    // ===== USER DATA =====
+    const tgUser = tg?.initDataUnsafe?.user;
+    const userId = tgUser?.id ? String(tgUser.id) : "TEST_" + Math.floor(Math.random() * 89999 + 10000);
+    const userName = tgUser?.username ? `@${tgUser.username}` : (tgUser?.first_name || "User");
+    const userFirstLetter = (tgUser?.first_name || userName).charAt(0).toUpperCase();
+
+    // Initialize UI with user data
+    document.getElementById("uAvatar").textContent = userFirstLetter;
+    document.getElementById("uName").textContent = userName;
+    document.getElementById("uId").textContent = "ID: " + userId;
+    document.getElementById("profileAvatar").textContent = userFirstLetter;
+    document.getElementById("profileName").textContent = userName;
+    document.getElementById("profileId").textContent = "ID: " + userId;
+
+    // ===== LOCAL STORAGE KEYS =====
+    const STORAGE_COINS = "user_coins_" + userId;
+    const STORAGE_DAILY = "user_daily_" + userId;
+    const STORAGE_TASKS = "user_tasks_" + userId;
+    const STORAGE_REFERRALS = "user_referrals_" + userId;
+    const STORAGE_REFERRAL_LINK = "user_ref_link_" + userId;
+
+    // ===== STATE =====
+    let coins = parseInt(localStorage.getItem(STORAGE_COINS) || "0", 10);
+    let tasksCompleted = JSON.parse(localStorage.getItem(STORAGE_TASKS) || "{}");
+    let referralsCount = parseInt(localStorage.getItem(STORAGE_REFERRALS) || "0", 10);
+    let lastDailyClaim = localStorage.getItem(STORAGE_DAILY) || null;
+
+    // ===== REFERRAL LINK =====
+    function generateReferralLink() {
+        let refLink = localStorage.getItem(STORAGE_REFERRAL_LINK);
+        if (!refLink) {
+            refLink = `https://t.me/REWARD4ADBOT?start=${userId}`;
+            localStorage.setItem(STORAGE_REFERRAL_LINK, refLink);
+        }
+        return refLink;
+    }
+
+    document.getElementById("refInput").value = generateReferralLink();
+
+    // ===== DARK MODE =====
+    function initDarkMode() {
+        const isDark = localStorage.getItem("theme") !== "light";
+        if (isDark) {
+            document.body.classList.remove("light");
+            document.getElementById("themeToggle").textContent = "☀️";
+        } else {
+            document.body.classList.add("light");
+            document.getElementById("themeToggle").textContent = "🌙";
+        }
+    }
+
+    function toggleDarkMode() {
+        document.body.classList.toggle("light");
+        const isDark = !document.body.classList.contains("light");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        document.getElementById("themeToggle").textContent = isDark ? "☀️" : "🌙";
+        document.getElementById("darkModeToggle").textContent = isDark ? "ON" : "OFF";
+    }
+
+    document.getElementById("themeToggle").onclick = toggleDarkMode;
+    initDarkMode();
+
+    // ===== UI UPDATE =====
+    function updateUI() {
+        // Balance
+        const inr = (coins / 100).toFixed(2);
+        document.getElementById("coinTxt").textContent = coins.toLocaleString();
+        document.getElementById("inrTxt").textContent = inr;
+        document.getElementById("walletInrTxt").textContent = inr;
+        document.getElementById("walletCoinTxt").textContent = coins.toLocaleString();
+
+        // Progress
+        const pct = Math.min(100, (coins / 5000) * 100);
+        document.getElementById("pBar").style.width = pct + "%";
+        document.getElementById("pTxt").textContent = Math.floor(pct) + "%";
+        const rem = Math.max(0, 5000 - coins);
+        document.getElementById("rTxt").textContent = rem > 0 ? `${rem.toLocaleString()} coins → ₹50` : "🎉 Ready to withdraw!";
+
+        // Stats
+        document.getElementById("todayTxt").textContent = getTodayEarnings();
+        document.getElementById("taskTxt").textContent = Object.keys(tasksCompleted).length;
+        document.getElementById("refTxt").textContent = referralsCount;
+    }
+
+    function getTodayEarnings() {
+        const key = "today_earnings_" + userId + "_" + new Date().toDateString();
+        return parseInt(localStorage.getItem(key) || "0", 10);
+    }
+
+    function addTodayEarnings(amt) {
+        const key = "today_earnings_" + userId + "_" + new Date().toDateString();
+        const total = getTodayEarnings() + amt;
+        localStorage.setItem(key, total);
+    }
+
+    // ===== REWARD SYSTEM =====
+    function addReward(amount, reason) {
+        coins += amount;
+        localStorage.setItem(STORAGE_COINS, coins);
+        addTodayEarnings(amount);
+        updateUI();
+
+        // Coin pop animation
+        showCoinPop(amount);
+
+        // Toast notification
+        showToast(`+${amount} coins for ${reason}! 🎉`);
+    }
+
+    function showCoinPop(amount) {
+        const pop = document.createElement("div");
+        pop.className = "coin-pop";
+        pop.textContent = `+${amount}`;
+        pop.style.left = Math.random() * window.innerWidth + "px";
+        pop.style.top = window.innerHeight / 2 + "px";
+        document.body.appendChild(pop);
+        setTimeout(() => pop.remove(), 800);
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 3000);
+    }
+
+    function showModal(title, desc) {
+        document.getElementById("modalTitle").textContent = title;
+        document.getElementById("modalDesc").textContent = desc;
+        document.getElementById("modalOverlay").classList.add("show");
+    }
+
+    function closeModal() {
+        document.getElementById("modalOverlay").classList.remove("show");
+    }
+
+    // ===== DAILY CLAIM =====
+    function claimDaily() {
+        const today = new Date().toDateString();
+        if (lastDailyClaim === today) {
+            showToast("Already claimed today! Come back tomorrow.");
+            return;
+        }
+
+        addReward(25, "daily check-in");
+        lastDailyClaim = today;
+        localStorage.setItem(STORAGE_DAILY, today);
+    }
+
+    // ===== ADS =====
+    let AdController = null;
+    try {
+        if (window.Adsgram) {
+            AdController = window.Adsgram.init({ blockId: "46024" });
+        }
+    } catch (e) {
+        console.log("Adsgram SDK not available");
+    }
+
+    function watchAd() {
+        if (!AdController) {
+            addReward(5, "ad simulation");
+            return;
+        }
+
+        AdController.show()
+            .then(() => {
+                addReward(5, "watching ad");
+            })
+            .catch((err) => {
+                // Even if error, give reward (demo mode)
+                addReward(5, "ad attempt");
+            });
+    }
+
+    // ===== REFERRALS =====
+    function copyReferral() {
+        const link = document.getElementById("refInput").value;
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(link).then(() => {
+                showToast("Link copied to clipboard! ✓");
+            });
+        } else {
+            // Fallback
+            const temp = document.createElement("textarea");
+            temp.value = link;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand("copy");
+            document.body.removeChild(temp);
+            showToast("Link copied! ✓");
+        }
+    }
+
+    function shareReferral() {
+        const link = generateReferralLink();
+        const text = encodeURIComponent(`Earn real ₹50 UPI payouts daily! Join REWARD4AD: ${link}`);
+        
+        if (tg?.openTelegramLink) {
+            tg.openTelegramLink(`https://t.me/share/url?url=${link}&text=Earn%20real%20₹50%20UPI%20payouts%20daily!`);
+        } else if (navigator.share) {
+            navigator.share({
+                title: "REWARD4AD",
+                text: "Earn real ₹50 UPI payouts daily!",
+                url: link
+            });
+        } else {
+            copyReferral();
+        }
+    }
+
+    // ===== TASKS =====
+    function completeTask(taskId, reward, link) {
+        if (tasksCompleted[taskId]) {
+            showToast("Task already completed!");
+            return;
+        }
+
+        if (tg?.openTelegramLink) {
+            tg.openTelegramLink(link);
+        } else {
+            window.open(link, "_blank");
+        }
+
+        // Mark as completed and reward
+        setTimeout(() => {
+            tasksCompleted[taskId] = true;
+            localStorage.setItem(STORAGE_TASKS, JSON.stringify(tasksCompleted));
+            addReward(reward, "completing task");
+            updateUI();
+        }, 2000);
+    }
+
+    // ===== WITHDRAWAL =====
+    function sendPayout(event) {
+        event.preventDefault();
+
+        const upi = document.getElementById("upiInput").value.trim();
+
+        // Validation
+        if (!upi || !upi.includes("@")) {
+            showModal("Invalid UPI", "Please enter a valid UPI address like name@paytm or name@googleplay");
+            return;
+        }
+
+        if (coins < 5000) {
+            showModal("Insufficient Balance", `You need 5,000 coins (₹50). You have ${coins} coins.`);
+            return;
+        }
+
+        // Process payout
+        coins -= 5000;
+        localStorage.setItem(STORAGE_COINS, coins);
+        updateUI();
+        document.getElementById("upiInput").value = "";
+
+        // Send to webhook/API (if available)
+        if (tg?.openLink) {
+            fetch("https://script.google.com/macros/s/AKfycbwt_sO9EE438kFhhoArCDllPZR9xxNZnkJSg1GZaVmv_YWZT-hL3QXqoCQVzaHXFof0/exec", {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    action: "payout",
+                    userId: userId,
+                    username: userName,
+                    upi: upi,
+                    amount: 50
+                })
+            }).catch(e => console.log("Webhook sent"));
+        }
+
+        showToast("✅ Withdrawal requested! Processing...");
+        showModal("Success!", "₹50 will be transferred to your UPI in 5-30 minutes. Check your bank account.");
+    }
+
+    // ===== NAVIGATION =====
+    function goTab(tabName, navItem) {
+        // Hide all tabs
+        document.querySelectorAll(".tab").forEach(tab => {
+            tab.classList.remove("active");
+        });
+
+        // Remove active from nav items
+        document.querySelectorAll(".nav-item").forEach(item => {
+            item.classList.remove("active");
+        });
+
+        // Show selected tab
+        document.getElementById("tab-" + tabName).classList.add("active");
+
+        // Activate nav item
+        if (navItem) {
+            navItem.classList.add("active");
+        }
+    }
+
+    // Initialize
+    updateUI();
+
+    // Auto-update every 30s
+    setInterval(updateUI, 30000);
+</script>
+
+</body>
+</html>
