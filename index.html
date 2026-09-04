@@ -5,46 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>RewardHub Prime</title>
 
-<!-- Telegram & AdsGram SDKs -->
+<!-- Telegram SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
+<!-- AdsGram SDK -->
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-<!-- Phosphor Clean Icons -->
-<script src="https://unpkg.com/@phosphor-icons/web"></script>
 
 <style>
-/* =========================================================
-   CLEAN FINTECH DESIGN SYSTEM (DARK & LIGHT)
-========================================================= */
 :root {
   --primary: #4f46e5;
-  --primary-hover: #4338ca;
   --accent: #10b981;
-  --accent-light: rgba(16, 185, 129, 0.12);
   --bg-page: #0b0f19;
   --surface: #111827;
   --surface-subtle: #1f2937;
   --border: rgba(255, 255, 255, 0.08);
   --text-main: #f9fafb;
   --text-muted: #9ca3af;
-  --nav-bg: rgba(17, 24, 39, 0.85);
-  --skeleton: #1f2937;
+  --nav-bg: rgba(17, 24, 39, 0.95);
   --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
   --card-radius: 20px;
 }
 
 [data-theme="light"] {
   --primary: #4f46e5;
-  --primary-hover: #4338ca;
   --accent: #059669;
-  --accent-light: rgba(5, 150, 105, 0.1);
   --bg-page: #f3f4f6;
   --surface: #ffffff;
   --surface-subtle: #f9fafb;
-  --border: rgba(0, 0, 0, 0.07);
+  --border: rgba(0, 0, 0, 0.08);
   --text-main: #111827;
   --text-muted: #6b7280;
-  --nav-bg: rgba(255, 255, 255, 0.9);
-  --skeleton: #e5e7eb;
+  --nav-bg: rgba(255, 255, 255, 0.95);
   --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
@@ -57,48 +47,16 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-page);
   color: var(--text-main);
   min-height: 100vh;
   padding-bottom: 90px;
   overflow-x: hidden;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background-color 0.2s, color 0.2s;
 }
 
-/* =========================================================
-   MICRO-ANIMATIONS & INTERACTION STATES
-========================================================= */
-.ripple {
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.12s ease;
-}
-
-.ripple:active {
-  transform: scale(0.96);
-  opacity: 0.88;
-}
-
-@keyframes coinPop {
-  0% { transform: scale(0.75); opacity: 0; }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes numberPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.04); color: var(--accent); }
-  100% { transform: scale(1); }
-}
-
-.animate-pulse-num {
-  animation: numberPulse 0.4s ease-out;
-}
-
-/* =========================================================
-   TOP APP HEADER
-========================================================= */
+/* Header */
 .app-header {
   display: flex;
   align-items: center;
@@ -121,21 +79,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 16px;
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
 }
 
-.user-meta h4 {
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.user-meta span {
-  font-size: 12px;
-  color: var(--text-muted);
-}
+.user-meta h4 { font-size: 15px; font-weight: 700; }
+.user-meta span { font-size: 11px; color: var(--text-muted); }
 
 .theme-toggle {
   width: 38px;
@@ -151,76 +100,39 @@ body {
   cursor: pointer;
 }
 
-/* =========================================================
-   MAIN VIEW CONTAINER
-========================================================= */
-.container {
-  padding: 0 16px;
-}
+/* Views */
+.container { padding: 0 16px; }
+.view-section { display: none; }
+.view-section.active { display: block; }
 
-.view-section {
-  display: none;
-  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.view-section.active {
-  display: block;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* =========================================================
-   HERO BALANCE CARD
-========================================================= */
+/* Cards */
 .hero-balance {
   background: var(--surface);
   border-radius: var(--card-radius);
   border: 1px solid var(--border);
-  padding: 22px 20px;
-  margin-bottom: 16px;
+  padding: 20px;
+  margin-bottom: 14px;
   box-shadow: var(--shadow);
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-balance::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 140px;
-  height: 140px;
-  background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%);
-  pointer-events: none;
 }
 
 .balance-label {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
 .balance-amount {
-  font-size: 38px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
+  font-size: 40px;
+  font-weight: 900;
   margin: 6px 0 2px;
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
+  color: var(--text-main);
 }
 
 .balance-inr {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--accent);
 }
 
@@ -229,7 +141,7 @@ body {
   border-radius: 999px;
   height: 6px;
   overflow: hidden;
-  margin: 14px 0 8px;
+  margin: 12px 0 6px;
 }
 
 .progress-fill {
@@ -237,166 +149,139 @@ body {
   height: 100%;
   width: 0%;
   border-radius: 999px;
-  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: width 0.4s ease;
 }
 
 .progress-info {
   display: flex;
   justify-content: space-between;
   font-size: 11px;
-  font-weight: 500;
   color: var(--text-muted);
 }
 
-/* =========================================================
-   TODAY STATS ROW
-========================================================= */
+/* Stats */
 .stats-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 16px;
+  gap: 8px;
+  margin-bottom: 14px;
 }
 
 .stat-box {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 14px 10px;
+  border-radius: 14px;
+  padding: 12px 6px;
   text-align: center;
 }
 
-.stat-box i {
-  font-size: 20px;
-  color: var(--primary);
-  margin-bottom: 4px;
-  display: inline-block;
-}
+.stat-box .val { font-size: 16px; font-weight: 800; }
+.stat-box .lbl { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-top: 2px; }
 
-.stat-box .val {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text-main);
-}
-
-.stat-box .lbl {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  margin-top: 2px;
-}
-
-/* =========================================================
-   CARDS & LIST ITEMS
-========================================================= */
+/* Action Cards */
 .section-title {
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   color: var(--text-muted);
-  margin: 16px 0 10px 4px;
+  margin: 14px 0 8px 4px;
 }
 
 .action-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 14px 16px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  box-shadow: var(--shadow);
 }
+
+.action-card:active { transform: scale(0.98); }
 
 .card-left {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .icon-badge {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   background: var(--surface-subtle);
   border: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  color: var(--primary);
-  flex-shrink: 0;
+  font-size: 20px;
 }
 
-.card-text h5 {
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-
-.card-text p {
-  font-size: 12px;
-  color: var(--text-muted);
-}
+.card-text h5 { font-size: 14px; font-weight: 700; }
+.card-text p { font-size: 11px; color: var(--text-muted); }
 
 .reward-pill {
-  background: var(--accent-light);
+  background: rgba(16, 185, 129, 0.15);
   color: var(--accent);
-  padding: 6px 12px;
-  border-radius: 999px;
+  padding: 6px 10px;
+  border-radius: 20px;
   font-size: 12px;
-  font-weight: 700;
-  white-space: nowrap;
+  font-weight: 800;
 }
 
-/* =========================================================
-   REFERRAL SYSTEM CARDS & STEPPER
-========================================================= */
-.referral-banner {
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.15), rgba(16, 185, 129, 0.15));
+/* Buttons & Inputs */
+.btn-primary {
+  width: 100%;
+  padding: 15px;
+  border-radius: 14px;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary:active { transform: scale(0.98); }
+
+.clean-input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
   border: 1px solid var(--border);
-  border-radius: var(--card-radius);
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 16px;
+  background: var(--surface-subtle);
+  color: var(--text-main);
+  font-size: 14px;
+  outline: none;
+  margin: 8px 0 12px;
 }
 
+/* Stepper */
 .referral-stepper {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--card-radius);
-  padding: 18px 16px;
-  margin-bottom: 16px;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 14px;
 }
 
 .step-item {
   display: flex;
-  gap: 14px;
+  gap: 12px;
   position: relative;
-  padding-bottom: 20px;
+  padding-bottom: 16px;
 }
-
-.step-item:last-child {
-  padding-bottom: 0;
-}
-
-.step-item:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  left: 15px;
-  top: 32px;
-  bottom: 0;
-  width: 2px;
-  background: var(--surface-subtle);
-}
-
+.step-item:last-child { padding-bottom: 0; }
 .step-number {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: var(--primary);
   color: #fff;
@@ -406,90 +291,21 @@ body {
   font-size: 12px;
   font-weight: 800;
   flex-shrink: 0;
-  z-index: 2;
 }
+.step-desc h6 { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+.step-desc p { font-size: 11px; color: var(--text-muted); }
 
-.step-desc h6 {
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-
-.step-desc p {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-/* =========================================================
-   INPUTS & BUTTONS
-========================================================= */
-.input-group {
-  margin-bottom: 12px;
-}
-
-.input-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-  display: block;
-}
-
-.clean-input {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: var(--surface-subtle);
-  color: var(--text-main);
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-
-.clean-input:focus {
-  border-color: var(--primary);
-}
-
-.btn-primary {
-  width: 100%;
-  padding: 16px;
-  border-radius: 16px;
-  border: none;
-  background: var(--primary);
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
-}
-
-.btn-accent {
-  background: var(--accent);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-}
-
-/* =========================================================
-   BOTTOM NAVIGATION BAR
-========================================================= */
+/* Bottom Nav */
 .bottom-nav {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 68px;
+  bottom: 0; left: 0; right: 0;
+  height: 64px;
   background: var(--nav-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(16px);
   border-top: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0 8px;
   z-index: 100;
 }
 
@@ -497,103 +313,43 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
+  gap: 3px;
   color: var(--text-muted);
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   background: none;
   border: none;
   flex: 1;
-  height: 100%;
   cursor: pointer;
-  transition: color 0.15s ease;
 }
 
-.nav-tab i {
-  font-size: 22px;
-  transition: transform 0.15s ease;
-}
+.nav-tab.active { color: var(--primary); }
+.nav-tab span.icon { font-size: 18px; }
 
-.nav-tab.active {
-  color: var(--primary);
-}
-
-.nav-tab.active i {
-  transform: translateY(-2px);
-}
-
-/* =========================================================
-   SKELETON LOADERS
-========================================================= */
-.skeleton-box {
-  background: linear-gradient(90deg, var(--skeleton) 25%, var(--border) 50%, var(--skeleton) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 12px;
-}
-
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* =========================================================
-   POPUPS & TOASTS
-========================================================= */
+/* Alerts */
 .toast-msg {
   position: fixed;
-  top: 18px;
-  left: 50%;
+  top: 16px; left: 50%;
   transform: translateX(-50%) translateY(-30px);
   background: var(--surface);
   color: var(--text-main);
   border: 1px solid var(--border);
   padding: 10px 18px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 600;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  transition: 0.25s;
   z-index: 1000;
 }
-
-.toast-msg.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-.reward-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.6);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  padding: 26px;
-  text-align: center;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1001;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.reward-popup.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.hidden { display: none !important; }
+.toast-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 
 <body>
 
-<!-- TOP APP BAR -->
 <header class="app-header">
   <div class="user-identity">
     <div class="avatar" id="userAvatar">U</div>
@@ -602,194 +358,386 @@ body {
       <span id="userStatus">Verified Account</span>
     </div>
   </div>
-  <button class="theme-toggle ripple" onclick="toggleTheme()" aria-label="Toggle theme">
-    <i class="ph ph-moon" id="themeIcon"></i>
-  </button>
+  <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
 </header>
 
 <main class="container">
 
-  <!-- ==================== TAB 1: HOME ==================== -->
+  <!-- HOME TAB -->
   <section id="tab-home" class="view-section active">
-    
-    <!-- Hero Balance Card -->
     <div class="hero-balance">
-      <div class="balance-label">
-        <i class="ph ph-wallet"></i> Total Reward Balance
-      </div>
-      <div class="balance-amount">
-        <span id="homeCoinBalance">0</span>
-        <span style="font-size:18px; color:var(--text-muted); font-weight:600;">Coins</span>
-      </div>
-      <div class="balance-inr">
-        ≈ ₹<span id="homeInrBalance">0.00</span> INR Direct Cash
-      </div>
+      <div class="balance-label">Total Reward Balance</div>
+      <div class="balance-amount"><span id="homeCoinBalance">0</span> <span style="font-size:18px; color:var(--text-muted);">Coins</span></div>
+      <div class="balance-inr">≈ ₹<span id="homeInrBalance">0.00</span> INR</div>
       
       <div class="progress-track">
         <div class="progress-fill" id="homeProgressBar"></div>
       </div>
       <div class="progress-info">
-        <span id="homeProgressLabel">0% completed</span>
-        <span id="homeRemainingLabel">5,000 to ₹50 payout</span>
+        <span id="homeProgressLabel">0%</span>
+        <span id="homeRemainingLabel">5,000 to ₹50</span>
       </div>
     </div>
 
-    <!-- Daily Quick Stats -->
     <div class="stats-row">
       <div class="stat-box">
-        <i class="ph ph-clock-countdown"></i>
         <div class="val" id="statTodayCoins">0</div>
         <div class="lbl">Today's Coins</div>
       </div>
       <div class="stat-box">
-        <i class="ph ph-play-circle"></i>
         <div class="val" id="statAdsWatched">0</div>
         <div class="lbl">Ads Watched</div>
       </div>
       <div class="stat-box">
-        <i class="ph ph-users-three"></i>
         <div class="val" id="statInvites">0</div>
         <div class="lbl">Referrals</div>
       </div>
     </div>
 
-    <!-- Featured Instant Action -->
     <div class="section-title">Instant Earning</div>
-    <div class="action-card ripple" onclick="watchAdsgramVideo()">
+    <div class="action-card" onclick="watchAdsgramVideo()">
       <div class="card-left">
-        <div class="icon-badge"><i class="ph ph-video-camera"></i></div>
+        <div class="icon-badge">▶️</div>
         <div class="card-text">
-          <h5>Watch Rewarded Video</h5>
-          <p>Unlimited short videos</p>
+          <h5>Watch Video Ad</h5>
+          <p>Adsgram Block 46024</p>
         </div>
       </div>
       <div class="reward-pill">+5 Coins</div>
     </div>
 
-    <div class="action-card ripple" onclick="switchView('referrals')">
+    <div class="action-card" onclick="switchNav('referrals')">
       <div class="card-left">
-        <div class="icon-badge"><i class="ph ph-gift"></i></div>
+        <div class="icon-badge">👥</div>
         <div class="card-text">
-          <h5>Invite New Friends</h5>
-          <p>Get instant 100 coins per invite</p>
+          <h5>Invite Friends</h5>
+          <p>Earn 100 Coins per active user</p>
         </div>
       </div>
-      <div class="reward-pill" style="background:rgba(79,70,229,0.12); color:var(--primary);">+100 Coins</div>
+      <div class="reward-pill" style="color:var(--primary);">+100 Coins</div>
     </div>
-
   </section>
 
-  <!-- ==================== TAB 2: EARN ==================== -->
+  <!-- EARN TAB -->
   <section id="tab-earn" class="view-section">
-    <div class="section-title">Earning Channels</div>
+    <div class="section-title">Earning Hub</div>
 
-    <div class="action-card ripple" onclick="watchAdsgramVideo()">
+    <div class="action-card" onclick="watchAdsgramVideo()">
       <div class="card-left">
-        <div class="icon-badge"><i class="ph ph-film-slate"></i></div>
+        <div class="icon-badge">🎬</div>
         <div class="card-text">
-          <h5>Adsgram Stream</h5>
-          <p>High fill rate • Block 46024</p>
+          <h5>Adsgram Video Stream</h5>
+          <p>Block ID 46024</p>
         </div>
       </div>
       <div class="reward-pill">+5 Coins</div>
     </div>
 
-    <div class="action-card ripple" onclick="openGameCenter()">
+    <div class="action-card" onclick="claimDailyCheckin()">
       <div class="card-left">
-        <div class="icon-badge"><i class="ph ph-game-controller"></i></div>
+        <div class="icon-badge">📅</div>
         <div class="card-text">
-          <h5>Gamezop Arcade</h5>
-          <p>Play 100+ instant HTML5 games</p>
-        </div>
-      </div>
-      <div class="reward-pill">+15 Coins</div>
-    </div>
-
-    <div class="action-card ripple" onclick="claimDailyCheckin()">
-      <div class="card-left">
-        <div class="icon-badge"><i class="ph ph-calendar-check"></i></div>
-        <div class="card-text">
-          <h5>Daily Attendance</h5>
-          <p>Claim every 24 hours</p>
+          <h5>Daily Check-in</h5>
+          <p>Claim once every 24 hours</p>
         </div>
       </div>
       <div class="reward-pill" id="dailyCheckinBadge">+25 Coins</div>
     </div>
   </section>
 
-  <!-- ==================== TAB 3: TASKS ==================== -->
+  <!-- TASKS TAB -->
   <section id="tab-tasks" class="view-section">
-    <div class="section-title">Social & Community Quests</div>
+    <div class="section-title">Social Tasks</div>
 
-    <div class="action-card ripple" onclick="completeTelegramTask('Official Channel', 50, 'https://t.me/telegram')">
+    <div class="action-card" onclick="completeTelegramTask('Channel Join', 50, 'https://t.me/telegram')">
       <div class="card-left">
-        <div class="icon-badge"><i class="ph ph-paper-plane-tilt"></i></div>
+        <div class="icon-badge">📢</div>
         <div class="card-text">
-          <h5>Join Announcements</h5>
-          <p>Stay updated on payment batches</p>
-        </div>
-      </div>
-      <div class="reward-pill">+50 Coins</div>
-    </div>
-
-    <div class="action-card ripple" onclick="completeTelegramTask('Community Group', 50, 'https://t.me/telegram')">
-      <div class="card-left">
-        <div class="icon-badge"><i class="ph ph-chats-circle"></i></div>
-        <div class="card-text">
-          <h5>Join Community Chat</h5>
-          <p>Chat with verified earners</p>
+          <h5>Join Official Channel</h5>
+          <p>Instant verification</p>
         </div>
       </div>
       <div class="reward-pill">+50 Coins</div>
     </div>
   </section>
 
-  <!-- ==================== TAB 4: WALLET & CASHOUT ==================== -->
+  <!-- WALLET TAB -->
   <section id="tab-wallet" class="view-section">
     <div class="hero-balance">
-      <div class="balance-label"><i class="ph ph-bank"></i> Cashout Available</div>
-      <div class="balance-amount">
-        ₹<span id="walletInrBalance">0.00</span>
-      </div>
-      <div class="balance-inr" style="color:var(--text-muted);">
-        Threshold: 5,000 Coins = ₹50.00 INR
-      </div>
+      <div class="balance-label">Cashout Balance</div>
+      <div class="balance-amount">₹<span id="walletInrBalance">0.00</span></div>
+      <div class="balance-inr" style="color:var(--text-muted);">Threshold: 5,000 Coins = ₹50</div>
     </div>
 
-    <div class="section-title">Instant UPI Withdrawal</div>
-    <div class="hero-balance" style="padding:18px;">
-      <div class="input-group">
-        <label class="input-label">Enter Virtual Payment Address (UPI ID)</label>
-        <input type="text" id="upiHandleInput" class="clean-input" placeholder="e.g. mobile@paytm / name@okaxis">
-      </div>
-      <button class="btn-primary btn-accent ripple" onclick="submitWithdrawal()" id="withdrawActionBtn">
-        <i class="ph ph-lightning"></i> Claim ₹50 Instant Transfer
+    <div class="section-title">Direct UPI Withdrawal</div>
+    <div class="hero-balance">
+      <label style="font-size:12px; font-weight:700; color:var(--text-muted);">UPI ID (VPA)</label>
+      <input type="text" id="upiHandleInput" class="clean-input" placeholder="e.g. mobile@paytm">
+      <button class="btn-primary" style="background:var(--accent);" onclick="submitWithdrawal()" id="withdrawActionBtn">
+        ⚡ Claim ₹50 Instant Payout
       </button>
-    </div>
-
-    <div class="section-title">Recent Transactions</div>
-    <div class="action-card">
-      <div class="card-left">
-        <div class="icon-badge" style="color:var(--accent);"><i class="ph ph-arrow-circle-up-right"></i></div>
-        <div class="card-text">
-          <h5>Direct Disbursal Queue</h5>
-          <p id="payoutStatusLabel">No pending payouts</p>
-        </div>
-      </div>
-      <span style="font-size:11px; font-weight:700; color:var(--accent);">Auto-Settled</span>
     </div>
   </section>
 
-  <!-- ==================== TAB 5: REFERRAL & PROFILE ==================== -->
+  <!-- REFERRALS TAB -->
   <section id="tab-referrals" class="view-section">
-    <div class="referral-banner">
-      <i class="ph ph-sparkle" style="font-size:32px; color:var(--primary); margin-bottom:8px; display:inline-block;"></i>
-      <h3 style="font-size:18px; font-weight:800; margin-bottom:4px;">Earn ₹1 per 10 Invites</h3>
-      <p style="font-size:12px; color:var(--text-muted);">Earn 100 Coins whenever your friend joins and watches 1 ad.</p>
+    <div class="hero-balance" style="text-align:center;">
+      <div style="font-size:32px; margin-bottom:4px;">🎁</div>
+      <h3 style="font-size:16px; font-weight:800;">Invite & Earn 100 Coins</h3>
+      <p style="font-size:12px; color:var(--text-muted); margin-top:4px;">Direct credit per invited friend who opens the app</p>
     </div>
 
-    <div class="section-title">Referral Lifecycle Pipeline</div>
+    <div class="section-title">How It Works</div>
     <div class="referral-stepper">
       <div class="step-item">
         <div class="step-number">1</div>
-    
+        <div class="step-desc">
+          <h6>Share Your Link</h6>
+          <p>Send your bot launch link to your friends</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-number">2</div>
+        <div class="step-desc">
+          <h6>Friend Starts App</h6>
+          <p>Bot registers their Telegram ID</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-number">3</div>
+        <div class="step-desc">
+          <h6>Instant Reward</h6>
+          <p>+100 Coins added to your wallet balance</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="shareReferralLink()">
+      📤 Share Invite Link (+100 Coins)
+    </button>
+  </section>
+
+</main>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
+  <button class="nav-tab active" onclick="switchNav('home', this)">
+    <span class="icon">🏠</span>
+    <span>Home</span>
+  </button>
+  <button class="nav-tab" onclick="switchNav('earn', this)">
+    <span class="icon">▶️</span>
+    <span>Earn</span>
+  </button>
+  <button class="nav-tab" onclick="switchNav('tasks', this)">
+    <span class="icon">📋</span>
+    <span>Tasks</span>
+  </button>
+  <button class="nav-tab" onclick="switchNav('wallet', this)">
+    <span class="icon">💳</span>
+    <span>Wallet</span>
+  </button>
+  <button class="nav-tab" onclick="switchNav('referrals', this)">
+    <span class="icon">👥</span>
+    <span>Invites</span>
+  </button>
+</nav>
+
+<div id="toast" class="toast-msg"></div>
+
+<script>
+/* CONFIG */
+const WITHDRAWAL_WEBHOOK = "https://script.google.com/macros/s/AKfycbwt_sO9EE438kFhhoArCDllPZR9xxNZnkJSg1GZaVmv_YWZT-hL3QXqoCQVzaHXFof0/exec";
+const ADSGRAM_BLOCK_ID = "46024";
+
+/* TELEGRAM USER */
+const tg = window.Telegram?.WebApp;
+if (tg) {
+  tg.ready();
+  tg.expand();
+}
+
+const verifiedUserId = tg?.initDataUnsafe?.user?.id ? String(tg.initDataUnsafe.user.id) : "TEST_" + Math.floor(Math.random() * 89999 + 10000);
+const verifiedUsername = tg?.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe.user.username}` : (tg?.initDataUnsafe?.user?.first_name || "GuestUser");
+
+document.getElementById("userName").textContent = verifiedUsername;
+document.getElementById("userAvatar").textContent = verifiedUsername.replace("@", "").charAt(0).toUpperCase();
+
+/* STATE */
+let balance = parseInt(localStorage.getItem("user_coins") || "0", 10);
+let todayCoins = parseInt(localStorage.getItem("today_coins") || "0", 10);
+let adWatchCount = parseInt(localStorage.getItem("ads_count") || "0", 10);
+let inviteCount = parseInt(localStorage.getItem("invite_count") || "0", 10);
+
+function syncUI() {
+  document.getElementById("homeCoinBalance").textContent = balance.toLocaleString();
+  const inr = (balance / 100).toFixed(2);
+  document.getElementById("homeInrBalance").textContent = inr;
+  document.getElementById("walletInrBalance").textContent = inr;
+
+  document.getElementById("statTodayCoins").textContent = todayCoins.toLocaleString();
+  document.getElementById("statAdsWatched").textContent = adWatchCount.toLocaleString();
+  document.getElementById("statInvites").textContent = inviteCount.toLocaleString();
+
+  const progress = Math.min(100, (balance / 5000) * 100);
+  document.getElementById("homeProgressBar").style.width = progress + "%";
+  document.getElementById("homeProgressLabel").textContent = `${Math.floor(progress)}%`;
+  const remaining = Math.max(0, 5000 - balance);
+  document.getElementById("homeRemainingLabel").textContent = remaining > 0 ? `${remaining.toLocaleString()} to ₹50` : "Ready to withdraw!";
+}
+
+function showToast(text) {
+  const toast = document.getElementById("toast");
+  toast.textContent = text;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2500);
+}
+
+function creditReward(amount) {
+  balance += amount;
+  todayCoins += amount;
+  localStorage.setItem("user_coins", balance);
+  localStorage.setItem("today_coins", todayCoins);
+  syncUI();
+  if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred("success");
+  showToast(`🎉 +${amount} Coins Added!`);
+}
+
+/* NAVIGATION */
+function switchNav(tabKey, btnElement) {
+  document.querySelectorAll(".view-section").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+  
+  const target = document.getElementById(`tab-${tabKey}`);
+  if (target) target.classList.add("active");
+  
+  if (btnElement) {
+    btnElement.classList.add("active");
+  } else {
+    const tabs = document.querySelectorAll(".nav-tab");
+    tabs.forEach(t => {
+      if (t.innerText.toLowerCase().includes(tabKey.substring(0,3))) t.classList.add("active");
+    });
+  }
+}
+
+function toggleTheme() {
+  const root = document.documentElement;
+  const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  root.setAttribute("data-theme", next);
+}
+
+/* ADSGRAM */
+let AdController = null;
+
+function initAds() {
+  if (window.Adsgram && typeof window.Adsgram.init === "function") {
+    AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
+  }
+}
+
+function watchAdsgramVideo() {
+  if (!window.Adsgram) {
+    showToast("⚠️ Ad script blocked or not loaded. Retrying...");
+    return;
+  }
+  
+  if (!AdController) initAds();
+
+  if (AdController) {
+    AdController.show()
+      .then(() => {
+        adWatchCount += 1;
+        localStorage.setItem("ads_count", adWatchCount);
+        creditReward(5);
+      })
+      .catch((err) => {
+        showToast("⚠️ Ad unavailable right now. Try again in 10s.");
+      });
+  } else {
+    showToast("⚠️ Initializing ad controller...");
+  }
+}
+
+/* REFERRALS */
+function shareReferralLink() {
+  inviteCount += 1;
+  localStorage.setItem("invite_count", inviteCount);
+  creditReward(100);
+
+  const text = encodeURIComponent("Earn real UPI cash daily by watching videos!");
+  const url = `https://t.me/share/url?url=https://t.me/Onewbot?start=${verifiedUserId}&text=${text}`;
+
+  if (tg?.openTelegramLink) {
+    tg.openTelegramLink(url);
+  } else {
+    window.open(url, "_blank");
+  }
+}
+
+/* TASKS & CHECKIN */
+function claimDailyCheckin() {
+  const today = new Date().toDateString();
+  if (localStorage.getItem("last_checkin") === today) {
+    showToast("⚠️ Already claimed today. Return tomorrow!");
+    return;
+  }
+  localStorage.setItem("last_checkin", today);
+  document.getElementById("dailyCheckinBadge").textContent = "Claimed ✓";
+  creditReward(25);
+}
+
+function completeTelegramTask(name, reward, link) {
+  if (tg?.openTelegramLink) tg.openTelegramLink(link);
+  else window.open(link, "_blank");
+
+  setTimeout(() => {
+    creditReward(reward);
+    showToast(`✅ Quest Completed: ${name}`);
+  }, 2000);
+}
+
+/* WITHDRAWAL */
+async function submitWithdrawal() {
+  const upi = document.getElementById("upiHandleInput").value.trim();
+  if (!upi || !upi.includes("@")) {
+    showToast("❌ Enter a valid UPI handle (e.g. name@paytm)");
+    return;
+  }
+
+  if (balance < 5000) {
+    showToast("❌ Minimum balance is 5,000 Coins (₹50)");
+    return;
+  }
+
+  const btn = document.getElementById("withdrawActionBtn");
+  btn.disabled = true;
+  btn.textContent = "Processing...";
+
+  try {
+    await fetch(WITHDRAWAL_WEBHOOK, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: `[PAYOUT] ${verifiedUserId}`,
+        username: verifiedUsername,
+        upi: upi,
+        inr: 50
+      })
+    });
+
+    balance -= 5000;
+    localStorage.setItem("user_coins", balance);
+    syncUI();
+    document.getElementById("upiHandleInput").value = "";
+    showToast("✅ ₹50 Payout Requested Successfully!");
+  } catch (e) {
+    showToast("❌ Error sending request.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "⚡ Claim ₹50 Instant Payout";
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () 
