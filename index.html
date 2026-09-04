@@ -2,540 +2,575 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>RewardHub Prime</title>
-
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
 :root{
-  --bg:#f5f7fb;
-  --card:#ffffff;
-  --text:#151820;
-  --muted:#747b89;
-  --primary:#5b5cf0;
-  --primary2:#7778ff;
-  --green:#18a957;
-  --border:#e8eaf0;
-  --danger:#e5484d;
-  --shadow:0 8px 25px rgba(20,25,50,.07);
+    --primary:#6366f1;
+    --primary2:#818cf8;
+    --success:#10b981;
+    --warning:#f59e0b;
+    --danger:#ef4444;
+    --bg:#080b14;
+    --surface:#101522;
+    --surface2:#171d2b;
+    --surface3:#20283a;
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --border:rgba(255,255,255,.08);
+    --shadow:0 10px 35px rgba(0,0,0,.20);
 }
 
-body.dark{
-  --bg:#101116;
-  --card:#181a21;
-  --text:#f5f6fa;
-  --muted:#9ca1ad;
-  --primary:#7778ff;
-  --primary2:#9192ff;
-  --border:#292c35;
-  --shadow:0 8px 25px rgba(0,0,0,.25);
+body.light{
+    --bg:#f4f6fb;
+    --surface:#ffffff;
+    --surface2:#f1f4f9;
+    --surface3:#e8edf5;
+    --text:#111827;
+    --muted:#64748b;
+    --border:rgba(15,23,42,.08);
+    --shadow:0 10px 30px rgba(15,23,42,.08);
 }
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html{ scroll-behavior:smooth; }
 
 body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-  padding-bottom:90px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    padding: calc(12px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));
+    transition: background .25s ease, color .25s ease;
 }
 
-.app{
-  max-width:600px;
-  margin:auto;
-  padding:15px;
-}
+button, input{ font:inherit; }
+button{ cursor:pointer; }
 
-/* HEADER */
+.app{ max-width:600px; margin:auto; }
 
 .header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 4px 18px;
 }
 
-.user{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.profile-mini{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
 .avatar{
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  object-fit:cover;
-  background:var(--primary);
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg, var(--primary), var(--primary2));
+    color:#fff;
+    font-weight:900;
+    font-size:17px;
+    box-shadow:0 8px 20px rgba(99,102,241,.25);
 }
 
-.user h3{
-  margin:0;
-  font-size:16px;
-}
-
-.user small{
-  color:var(--muted);
-}
+.user-name{ font-size:14px; font-weight:850; }
+.user-id{ margin-top:2px; color:var(--muted); font-size:10px; }
 
 .live{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  font-size:12px;
-  color:var(--green);
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:var(--success);
+    font-size:10px;
+    font-weight:850;
 }
 
 .live-dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--green);
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--success);
+    box-shadow:0 0 0 5px rgba(16,185,129,.08);
+    animation:pulse 1.8s infinite;
 }
 
-/* TABS */
-
-.tab{
-  display:none;
-  animation:fade .25s ease;
+.card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    margin-bottom:12px;
 }
 
-.tab.active{
-  display:block;
-}
-
-@keyframes fade{
-  from{
-    opacity:0;
-    transform:translateY(5px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-
-/* BALANCE */
-
-.balance-card{
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-  color:white;
-  border-radius:24px;
-  padding:24px;
-  box-shadow:0 15px 35px rgba(91,92,240,.25);
-  margin-bottom:15px;
-}
-
-.balance-label{
-  opacity:.85;
-  font-size:13px;
-}
+.card-pad{ padding:17px; }
 
 .balance{
-  font-size:36px;
-  font-weight:800;
-  margin:7px 0;
+    position:relative;
+    overflow:hidden;
+    padding:21px;
+    background:radial-gradient(circle at 90% 0%, rgba(99,102,241,.20), transparent 35%), var(--surface);
 }
 
-.coin-balance{
-  font-size:14px;
-  opacity:.9;
+.balance-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.label{
+    color:var(--muted);
+    font-size:10px;
+    font-weight:850;
+    letter-spacing:1px;
+}
+
+.status{
+    background:rgba(16,185,129,.12);
+    color:var(--success);
+    border-radius:20px;
+    padding:5px 9px;
+    font-size:9px;
+    font-weight:850;
+}
+
+.money{
+    margin-top:8px;
+    font-size:38px;
+    line-height:1;
+    font-weight:950;
+    letter-spacing:-1.5px;
+}
+
+.money span{
+    color:var(--muted);
+    font-size:15px;
+    font-weight:750;
+}
+
+.coins-line{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-top:7px;
+    color:var(--success);
+    font-size:12px;
+    font-weight:800;
 }
 
 .progress{
-  height:8px;
-  background:rgba(255,255,255,.25);
-  border-radius:10px;
-  overflow:hidden;
-  margin-top:18px;
+    height:8px;
+    margin-top:18px;
+    background:var(--surface3);
+    border-radius:999px;
+    overflow:hidden;
 }
 
-.progress-bar{
-  height:100%;
-  width:0%;
-  background:white;
-  border-radius:10px;
-  transition:.4s;
+.progress-fill{
+    width:0%;
+    height:100%;
+    border-radius:999px;
+    background:linear-gradient(90deg, var(--primary), var(--success));
+    transition:width .7s cubic-bezier(.2,.8,.2,1);
 }
 
-.progress-text{
-  display:flex;
-  justify-content:space-between;
-  margin-top:8px;
-  font-size:11px;
-  opacity:.85;
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    margin-top:7px;
+    color:var(--muted);
+    font-size:10px;
+    font-weight:700;
 }
-
-/* CARDS */
-
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:18px;
-  margin-bottom:14px;
-  box-shadow:var(--shadow);
-}
-
-.card-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:12px;
-}
-
-.card-title h3{
-  margin:0;
-  font-size:16px;
-}
-
-.card-title span{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.earn-card{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-
-.earn-icon{
-  width:50px;
-  height:50px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  border-radius:15px;
-  background:rgba(91,92,240,.12);
-  font-size:25px;
-}
-
-.earn-info{
-  flex:1;
-}
-
-.earn-info h4{
-  margin:0 0 4px;
-  font-size:15px;
-}
-
-.earn-info p{
-  margin:0;
-  font-size:12px;
-  color:var(--muted);
-}
-
-/* BUTTONS */
-
-button{
-  border:0;
-  cursor:pointer;
-  font:inherit;
-}
-
-.btn{
-  background:var(--primary);
-  color:white;
-  border-radius:13px;
-  padding:11px 15px;
-  font-weight:700;
-}
-
-.btn:active{
-  transform:scale(.96);
-}
-
-.btn.secondary{
-  background:rgba(91,92,240,.1);
-  color:var(--primary);
-}
-
-.btn.green{
-  background:var(--green);
-}
-
-.btn.full{
-  width:100%;
-}
-
-/* STATS */
 
 .stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin-bottom:14px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+    margin-bottom:12px;
 }
 
 .stat{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:15px 8px;
-  text-align:center;
+    padding:14px 10px;
+    text-align:center;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:17px;
 }
 
-.stat strong{
-  display:block;
-  font-size:18px;
+.stat-value{ font-size:17px; font-weight:900; }
+.stat-label{ margin-top:4px; color:var(--muted); font-size:9px; font-weight:700; }
+
+.section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:19px 3px 9px;
 }
 
-.stat span{
-  color:var(--muted);
-  font-size:10px;
+.section-title h2{ font-size:13px; font-weight:900; }
+.section-title span{ color:var(--muted); font-size:10px; }
+
+.action{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:17px;
+    background:var(--surface);
+    color:var(--text);
+    text-align:left;
+    margin-bottom:9px;
+    transition:transform .15s ease, background .2s ease;
 }
 
-/* REFERRAL */
+.action:active{ transform:scale(.975); }
 
-.referral{
-  background:linear-gradient(135deg,#16182a,#30345e);
-  color:white;
+.action:disabled{
+    opacity:.6;
+    cursor:not-allowed;
 }
 
-.referral p{
-  color:#c9cbe0;
-  font-size:12px;
+.action-icon{
+    flex:0 0 43px;
+    width:43px;
+    height:43px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    background:var(--surface2);
+    font-size:19px;
 }
 
-.ref-input{
-  display:flex;
-  gap:7px;
+.action-main{ flex:1; }
+.action-title{ font-size:13px; font-weight:850; }
+.action-sub{ color:var(--muted); margin-top:3px; font-size:10px; line-height:1.35; }
+
+.reward{
+    white-space:nowrap;
+    padding:6px 9px;
+    border-radius:10px;
+    background:rgba(16,185,129,.11);
+    color:var(--success);
+    font-size:10px;
+    font-weight:900;
 }
 
-.ref-input input{
-  min-width:0;
-  flex:1;
-  border:0;
-  border-radius:12px;
-  padding:11px;
-  background:rgba(255,255,255,.12);
-  color:white;
-  outline:none;
+.primary-btn{
+    width:100%;
+    border:none;
+    padding:14px;
+    border-radius:14px;
+    background:linear-gradient(135deg, var(--primary), var(--primary2));
+    color:#fff;
+    font-size:13px;
+    font-weight:900;
+    box-shadow:0 10px 25px rgba(99,102,241,.20);
+    transition:transform .15s ease;
 }
 
-/* TASK */
+.primary-btn:active{ transform:scale(.97); }
+.primary-btn:disabled{ opacity:.55; cursor:not-allowed; }
 
-.task{
-  display:flex;
-  align-items:center;
-  gap:12px;
+.ref-card{
+    padding:17px;
+    background:linear-gradient(135deg, rgba(99,102,241,.13), rgba(16,185,129,.06)), var(--surface);
 }
 
-.task-icon{
-  width:46px;
-  height:46px;
-  border-radius:14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(91,92,240,.1);
-  font-size:22px;
+.ref-link{
+    display:flex;
+    gap:7px;
+    margin-top:12px;
 }
 
-.task-info{
-  flex:1;
+.ref-link input{
+    min-width:0;
+    flex:1;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:11px;
+    background:var(--surface2);
+    color:var(--text);
+    outline:none;
+    font-size:11px;
 }
 
-.task-info h4{
-  margin:0 0 4px;
+.copy-btn{
+    border:none;
+    padding:0 14px;
+    border-radius:12px;
+    background:var(--primary);
+    color:#fff;
+    font-size:11px;
+    font-weight:850;
+    cursor:pointer;
 }
 
-.task-info p{
-  margin:0;
-  color:var(--muted);
-  font-size:12px;
+.steps{
+    display:grid;
+    gap:8px;
+    margin-top:13px;
 }
 
-.done{
-  background:#e7f8ee!important;
-  color:#168849!important;
+.step{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    color:var(--muted);
+    font-size:10px;
+    font-weight:700;
 }
 
-/* INPUT */
+.step-number{
+    width:24px;
+    height:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:var(--surface3);
+    color:var(--text);
+    font-size:9px;
+    font-weight:900;
+}
+
+.step.done{ color:var(--success); }
+.step.done .step-number{
+    background:rgba(16,185,129,.15);
+    color:var(--success);
+}
+
+.wallet-card{ text-align:center; padding:22px; }
+.wallet-amount{ margin-top:7px; font-size:35px; font-weight:950; }
+
+.input-label{ display:block; margin-bottom:6px; color:var(--muted); font-size:10px; font-weight:800; }
 
 .input{
-  width:100%;
-  border:1px solid var(--border);
-  background:var(--bg);
-  color:var(--text);
-  border-radius:13px;
-  padding:13px;
-  outline:none;
-  margin:7px 0 12px;
+    width:100%;
+    padding:13px;
+    border:1px solid var(--border);
+    border-radius:13px;
+    outline:none;
+    background:var(--surface2);
+    color:var(--text);
+    font-size:13px;
 }
 
-.input:focus{
-  border-color:var(--primary);
+.input:focus{ border-color:var(--primary); }
+
+.withdraw-status{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:13px;
+    border-radius:14px;
+    background:var(--surface2);
+    margin-top:10px;
 }
 
-/* PROFILE */
+.status-icon{
+    width:34px;
+    height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:rgba(245,158,11,.12);
+    font-size:16px;
+}
 
-.profile-head{
-  text-align:center;
-  padding:15px 0;
+.status-title{ font-size:11px; font-weight:850; }
+.status-sub{ color:var(--muted); margin-top:2px; font-size:9px; }
+
+.profile-card{ padding:20px; }
+
+.profile-big{
+    display:flex;
+    align-items:center;
+    gap:13px;
 }
 
 .profile-avatar{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  object-fit:cover;
-  background:var(--primary);
-  margin-bottom:10px;
+    width:58px;
+    height:58px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg, var(--primary), var(--primary2));
+    color:#fff;
+    font-size:23px;
+    font-weight:950;
 }
 
-.profile-head h2{
-  margin:3px 0;
-}
-
-.profile-head p{
-  color:var(--muted);
-  margin:0;
-}
-
-/* SETTINGS */
+.profile-name{ font-size:17px; font-weight:900; }
+.profile-id{ margin-top:3px; color:var(--muted); font-size:10px; }
 
 .setting{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 0;
-  border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 2px;
+    border-bottom:1px solid var(--border);
 }
 
-.setting:last-child{
-  border-bottom:0;
+.setting:last-child{ border-bottom:0; }
+
+.setting-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-/* SWITCH */
-
-.switch{
-  position:relative;
-  width:48px;
-  height:27px;
-  background:#aaa;
-  border-radius:30px;
+.setting-icon{
+    width:34px;
+    height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:var(--surface2);
 }
 
-.switch input{
-  display:none;
+.setting-title{ font-size:12px; font-weight:800; }
+.setting-sub{ margin-top:2px; color:var(--muted); font-size:9px; }
+
+.toggle{
+    width:46px;
+    height:26px;
+    padding:3px;
+    border:0;
+    border-radius:20px;
+    background:var(--surface3);
+    cursor:pointer;
 }
 
-.slider{
-  position:absolute;
-  width:21px;
-  height:21px;
-  top:3px;
-  left:3px;
-  background:white;
-  border-radius:50%;
-  transition:.2s;
+.toggle::after{
+    content:"";
+    display:block;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:#fff;
+    transition:transform .2s;
 }
 
-.switch input:checked + .slider{
-  transform:translateX(21px);
-}
-
-.switch:has(input:checked){
-  background:var(--primary);
-}
-
-/* BOTTOM NAV */
+body.light .toggle{ background:var(--primary); }
+body.light .toggle::after{ transform:translateX(20px); }
 
 .bottom-nav{
-  position:fixed;
-  z-index:50;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:600px;
-  padding:8px 8px calc(8px + env(safe-area-inset-bottom));
-  background:var(--card);
-  border-top:1px solid var(--border);
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:100;
+    height:calc(68px + env(safe-area-inset-bottom));
+    padding:5px 7px env(safe-area-inset-bottom);
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-around;
+    background:color-mix(in srgb, var(--surface) 94%, transparent);
+    backdrop-filter:blur(18px);
+    border-top:1px solid var(--border);
 }
 
 .nav-item{
-  background:none;
-  color:var(--muted);
-  padding:8px 2px;
-  font-size:11px;
+    flex:1;
+    height:58px;
+    border:0;
+    background:none;
+    color:var(--muted);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    font-size:9px;
+    font-weight:850;
+    transition:color .2s, transform .15s;
+    cursor:pointer;
 }
 
-.nav-item span{
-  display:block;
-  font-size:20px;
-  margin-bottom:2px;
+.nav-item:active{ transform:scale(.92); }
+.nav-item.active{ color:var(--primary2); }
+
+.nav-icon{ font-size:18px; line-height:18px; }
+
+.tab{
+    display:none;
+    animation:fadeIn .25s ease;
 }
 
-.nav-item.active{
-  color:var(--primary);
-  font-weight:700;
-}
-
-/* TOAST */
+.tab.active{ display:block; }
 
 .toast{
-  position:fixed;
-  left:50%;
-  bottom:90px;
-  transform:translateX(-50%) translateY(20px);
-  background:#17191f;
-  color:white;
-  padding:12px 18px;
-  border-radius:30px;
-  font-size:13px;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  z-index:100;
-  white-space:nowrap;
+    position:fixed;
+    left:50%;
+    bottom:86px;
+    z-index:300;
+    transform:translate(-50%,20px) scale(.95);
+    opacity:0;
+    pointer-events:none;
+    min-width:220px;
+    padding:12px 15px;
+    border-radius:14px;
+    background:#111827;
+    color:#fff;
+    box-shadow:0 12px 35px rgba(0,0,0,.35);
+    text-align:center;
+    font-size:11px;
+    font-weight:850;
+    transition:opacity .25s, transform .25s;
 }
 
 .toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+    opacity:1;
+    transform:translate(-50%,0) scale(1);
 }
 
-/* COIN POP */
-
 .coin-pop{
-  position:fixed;
-  left:50%;
-  top:45%;
-  transform:translate(-50%,-50%);
-  color:#ffd43b;
-  font-size:28px;
-  font-weight:900;
-  pointer-events:none;
-  z-index:101;
-  animation:coinPop 1s ease forwards;
+    position:fixed;
+    z-index:400;
+    pointer-events:none;
+    color:var(--success);
+    font-size:20px;
+    font-weight:950;
+    animation:coinPop .9s ease forwards;
+}
+
+@keyframes fadeIn{
+    from{ opacity:0; transform:translateY(5px); }
+    to{ opacity:1; transform:translateY(0); }
+}
+
+@keyframes pulse{
+    50%{ opacity:.45; }
 }
 
 @keyframes coinPop{
-  0%{
-    opacity:0;
-    transform:translate(-50%,-20%);
-  }
-  20%{
-    opacity:1;
-  }
-  100%{
-    opacity:0;
-    transform:translate(-50%,-120%);
-  }
+    0%{ opacity:0; transform:translateY(10px) scale(.7); }
+    20%{ opacity:1; transform:translateY(0) scale(1.15); }
+    100%{ opacity:0; transform:translateY(-65px) scale(1); }
+}
+
+@media(max-width:360px){
+    body{ padding-left:10px; padding-right:10px; }
+    .money{ font-size:33px; }
+    .action{ padding:12px; }
+    .reward{ font-size:9px; }
 }
 </style>
 </head>
@@ -544,685 +579,573 @@ button{
 
 <div class="app">
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="user">
-      <img id="avatar" class="avatar"
-           src="https://telegram.org/img/t_logo.png">
-      <div>
-        <h3 id="uName">Telegram User</h3>
-        <small id="uId">ID: Loading...</small>
-      </div>
-    </div>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="profile-mini">
+            <div class="avatar" id="uAvatar">U</div>
+            <div>
+                <div class="user-name" id="uName">Loading...</div>
+                <div class="user-id" id="uId">ID: Loading</div>
+            </div>
+        </div>
+        <div class="live">
+            <span class="live-dot"></span>
+            LIVE
+        </div>
+    </header>
 
-    <div class="live">
-      <span class="live-dot"></span>
-      LIVE
-    </div>
-  </header>
-
-
-  <!-- HOME -->
-  <section id="tab-home" class="tab active">
-
-    <div class="balance-card">
-      <div class="balance-label">TOTAL BALANCE</div>
-      <div class="balance">₹<span id="inrTxt">0.00</span></div>
-      <div class="coin-balance">
-        🪙 <span id="coinTxt">0</span> coins
-      </div>
-
-      <div class="progress">
-        <div id="pBar" class="progress-bar"></div>
-      </div>
-
-      <div class="progress-text">
-        <span id="pTxt">0 / 5000 coins</span>
-        <span>₹50 minimum</span>
-      </div>
-    </div>
-
-
-    <div class="stats">
-      <div class="stat">
-        <strong id="todayTxt">0</strong>
-        <span>Today</span>
-      </div>
-
-      <div class="stat">
-        <strong id="taskTxt">0</strong>
-        <span>Tasks</span>
-      </div>
-
-      <div class="stat">
-        <strong id="refTxt">0</strong>
-        <span>Referrals</span>
-      </div>
-    </div>
-
-
-    <div class="card">
-      <div class="card-title">
-        <h3>⚡ Quick Earn</h3>
-        <span>Instant reward</span>
-      </div>
-
-      <div class="earn-card">
-        <div class="earn-icon">🎬</div>
-
-        <div class="earn-info">
-          <h4>Watch Rewarded Ad</h4>
-          <p>Watch a complete advertisement</p>
+    <!-- HOME TAB -->
+    <section id="tab-home" class="tab active">
+        <div class="card balance">
+            <div class="balance-top">
+                <div class="label">TOTAL BALANCE</div>
+                <div class="status">● ACTIVE</div>
+            </div>
+            <div class="money">₹<span id="inrTxt">0.00</span></div>
+            <div class="coins-line">🪙 <span id="coinTxt">0</span> Coins</div>
+            <div class="progress">
+                <div class="progress-fill" id="pBar"></div>
+            </div>
+            <div class="progress-info">
+                <span id="pTxt">0%</span>
+                <span id="rTxt">5,000 coins → ₹50</span>
+            </div>
         </div>
 
-        <button class="btn" onclick="watchAd()">+5 🪙</button>
-      </div>
-    </div>
-
-
-    <div class="card referral">
-      <div class="card-title">
-        <h3>👥 Invite Friends</h3>
-        <span>+100 🪙</span>
-      </div>
-
-      <p>
-        Invite friends using your personal referral link.
-      </p>
-
-      <div class="ref-input">
-        <input id="refInput" readonly>
-        <button class="btn" onclick="copyReferral()">Copy</button>
-      </div>
-
-      <br>
-
-      <button class="btn full" onclick="shareReferral()">
-        📤 Share Referral Link
-      </button>
-    </div>
-
-
-    <div class="card">
-      <div class="card-title">
-        <h3>💳 Withdrawal</h3>
-        <span>Minimum ₹50</span>
-      </div>
-
-      <p style="color:var(--muted);font-size:12px">
-        You need at least 5,000 coins to request a withdrawal.
-      </p>
-
-      <button class="btn green full"
-              onclick="goTab('wallet')">
-        Open Wallet
-      </button>
-    </div>
-
-  </section>
-
-
-  <!-- EARN -->
-  <section id="tab-earn" class="tab">
-
-    <div class="card">
-      <div class="card-title">
-        <h3>🪙 Earn Coins</h3>
-        <span>More ways coming</span>
-      </div>
-
-      <div class="earn-card">
-        <div class="earn-icon">🎬</div>
-
-        <div class="earn-info">
-          <h4>Rewarded Video</h4>
-          <p>Complete an eligible ad</p>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="todayTxt">0</div>
+                <div class="stat-label">TODAY</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="taskTxt">0</div>
+                <div class="stat-label">TASKS</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="refTxt">0</div>
+                <div class="stat-label">REFERRALS</div>
+            </div>
         </div>
 
-        <button class="btn" onclick="watchAd()">+5</button>
-      </div>
-    </div>
-
-
-    <div class="card">
-      <div class="card-title">
-        <h3>👥 Referral</h3>
-        <span>+100</span>
-      </div>
-
-      <p style="color:var(--muted);font-size:13px">
-        Share your referral link with friends.
-      </p>
-
-      <input id="refInput2"
-             class="input"
-             readonly>
-
-      <button class="btn full" onclick="copyReferral()">
-        📋 Copy Link
-      </button>
-
-      <br><br>
-
-      <button class="btn secondary full"
-              onclick="shareReferral()">
-        📤 Share
-      </button>
-    </div>
-
-
-    <div class="card">
-      <div class="card-title">
-        <h3>🚀 Coming Soon</h3>
-      </div>
-
-      <p style="color:var(--muted);font-size:13px">
-        Surveys, offers, quizzes, games and contests can be connected
-        after the secure backend is added.
-      </p>
-    </div>
-
-  </section>
-
-
-  <!-- TASKS -->
-  <section id="tab-tasks" class="tab">
-
-    <div class="card">
-      <div class="card-title">
-        <h3>🎯 Community Tasks</h3>
-        <span>Earn coins</span>
-      </div>
-
-      <div class="task">
-        <div class="task-icon">📢</div>
-
-        <div class="task-info">
-          <h4>Join Telegram</h4>
-          <p>Reward: +50 coins</p>
+        <div class="section-title">
+            <h2>Quick Earn</h2>
+            <span>Available now</span>
         </div>
 
-        <button id="task-btn-tg_sub"
-                class="btn"
-                onclick="completeTask(
-                  'tg_sub',
-                  50,
-                  'https://t.me/telegram'
-                )">
-          +50
+        <button class="action" id="adButton" onclick="watchAd()">
+            <div class="action-icon" id="adIcon">▶️</div>
+            <div class="action-main">
+                <div class="action-title" id="adTitle">Watch Rewarded Video</div>
+                <div class="action-sub" id="adSub">Adsgram Unit 46024</div>
+            </div>
+            <div class="reward" id="adReward">+5</div>
         </button>
-      </div>
 
-      <br>
-
-      <div class="task">
-        <div class="task-icon">▶️</div>
-
-        <div class="task-info">
-          <h4>Visit YouTube</h4>
-          <p>Reward: +30 coins</p>
-        </div>
-
-        <button id="task-btn-yt_sub"
-                class="btn"
-                onclick="completeTask(
-                  'yt_sub',
-                  30,
-                  'https://youtube.com'
-                )">
-          +30
+        <button class="action" onclick="goTab('earn')">
+            <div class="action-icon">👥</div>
+            <div class="action-main">
+                <div class="action-title">Invite Friends</div>
+                <div class="action-sub">Earn 100 coins per eligible referral</div>
+            </div>
+            <div class="reward">+100</div>
         </button>
-      </div>
-    </div>
 
-    <div class="card">
-      <h3>⚠️ Task verification</h3>
-      <p style="color:var(--muted);font-size:12px">
-        This prototype records completed tasks on this device.
-        Real task verification will be moved to the backend.
-      </p>
-    </div>
-
-  </section>
-
-
-  <!-- WALLET -->
-  <section id="tab-wallet" class="tab">
-
-    <div class="balance-card">
-      <div class="balance-label">WALLET BALANCE</div>
-
-      <div class="balance">
-        ₹<span id="walletInrTxt">0.00</span>
-      </div>
-
-      <div class="coin-balance">
-        🪙 <span id="walletCoinTxt">0</span> coins
-      </div>
-    </div>
-
-
-    <div class="card">
-      <div class="card-title">
-        <h3>💳 UPI Withdrawal</h3>
-        <span>Min ₹50</span>
-      </div>
-
-      <label style="font-size:12px;color:var(--muted)">
-        UPI ID
-      </label>
-
-      <input
-        id="upiInput"
-        class="input"
-        placeholder="example@upi"
-        autocomplete="off">
-
-      <button class="btn green full"
-              onclick="requestWithdrawal()">
-        Request Withdrawal
-      </button>
-
-      <p style="font-size:11px;color:var(--muted);margin-top:12px">
-        Withdrawal processing will be connected to the secure backend.
-      </p>
-    </div>
-
-  </section>
-
-
-  <!-- PROFILE -->
-  <section id="tab-profile" class="tab">
-
-    <div class="card profile-head">
-
-      <img id="pAvatar"
-           class="profile-avatar"
-           src="https://telegram.org/img/t_logo.png">
-
-      <h2 id="pName">Telegram User</h2>
-
-      <p id="pId">Telegram ID</p>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="setting">
-        <div>
-          <strong>🌙 Dark Mode</strong>
-          <div style="font-size:11px;color:var(--muted)">
-            Change app appearance
-          </div>
+        <div class="section-title">
+            <h2>Withdrawal</h2>
+            <span>₹50 minimum</span>
         </div>
 
-        <label class="switch">
-          <input type="checkbox"
-                 id="themeSwitch"
-                 onchange="toggleTheme()">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-
-      <div class="setting">
-        <div>
-          <strong>🤖 Bot</strong>
-          <div style="font-size:11px;color:var(--muted)">
-            @REWARD4ADBOT
-          </div>
+        <div class="card card-pad" onclick="goTab('wallet')" style="cursor:pointer;">
+            <div class="withdraw-status">
+                <div class="status-icon">💳</div>
+                <div>
+                    <div class="status-title">Instant Bank / UPI Transfer</div>
+                    <div class="status-sub">5,000 coins required for ₹50</div>
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
 
-
-      <div class="setting">
-        <div>
-          <strong>💰 Conversion</strong>
-          <div style="font-size:11px;color:var(--muted)">
-            100 coins = ₹1
-          </div>
+    <!-- EARN TAB -->
+    <section id="tab-earn" class="tab">
+        <div class="section-title">
+            <h2>Earn Coins</h2>
+            <span>More ways to earn</span>
         </div>
-      </div>
 
-    </div>
+        <button class="action" id="adButton2" onclick="watchAd()">
+            <div class="action-icon" id="adIcon2">▶️</div>
+            <div class="action-main">
+                <div class="action-title" id="adTitle2">Rewarded Video</div>
+                <div class="action-sub" id="adSub2">Watch full video to credit coins</div>
+            </div>
+            <div class="reward" id="adReward2">+5</div>
+        </button>
 
+        <button class="action" onclick="goTab('tasks')">
+            <div class="action-icon">✓</div>
+            <div class="action-main">
+                <div class="action-title">Community Tasks</div>
+                <div class="action-sub">Complete available tasks</div>
+            </div>
+            <div class="reward">+50</div>
+        </button>
 
-    <div class="card">
+        <div class="section-title">
+            <h2>Referral Program</h2>
+            <span>100 coins / eligible user</span>
+        </div>
 
-      <button class="btn secondary full"
-              onclick="showToast('Support will be available soon.')">
-        💬 Support
-      </button>
+        <div class="card ref-card">
+            <div style="font-size:16px;font-weight:900;">Invite friends & earn</div>
+            <div style="color:var(--muted);font-size:10px;line-height:1.5;margin-top:5px;">
+                Earn 100 coins whenever a friend joins via your invite link.
+            </div>
 
-      <br><br>
+            <div class="ref-link">
+                <input id="refInput" readonly>
+                <button class="copy-btn" onclick="copyReferral()">COPY</button>
+            </div>
 
-      <button class="btn secondary full"
-              onclick="showToast('RewardHub Prime v1.0')">
-        ℹ️ About
-      </button>
+            <div class="steps">
+                <div class="step done" id="step1">
+                    <div class="step-number">1</div>
+                    Invited
+                </div>
+                <div class="step done" id="step2">
+                    <div class="step-number">2</div>
+                    Joined
+                </div>
+                <div class="step done" id="step3">
+                    <div class="step-number">3</div>
+                    Eligible action (+100 Coins)
+                </div>
+            </div>
 
-    </div>
+            <button class="primary-btn" style="margin-top:14px;" onclick="shareReferral()">
+                🚀 Share Invite Link
+            </button>
+        </div>
+    </section>
 
-  </section>
+    <!-- TASKS TAB -->
+    <section id="tab-tasks" class="tab">
+        <div class="section-title">
+            <h2>Community Tasks</h2>
+            <span>Complete to earn instant coins</span>
+        </div>
+
+        <div class="card card-pad">
+            <div class="action" style="margin-bottom:0;" onclick="completeTask('tg_sub', 50, 'https://t.me/telegram')">
+                <div class="action-icon">📢</div>
+                <div class="action-main">
+                    <div class="action-title">Join Official Channel</div>
+                    <div class="action-sub">Stay updated with prime announcements</div>
+                </div>
+                <div class="reward" id="task-btn-tg_sub">+50</div>
+            </div>
+        </div>
+
+        <div class="card card-pad">
+            <div class="action" style="margin-bottom:0;" onclick="completeTask('yt_sub', 30, 'https://youtube.com')">
+                <div class="action-icon">📺</div>
+                <div class="action-main">
+                    <div class="action-title">Subscribe YouTube Channel</div>
+                    <div class="action-sub">Watch guides and payment proofs</div>
+                </div>
+                <div class="reward" id="task-btn-yt_sub">+30</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WALLET TAB -->
+    <section id="tab-wallet" class="tab">
+        <div class="card wallet-card">
+            <div class="label">WITHDRAWABLE AMOUNT</div>
+            <div class="wallet-amount">₹<span id="walletInrTxt">0.00</span></div>
+            <div class="coins-line" style="justify-content:center;margin-top:6px;">
+                🪙 <span id="walletCoinTxt">0</span> Available Coins
+            </div>
+        </div>
+
+        <div class="card card-pad">
+            <label class="input-label" for="upiInput">UPI ID / Bank Details</label>
+            <input class="input" id="upiInput" type="text" placeholder="example@upi">
+            <button class="primary-btn" style="margin-top:14px;" onclick="requestWithdrawal()">
+                Withdraw to Bank / UPI
+            </button>
+        </div>
+    </section>
+
+    <!-- PROFILE TAB -->
+    <section id="tab-profile" class="tab">
+        <div class="card profile-card">
+            <div class="profile-big">
+                <div class="profile-avatar" id="pAvatar">U</div>
+                <div>
+                    <div class="profile-name" id="pName">Loading...</div>
+                    <div class="profile-id" id="pId">ID: Loading</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-pad">
+            <div class="setting">
+                <div class="setting-left">
+                    <div class="setting-icon">🌙</div>
+                    <div>
+                        <div class="setting-title">Dark Mode</div>
+                        <div class="setting-sub">Toggle theme</div>
+                    </div>
+                </div>
+                <button class="toggle" onclick="toggleTheme()"></button>
+            </div>
+        </div>
+    </section>
 
 </div>
 
-
-<!-- BOTTOM NAV -->
-
+<!-- BOTTOM NAVIGATION -->
 <nav class="bottom-nav">
-
-  <button class="nav-item active"
-          data-tab="home"
-          onclick="goTab('home')">
-    <span>🏠</span>
-    Home
-  </button>
-
-  <button class="nav-item"
-          data-tab="earn"
-          onclick="goTab('earn')">
-    <span>🪙</span>
-    Earn
-  </button>
-
-  <button class="nav-item"
-          data-tab="tasks"
-          onclick="goTab('tasks')">
-    <span>🎯</span>
-    Tasks
-  </button>
-
-  <button class="nav-item"
-          data-tab="wallet"
-          onclick="goTab('wallet')">
-    <span>💳</span>
-    Wallet
-  </button>
-
-  <button class="nav-item"
-          data-tab="profile"
-          onclick="goTab('profile')">
-    <span>👤</span>
-    Profile
-  </button>
-
+    <button class="nav-item active" onclick="goTab('home')">
+        <div class="nav-icon">🏠</div>
+        Home
+    </button>
+    <button class="nav-item" onclick="goTab('earn')">
+        <div class="nav-icon">💰</div>
+        Earn
+    </button>
+    <button class="nav-item" onclick="goTab('tasks')">
+        <div class="nav-icon">✓</div>
+        Tasks
+    </button>
+    <button class="nav-item" onclick="goTab('wallet')">
+        <div class="nav-icon">💳</div>
+        Wallet
+    </button>
+    <button class="nav-item" onclick="goTab('profile')">
+        <div class="nav-icon">👤</div>
+        Profile
+    </button>
 </nav>
 
-
-<div id="toast" class="toast"></div>
-
-
 <script>
+// Initialize Telegram Web App
+const tg = window.Telegram.WebApp;
+tg.ready();
 
-/* =========================================
-   REWARDHUB PRIME
-   BOT: @REWARD4ADBOT
-   ADSGRAM BLOCK: 46024
-========================================= */
-
-
-/* ---------- TELEGRAM ---------- */
-
-const tg = window.Telegram?.WebApp;
-
-if(tg){
-  tg.ready();
-  tg.expand();
-}
-
-
-/* ---------- STORAGE ---------- */
-
-const STORAGE_KEY = "rewardhub_prime_data_v1";
-
-let userData = {
-  coins: 0,
-  today: 0,
-  tasks: 0,
-  referrals: 0,
-  upi: ""
+// Storage keys
+const STORAGE_KEYS = {
+    USER_DATA: 'REWARD4AD_userData',
+    THEME: 'REWARD4AD_theme',
+    AD_LOADING: 'REWARD4AD_adLoading'
 };
 
+// User data with persistence
+let userData = {
+    coins: 0,
+    inr: 0.00,
+    todayEarnings: 0,
+    tasksCompleted: 0,
+    referrals: 0,
+    completedTasks: []
+};
 
-/* ---------- LOAD DATA ---------- */
+let isAdLoading = false;
 
-function loadData(){
+// Save user data to localStorage
+function saveUserData() {
+    try {
+        localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(userData));
+    } catch(e) {
+        console.log('Storage limit exceeded or not available');
+    }
+}
 
-  try{
+// Load user data from localStorage
+function loadUserDataFromStorage() {
+    try {
+        const stored = localStorage.getItem(STORAGE_KEYS.USER_DATA);
+        if (stored) {
+            userData = JSON.parse(stored);
+        }
+    } catch(e) {
+        console.log('Error loading data from storage');
+    }
+}
 
-    const saved = localStorage.getItem(STORAGE_KEY);
+// Save theme preference
+function saveTheme(isDark) {
+    try {
+        localStorage.setItem(STORAGE_KEYS.THEME, isDark ? 'dark' : 'light');
+    } catch(e) {
+        console.log('Theme save failed');
+    }
+}
 
-    if(saved){
+// Load theme preference
+function loadThemePreference() {
+    try {
+        const theme = localStorage.getItem(STORAGE_KEYS.THEME);
+        if (theme === 'light') {
+            document.body.classList.add('light');
+        } else {
+            document.body.classList.remove('light');
+        }
+    } catch(e) {
+        console.log('Theme load failed');
+    }
+}
 
-      const parsed = JSON.parse(saved);
+// Tab Navigation
+function goTab(tabName) {
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    document.getElementById(`tab-${tabName}`).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+    event.target.closest('.nav-item').classList.add('active');
+}
 
-      userData = {
-        ...userData,
-        ...parsed
-      };
-
+// Watch Ad with improved loading state
+function watchAd() {
+    if (isAdLoading) {
+        showToast('⏳ Ad is loading, please wait...');
+        return;
     }
 
-  }catch(error){
-
-    console.error("Storage load error:",error);
-
-  }
-
-  updateUI();
-  updateTaskButtons();
-}
-
-
-/* ---------- SAVE DATA ---------- */
-
-function saveData(){
-
-  try{
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(userData)
-    );
-
-  }catch(error){
-
-    console.error("Storage save error:",error);
-
-  }
-}
-
-
-/* ---------- UPDATE UI ---------- */
-
-function updateUI(){
-
-  const coins = Number(userData.coins) || 0;
-
-  const rupees = coins / 100;
-
-  document.getElementById("coinTxt").textContent =
-    coins.toLocaleString();
-
-  document.getElementById("inrTxt").textContent =
-    rupees.toFixed(2);
-
-  document.getElementById("walletCoinTxt").textContent =
-    coins.toLocaleString();
-
-  document.getElementById("walletInrTxt").textContent =
-    rupees.toFixed(2);
-
-  document.getElementById("todayTxt").textContent =
-    userData.today || 0;
-
-  document.getElementById("taskTxt").textContent =
-    userData.tasks || 0;
-
-  document.getElementById("refTxt").textContent =
-    userData.referrals || 0;
-
-
-  /* progress */
-
-  const minimum = 5000;
-
-  const progress =
-    Math.min((coins / minimum) * 100,100);
-
-  document.getElementById("pBar").style.width =
-    progress + "%";
-
-  document.getElementById("pTxt").textContent =
-    coins.toLocaleString() +
-    " / 5,000 coins";
-
-
-  /* UPI */
-
-  const upi = document.getElementById("upiInput");
-
-  if(upi && !upi.value){
-
-    upi.value = userData.upi || "";
-
-  }
-
-}
-
-
-/* ---------- ADD COINS ---------- */
-
-function addCoins(amount){
-
-  amount = Number(amount);
-
-  if(!Number.isFinite(amount) || amount <= 0){
-    return;
-  }
-
-  userData.coins += amount;
-  userData.today += amount;
-
-  saveData();
-  updateUI();
-
-  showCoinPop("+" + amount + " 🪙");
-
-  if(tg?.HapticFeedback){
-
-    tg.HapticFeedback.notificationOccurred("success");
-
-  }
-
-}
-
-
-/* ---------- COIN POP ---------- */
-
-function showCoinPop(text){
-
-  const el = document.createElement("div");
-
-  el.className = "coin-pop";
-
-  el.textContent = text;
-
-  document.body.appendChild(el);
-
-  setTimeout(()=>{
-    el.remove();
-  },1000);
-
-}
-
-
-/* =========================================
-   ADSGRAM
-========================================= */
-
-let AdController = null;
-
-try{
-
-  if(window.Adsgram){
-
-    AdController =
-      window.Adsgram.init({
-        blockId:"46024"
-      });
-
-  }
-
-}catch(error){
-
-  console.error("Adsgram init error:",error);
-
-}
-
-
-/* ---------- WATCH AD ---------- */
-
-async function watchAd(){
-
-  if(!AdController){
-
-    showToast("Ads are not available right now.");
-
-    return;
-
-  }
-
-
-  try{
-
-    showToast("Loading rewarded ad...");
-
-    const result =
-      await AdController.show();
-
-
-    /*
-      Only credit after Adsgram reports
-      a successful completion.
-    */
-
-    if(result){
-
-      addCoins(5);
-
-      showToast("🎉 +5 coins added!");
-
-    }else{
-
-      showToast("Ad was not completed.");
-
+    // Update UI to show loading state
+    isAdLoading = true;
+    const adButton = document.getElementById('adButton');
+    const adIcon = document.getElementById('adIcon');
+    const adTitle = document.getElementById('adTitle');
+    const adSub = document.getElementById('adSub');
+    const adReward = document.getElementById('adReward');
+
+    // Also update in earn tab
+    const adButton2 = document.getElementById('adButton2');
+    const adIcon2 = document.getElementById('adIcon2');
+    const adTitle2 = document.getElementById('adTitle2');
+    const adSub2 = document.getElementById('adSub2');
+    const adReward2 = document.getElementById('adReward2');
+
+    // Disable buttons and show loading
+    adButton.disabled = true;
+    adButton2.disabled = true;
+
+    adIcon.textContent = '⏳';
+    adTitle.textContent = 'Loading Ad...';
+    adSub.textContent = 'Please wait';
+    adReward.textContent = '';
+
+    adIcon2.textContent = '⏳';
+    adTitle2.textContent = 'Loading Ad...';
+    adSub2.textContent = 'Please wait';
+    adReward2.textContent = '';
+
+    if (window.ADSGRAM) {
+        ADSGRAM.show({blockId: 46024}).then(result => {
+            if (result) {
+                addCoins(5);
+                showToast('✅ +5 Coins earned!');
+            }
+            resetAdButton();
+        }).catch(err => {
+            showToast('❌ Ad failed, try again');
+            resetAdButton();
+        });
+    } else {
+        showToast('⏳ Ad SDK loading, please try again...');
+        resetAdButton();
     }
-
-  }catch(error){
-
-    console.error("Adsgram error:",error);
-
-    showToast("No ad available. Try again later.");
-
-  }
-
 }
 
+// Reset ad button to original state
+function resetAdButton() {
+    isAdLoading = false;
+    const adButton = document.getElementById('adButton');
+    const adIcon = document.getElementById('adIcon');
+    const adTitle = document.getElementById('adTitle');
+    const adSub = document.getElementById('adSub');
+    const adReward = document.getElementById('adReward');
 
-/* =========================================
-   NAVIGATION
-========================================= */
+    const adButton2 = document.getElementById('adButton2');
+    const adIcon2 = document.getElementById('adIcon2');
+    const adTitle2 = document.getElementById('adTitle2');
+    const adSub2 = document.getElementById('adSub2');
+    const adReward2 = document.getElementById('adReward2');
 
-function goTab(tabName){
+    adButton.disabled = false;
+    adButton2.disabled = false;
 
-  document.querySelectorAll(".tab")
-    .forEach(tab=>{
-      tab.classList.remove("active");
-    });
+    adIcon.textContent = '▶️';
+    adTitle.textContent = 'Watch Rewarded Video';
+    adSub.textContent = 'Adsgram Unit 46024';
+    adReward.textContent = '+5';
 
+    adIcon2.textContent = '▶️';
+    adTitle2.textContent = 'Rewarded Video';
+    adSub2.textContent = 'Watch full video to credit coins';
+    adReward2.textContent = '+5';
+}
 
-  const selected =
- 
+// Copy Referral Link
+function copyReferral() {
+    const refInput = document.getElementById('refInput');
+    refInput.select();
+    document.execCommand('copy');
+    showToast('✅ Link copied!');
+}
+
+// Share Referral
+function shareReferral() {
+    const refInput = document.getElementById('refInput').value;
+    if (navigator.share) {
+        navigator.share({
+            title: 'RewardHub Prime',
+            text: 'Join me and earn rewards!',
+            url: refInput
+        });
+    } else {
+        copyReferral();
+    }
+}
+
+// Complete Task
+function completeTask(taskId, coins, url) {
+    if (!userData.completedTasks.includes(taskId)) {
+        window.open(url, '_blank');
+        userData.completedTasks.push(taskId);
+        addCoins(coins);
+        document.getElementById(`task-btn-${taskId}`).textContent = '✓ Done';
+        showToast(`✅ +${coins} Coins earned!`);
+        userData.tasksCompleted++;
+        updateUI();
+        saveUserData();
+    } else {
+        showToast('Task already completed');
+    }
+}
+
+// Request Withdrawal
+function requestWithdrawal() {
+    const upi = document.getElementById('upiInput').value;
+    if (!upi) {
+        showToast('❌ Please enter UPI ID');
+        return;
+    }
+    if (userData.coins < 5000) {
+        showToast('❌ Minimum 5,000 coins required');
+        return;
+    }
+    showToast('✅ Withdrawal request submitted!');
+    document.getElementById('upiInput').value = '';
+}
+
+// Add Coins
+function addCoins(amount) {
+    userData.coins += amount;
+    userData.inr = (userData.coins / 100).toFixed(2);
+    userData.todayEarnings += amount;
+    updateUI();
+    saveUserData();
+    createCoinPop();
+}
+
+// Toggle Theme
+function toggleTheme() {
+    document.body.classList.toggle('light');
+    const isDark = !document.body.classList.contains('light');
+    saveTheme(isDark);
+}
+
+// Show Toast
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast show';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+}
+
+// Coin Pop Animation
+function createCoinPop() {
+    const pop = document.createElement('div');
+    pop.className = 'coin-pop';
+    pop.textContent = '+5 🪙';
+    pop.style.left = Math.random() * 80 + 10 + '%';
+    pop.style.top = Math.random() * 60 + 20 + '%';
+    document.body.appendChild(pop);
+    setTimeout(() => pop.remove(), 1000);
+}
+
+// Update UI
+function updateUI() {
+    document.getElementById('inrTxt').textContent = userData.inr;
+    document.getElementById('coinTxt').textContent = userData.coins;
+    document.getElementById('todayTxt').textContent = userData.todayEarnings;
+    document.getElementById('taskTxt').textContent = userData.tasksCompleted;
+    document.getElementById('refTxt').textContent = userData.referrals;
+    document.getElementById('walletInrTxt').textContent = userData.inr;
+    document.getElementById('walletCoinTxt').textContent = userData.coins;
+
+    // Update progress bar
+    const maxCoins = 5000;
+    const progress = (userData.coins / maxCoins) * 100;
+    document.getElementById('pBar').style.width = Math.min(progress, 100) + '%';
+    document.getElementById('pTxt').textContent = Math.min(Math.round(progress), 100) + '%';
+
+    // Update task buttons
+    if (userData.completedTasks.includes('tg_sub')) {
+        document.getElementById('task-btn-tg_sub').textContent = '✓ Done';
+    }
+    if (userData.completedTasks.includes('yt_sub')) {
+        document.getElementById('task-btn-yt_sub').textContent = '✓ Done';
+    }
+}
+
+// Load User Data from Telegram
+function loadUserData() {
+    const user = tg.initDataUnsafe?.user;
+    if (user) {
+        const initial = user.first_name?.charAt(0).toUpperCase() || 'U';
+        document.getElementById('uName').textContent = user.first_name || 'User';
+        document.getElementById('uId').textContent = `ID: ${user.id}`;
+        document.getElementById('uAvatar').textContent = initial;
+        document.getElementById('pName').textContent = user.first_name || 'User';
+        document.getElementById('pId').textContent = `ID: ${user.id}`;
+        document.getElementById('pAvatar').textContent = initial;
+    }
+    
+    // Generate referral link
+    const userId = user?.id || '12345';
+    const refLink = `https://t.me/REWARD4ADBOT?start=ref_${userId}`;
+    document.getElementById('refInput').value = refLink;
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+    // Load theme first
+    loadThemePreference();
+    
+    // Load user data from storage
+    loadUserDataFromStorage();
+    
+    // Load telegram user info
+    loadUserData();
+    
+    // Update UI
+    updateUI();
+});
+
+// Save data before page unload
+window.addEventListener('beforeunload', () => {
+    saveUserData();
+});
+
+// Save data periodically
+setInterval(() => {
+    saveUserData();
+}, 5000);
+</script>
+
+</body>
+</html>
