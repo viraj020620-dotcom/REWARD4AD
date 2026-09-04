@@ -1,578 +1,552 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>RewardHub Prime</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-<style>
-:root{
-    --primary:#6366f1;
-    --primary2:#818cf8;
-    --success:#10b981;
-    --warning:#f59e0b;
-    --danger:#ef4444;
-    --bg:#080b14;
-    --surface:#101522;
-    --surface2:#171d2b;
-    --surface3:#20283a;
-    --text:#f8fafc;
-    --muted:#94a3b8;
-    --border:rgba(255,255,255,.08);
-    --shadow:0 10px 35px rgba(0,0,0,.20);
-}
-
-body.light{
-    --bg:#f4f6fb;
-    --surface:#ffffff;
-    --surface2:#f1f4f9;
-    --surface3:#e8edf5;
-    --text:#111827;
-    --muted:#64748b;
-    --border:rgba(15,23,42,.08);
-    --shadow:0 10px 30px rgba(15,23,42,.08);
-}
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    -webkit-tap-highlight-color:transparent;
-}
-
-html{ scroll-behavior:smooth; }
-
-body{
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    min-height:100vh;
-    padding: calc(12px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));
-    transition: background .25s ease, color .25s ease;
-}
-
-button, input{ font:inherit; }
-button{ cursor:pointer; }
-
-.app{ max-width:600px; margin:auto; }
-
-.header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:12px 4px 18px;
-}
-
-.profile-mini{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.avatar{
-    width:42px;
-    height:42px;
-    border-radius:13px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg, var(--primary), var(--primary2));
-    color:#fff;
-    font-weight:900;
-    font-size:17px;
-    box-shadow:0 8px 20px rgba(99,102,241,.25);
-}
-
-.user-name{ font-size:14px; font-weight:850; }
-.user-id{ margin-top:2px; color:var(--muted); font-size:10px; }
-
-.live{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    color:var(--success);
-    font-size:10px;
-    font-weight:850;
-}
-
-.live-dot{
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:var(--success);
-    box-shadow:0 0 0 5px rgba(16,185,129,.08);
-    animation:pulse 1.8s infinite;
-}
-
-.card{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:20px;
-    box-shadow:var(--shadow);
-    margin-bottom:12px;
-}
-
-.card-pad{ padding:17px; }
-
-.balance{
-    position:relative;
-    overflow:hidden;
-    padding:21px;
-    background:radial-gradient(circle at 90% 0%, rgba(99,102,241,.20), transparent 35%), var(--surface);
-}
-
-.balance-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.label{
-    color:var(--muted);
-    font-size:10px;
-    font-weight:850;
-    letter-spacing:1px;
-}
-
-.status{
-    background:rgba(16,185,129,.12);
-    color:var(--success);
-    border-radius:20px;
-    padding:5px 9px;
-    font-size:9px;
-    font-weight:850;
-}
-
-.money{
-    margin-top:8px;
-    font-size:38px;
-    line-height:1;
-    font-weight:950;
-    letter-spacing:-1.5px;
-}
-
-.money span{
-    color:var(--muted);
-    font-size:15px;
-    font-weight:750;
-}
-
-.coins-line{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    margin-top:7px;
-    color:var(--success);
-    font-size:12px;
-    font-weight:800;
-}
-
-.progress{
-    height:8px;
-    margin-top:18px;
-    background:var(--surface3);
-    border-radius:999px;
-    overflow:hidden;
-}
-
-.progress-fill{
-    width:0%;
-    height:100%;
-    border-radius:999px;
-    background:linear-gradient(90deg, var(--primary), var(--success));
-    transition:width .7s cubic-bezier(.2,.8,.2,1);
-}
-
-.progress-info{
-    display:flex;
-    justify-content:space-between;
-    margin-top:7px;
-    color:var(--muted);
-    font-size:10px;
-    font-weight:700;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:9px;
-    margin-bottom:12px;
-}
-
-.stat{
-    padding:14px 10px;
-    text-align:center;
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:17px;
-}
-
-.stat-value{ font-size:17px; font-weight:900; }
-.stat-label{ margin-top:4px; color:var(--muted); font-size:9px; font-weight:700; }
-
-.section-title{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin:19px 3px 9px;
-}
-
-.section-title h2{ font-size:13px; font-weight:900; }
-.section-title span{ color:var(--muted); font-size:10px; }
-
-.action{
-    width:100%;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:14px;
-    border:1px solid var(--border);
-    border-radius:17px;
-    background:var(--surface);
-    color:var(--text);
-    text-align:left;
-    margin-bottom:9px;
-    transition:transform .15s ease, background .2s ease;
-}
-
-.action:active{ transform:scale(.975); }
-
-.action:disabled{
-    opacity:.6;
-    cursor:not-allowed;
-}
-
-.action-icon{
-    flex:0 0 43px;
-    width:43px;
-    height:43px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:13px;
-    background:var(--surface2);
-    font-size:19px;
-}
-
-.action-main{ flex:1; }
-.action-title{ font-size:13px; font-weight:850; }
-.action-sub{ color:var(--muted); margin-top:3px; font-size:10px; line-height:1.35; }
-
-.reward{
-    white-space:nowrap;
-    padding:6px 9px;
-    border-radius:10px;
-    background:rgba(16,185,129,.11);
-    color:var(--success);
-    font-size:10px;
-    font-weight:900;
-}
-
-.primary-btn{
-    width:100%;
-    border:none;
-    padding:14px;
-    border-radius:14px;
-    background:linear-gradient(135deg, var(--primary), var(--primary2));
-    color:#fff;
-    font-size:13px;
-    font-weight:900;
-    box-shadow:0 10px 25px rgba(99,102,241,.20);
-    transition:transform .15s ease;
-}
-
-.primary-btn:active{ transform:scale(.97); }
-.primary-btn:disabled{ opacity:.55; cursor:not-allowed; }
-
-.ref-card{
-    padding:17px;
-    background:linear-gradient(135deg, rgba(99,102,241,.13), rgba(16,185,129,.06)), var(--surface);
-}
-
-.ref-link{
-    display:flex;
-    gap:7px;
-    margin-top:12px;
-}
-
-.ref-link input{
-    min-width:0;
-    flex:1;
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:11px;
-    background:var(--surface2);
-    color:var(--text);
-    outline:none;
-    font-size:11px;
-}
-
-.copy-btn{
-    border:none;
-    padding:0 14px;
-    border-radius:12px;
-    background:var(--primary);
-    color:#fff;
-    font-size:11px;
-    font-weight:850;
-    cursor:pointer;
-}
-
-.steps{
-    display:grid;
-    gap:8px;
-    margin-top:13px;
-}
-
-.step{
-    display:flex;
-    align-items:center;
-    gap:9px;
-    color:var(--muted);
-    font-size:10px;
-    font-weight:700;
-}
-
-.step-number{
-    width:24px;
-    height:24px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:50%;
-    background:var(--surface3);
-    color:var(--text);
-    font-size:9px;
-    font-weight:900;
-}
-
-.step.done{ color:var(--success); }
-.step.done .step-number{
-    background:rgba(16,185,129,.15);
-    color:var(--success);
-}
-
-.wallet-card{ text-align:center; padding:22px; }
-.wallet-amount{ margin-top:7px; font-size:35px; font-weight:950; }
-
-.input-label{ display:block; margin-bottom:6px; color:var(--muted); font-size:10px; font-weight:800; }
-
-.input{
-    width:100%;
-    padding:13px;
-    border:1px solid var(--border);
-    border-radius:13px;
-    outline:none;
-    background:var(--surface2);
-    color:var(--text);
-    font-size:13px;
-}
-
-.input:focus{ border-color:var(--primary); }
-
-.withdraw-status{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:13px;
-    border-radius:14px;
-    background:var(--surface2);
-    margin-top:10px;
-}
-
-.status-icon{
-    width:34px;
-    height:34px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:10px;
-    background:rgba(245,158,11,.12);
-    font-size:16px;
-}
-
-.status-title{ font-size:11px; font-weight:850; }
-.status-sub{ color:var(--muted); margin-top:2px; font-size:9px; }
-
-.profile-card{ padding:20px; }
-
-.profile-big{
-    display:flex;
-    align-items:center;
-    gap:13px;
-}
-
-.profile-avatar{
-    width:58px;
-    height:58px;
-    border-radius:18px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg, var(--primary), var(--primary2));
-    color:#fff;
-    font-size:23px;
-    font-weight:950;
-}
-
-.profile-name{ font-size:17px; font-weight:900; }
-.profile-id{ margin-top:3px; color:var(--muted); font-size:10px; }
-
-.setting{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:15px 2px;
-    border-bottom:1px solid var(--border);
-}
-
-.setting:last-child{ border-bottom:0; }
-
-.setting-left{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.setting-icon{
-    width:34px;
-    height:34px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:10px;
-    background:var(--surface2);
-}
-
-.setting-title{ font-size:12px; font-weight:800; }
-.setting-sub{ margin-top:2px; color:var(--muted); font-size:9px; }
-
-.toggle{
-    width:46px;
-    height:26px;
-    padding:3px;
-    border:0;
-    border-radius:20px;
-    background:var(--surface3);
-    cursor:pointer;
-}
-
-.toggle::after{
-    content:"";
-    display:block;
-    width:20px;
-    height:20px;
-    border-radius:50%;
-    background:#fff;
-    transition:transform .2s;
-}
-
-body.light .toggle{ background:var(--primary); }
-body.light .toggle::after{ transform:translateX(20px); }
-
-.bottom-nav{
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:0;
-    z-index:100;
-    height:calc(68px + env(safe-area-inset-bottom));
-    padding:5px 7px env(safe-area-inset-bottom);
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-around;
-    background:color-mix(in srgb, var(--surface) 94%, transparent);
-    backdrop-filter:blur(18px);
-    border-top:1px solid var(--border);
-}
-
-.nav-item{
-    flex:1;
-    height:58px;
-    border:0;
-    background:none;
-    color:var(--muted);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:3px;
-    font-size:9px;
-    font-weight:850;
-    transition:color .2s, transform .15s;
-    cursor:pointer;
-}
-
-.nav-item:active{ transform:scale(.92); }
-.nav-item.active{ color:var(--primary2); }
-
-.nav-icon{ font-size:18px; line-height:18px; }
-
-.tab{
-    display:none;
-    animation:fadeIn .25s ease;
-}
-
-.tab.active{ display:block; }
-
-.toast{
-    position:fixed;
-    left:50%;
-    bottom:86px;
-    z-index:300;
-    transform:translate(-50%,20px) scale(.95);
-    opacity:0;
-    pointer-events:none;
-    min-width:220px;
-    padding:12px 15px;
-    border-radius:14px;
-    background:#111827;
-    color:#fff;
-    box-shadow:0 12px 35px rgba(0,0,0,.35);
-    text-align:center;
-    font-size:11px;
-    font-weight:850;
-    transition:opacity .25s, transform .25s;
-}
-
-.toast.show{
-    opacity:1;
-    transform:translate(-50%,0) scale(1);
-}
-
-.coin-pop{
-    position:fixed;
-    z-index:400;
-    pointer-events:none;
-    color:var(--success);
-    font-size:20px;
-    font-weight:950;
-    animation:coinPop .9s ease forwards;
-}
-
-@keyframes fadeIn{
-    from{ opacity:0; transform:translateY(5px); }
-    to{ opacity:1; transform:translateY(0); }
-}
-
-@keyframes pulse{
-    50%{ opacity:.45; }
-}
-
-@keyframes coinPop{
-    0%{ opacity:0; transform:translateY(10px) scale(.7); }
-    20%{ opacity:1; transform:translateY(0) scale(1.15); }
-    100%{ opacity:0; transform:translateY(-65px) scale(1); }
-}
-
-@media(max-width:360px){
-    body{ padding-left:10px; padding-right:10px; }
-    .money{ font-size:33px; }
-    .action{ padding:12px; }
-    .reward{ font-size:9px; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>REWARD4AD</title>
+    <!-- Telegram & Adsgram SDKs -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary2: #818cf8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #080b14;
+            --surface: #101522;
+            --surface2: #171d2b;
+            --surface3: #20283a;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 10px 35px rgba(0, 0, 0, 0.20);
+        }
+
+        body.light {
+            --bg: #f4f6fb;
+            --surface: #ffffff;
+            --surface2: #f1f4f9;
+            --surface3: #e8edf5;
+            --text: #111827;
+            --muted: #64748b;
+            --border: rgba(15, 23, 42, 0.08);
+            --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: calc(12px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));
+            transition: background 0.25s ease, color 0.25s ease;
+        }
+
+        button, input { font: inherit; }
+        button { cursor: pointer; }
+
+        .app { max-width: 600px; margin: auto; }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 4px 18px;
+        }
+
+        .profile-mini {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary2));
+            color: #fff;
+            font-weight: 900;
+            font-size: 17px;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+        }
+
+        .user-name { font-size: 14px; font-weight: 850; }
+        .user-id { margin-top: 2px; color: var(--muted); font-size: 10px; }
+
+        .live {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--success);
+            font-size: 10px;
+            font-weight: 850;
+        }
+
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.08);
+            animation: pulse 1.8s infinite;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 12px;
+        }
+
+        .card-pad { padding: 17px; }
+
+        .balance {
+            position: relative;
+            overflow: hidden;
+            padding: 21px;
+            background: radial-gradient(circle at 90% 0%, rgba(99, 102, 241, 0.20), transparent 35%), var(--surface);
+        }
+
+        .balance-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .label {
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 850;
+            letter-spacing: 1px;
+        }
+
+        .status {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--success);
+            border-radius: 20px;
+            padding: 5px 9px;
+            font-size: 9px;
+            font-weight: 850;
+        }
+
+        .money {
+            margin-top: 8px;
+            font-size: 38px;
+            line-height: 1;
+            font-weight: 950;
+            letter-spacing: -1.5px;
+        }
+
+        .money span {
+            color: var(--muted);
+            font-size: 15px;
+            font-weight: 750;
+        }
+
+        .coins-line {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 7px;
+            color: var(--success);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .progress {
+            height: 8px;
+            margin-top: 18px;
+            background: var(--surface3);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            transition: width 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 9px;
+            margin-bottom: 12px;
+        }
+
+        .stat {
+            padding: 14px 10px;
+            text-align: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+        }
+
+        .stat-value { font-size: 17px; font-weight: 900; }
+        .stat-label { margin-top: 4px; color: var(--muted); font-size: 9px; font-weight: 700; }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 19px 3px 9px;
+        }
+
+        .section-title h2 { font-size: 13px; font-weight: 900; }
+        .section-title span { color: var(--muted); font-size: 10px; }
+
+        .action {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            background: var(--surface);
+            color: var(--text);
+            text-align: left;
+            margin-bottom: 9px;
+            transition: transform 0.15s ease, background 0.2s ease;
+        }
+
+        .action:active { transform: scale(0.975); }
+        .action:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .action-icon {
+            flex: 0 0 43px;
+            width: 43px;
+            height: 43px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 13px;
+            background: var(--surface2);
+            font-size: 19px;
+        }
+
+        .action-main { flex: 1; }
+        .action-title { font-size: 13px; font-weight: 850; }
+        .action-sub { color: var(--muted); margin-top: 3px; font-size: 10px; line-height: 1.35; }
+
+        .reward {
+            white-space: nowrap;
+            padding: 6px 9px;
+            border-radius: 10px;
+            background: rgba(16, 185, 129, 0.11);
+            color: var(--success);
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+        .primary-btn {
+            width: 100%;
+            border: none;
+            padding: 14px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--primary2));
+            color: #fff;
+            font-size: 13px;
+            font-weight: 900;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.20);
+            transition: transform 0.15s ease;
+        }
+
+        .primary-btn:active { transform: scale(0.97); }
+        .primary-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+        .ref-card {
+            padding: 17px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.13), rgba(16, 185, 129, 0.06)), var(--surface);
+        }
+
+        .ref-link {
+            display: flex;
+            gap: 7px;
+            margin-top: 12px;
+        }
+
+        .ref-link input {
+            min-width: 0;
+            flex: 1;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 11px;
+            background: var(--surface2);
+            color: var(--text);
+            outline: none;
+            font-size: 11px;
+        }
+
+        .copy-btn {
+            border: none;
+            padding: 0 14px;
+            border-radius: 12px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 850;
+            cursor: pointer;
+        }
+
+        .steps {
+            display: grid;
+            gap: 8px;
+            margin-top: 13px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .step-number {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--surface3);
+            color: var(--text);
+            font-size: 9px;
+            font-weight: 900;
+        }
+
+        .step.done { color: var(--success); }
+        .step.done .step-number {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .wallet-card { text-align: center; padding: 22px; }
+        .wallet-amount { margin-top: 7px; font-size: 35px; font-weight: 950; }
+
+        .input-label { display: block; margin-bottom: 6px; color: var(--muted); font-size: 10px; font-weight: 800; }
+
+        .input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            outline: none;
+            background: var(--surface2);
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        .input:focus { border-color: var(--primary); }
+
+        .withdraw-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px;
+            border-radius: 14px;
+            background: var(--surface2);
+            margin-top: 10px;
+        }
+
+        .status-icon {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(245, 158, 11, 0.12);
+            font-size: 16px;
+        }
+
+        .status-title { font-size: 11px; font-weight: 850; }
+        .status-sub { color: var(--muted); margin-top: 2px; font-size: 9px; }
+
+        .profile-card { padding: 20px; }
+
+        .profile-big {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .profile-avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary2));
+            color: #fff;
+            font-size: 23px;
+            font-weight: 950;
+        }
+
+        .profile-name { font-size: 17px; font-weight: 900; }
+        .profile-id { margin-top: 3px; color: var(--muted); font-size: 10px; }
+
+        .setting {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 2px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .setting:last-child { border-bottom: 0; }
+
+        .setting-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-icon {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: var(--surface2);
+        }
+
+        .setting-title { font-size: 12px; font-weight: 800; }
+        .setting-sub { margin-top: 2px; color: var(--muted); font-size: 9px; }
+
+        .toggle {
+            width: 46px;
+            height: 26px;
+            padding: 3px;
+            border: 0;
+            border-radius: 20px;
+            background: var(--surface3);
+            cursor: pointer;
+        }
+
+        .toggle::after {
+            content: "";
+            display: block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            transition: transform 0.2s;
+        }
+
+        body.light .toggle { background: var(--primary); }
+        body.light .toggle::after { transform: translateX(20px); }
+
+        .bottom-nav {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 100;
+            height: calc(68px + env(safe-area-inset-bottom));
+            padding: 5px 7px env(safe-area-inset-bottom);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-around;
+            background: color-mix(in srgb, var(--surface) 94%, transparent);
+            backdrop-filter: blur(18px);
+            border-top: 1px solid var(--border);
+        }
+
+        .nav-item {
+            flex: 1;
+            height: 58px;
+            border: 0;
+            background: none;
+            color: var(--muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            font-size: 9px;
+            font-weight: 850;
+            transition: color 0.2s, transform 0.15s;
+            cursor: pointer;
+        }
+
+        .nav-item:active { transform: scale(0.92); }
+        .nav-item.active { color: var(--primary2); }
+
+        .nav-icon { font-size: 18px; line-height: 18px; }
+
+        .tab {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .tab.active { display: block; }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 86px;
+            z-index: 300;
+            transform: translate(-50%, 20px) scale(0.95);
+            opacity: 0;
+            pointer-events: none;
+            min-width: 220px;
+            padding: 12px 15px;
+            border-radius: 14px;
+            background: #111827;
+            color: #fff;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+            text-align: center;
+            font-size: 11px;
+            font-weight: 850;
+            transition: opacity 0.25s, transform 0.25s;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0) scale(1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            50% { opacity: 0.45; }
+        }
+    </style>
 </head>
 
 <body>
@@ -584,8 +558,8 @@ body.light .toggle::after{ transform:translateX(20px); }
         <div class="profile-mini">
             <div class="avatar" id="uAvatar">U</div>
             <div>
-                <div class="user-name" id="uName">Loading...</div>
-                <div class="user-id" id="uId">ID: Loading</div>
+                <div class="user-name" id="uName">Connecting...</div>
+                <div class="user-id" id="uId">ID: --</div>
             </div>
         </div>
         <div class="live">
@@ -632,6 +606,15 @@ body.light .toggle::after{ transform:translateX(20px); }
             <span>Available now</span>
         </div>
 
+        <button class="action" id="dailyCheckinBtn" onclick="claimDaily()">
+            <div class="action-icon">🎁</div>
+            <div class="action-main">
+                <div class="action-title">Daily Check-in</div>
+                <div class="action-sub">Claim your free daily coins</div>
+            </div>
+            <div class="reward">+25</div>
+        </button>
+
         <button class="action" id="adButton" onclick="watchAd()">
             <div class="action-icon" id="adIcon">▶️</div>
             <div class="action-main">
@@ -673,13 +656,13 @@ body.light .toggle::after{ transform:translateX(20px); }
             <span>More ways to earn</span>
         </div>
 
-        <button class="action" id="adButton2" onclick="watchAd()">
-            <div class="action-icon" id="adIcon2">▶️</div>
+        <button class="action" onclick="watchAd()">
+            <div class="action-icon">▶️</div>
             <div class="action-main">
-                <div class="action-title" id="adTitle2">Rewarded Video</div>
-                <div class="action-sub" id="adSub2">Watch full video to credit coins</div>
+                <div class="action-title">Rewarded Video</div>
+                <div class="action-sub">Watch full video to credit coins</div>
             </div>
-            <div class="reward" id="adReward2">+5</div>
+            <div class="reward">+5</div>
         </button>
 
         <button class="action" onclick="goTab('tasks')">
@@ -691,461 +674,4 @@ body.light .toggle::after{ transform:translateX(20px); }
             <div class="reward">+50</div>
         </button>
 
-        <div class="section-title">
-            <h2>Referral Program</h2>
-            <span>100 coins / eligible user</span>
-        </div>
-
-        <div class="card ref-card">
-            <div style="font-size:16px;font-weight:900;">Invite friends & earn</div>
-            <div style="color:var(--muted);font-size:10px;line-height:1.5;margin-top:5px;">
-                Earn 100 coins whenever a friend joins via your invite link.
-            </div>
-
-            <div class="ref-link">
-                <input id="refInput" readonly>
-                <button class="copy-btn" onclick="copyReferral()">COPY</button>
-            </div>
-
-            <div class="steps">
-                <div class="step done" id="step1">
-                    <div class="step-number">1</div>
-                    Invited
-                </div>
-                <div class="step done" id="step2">
-                    <div class="step-number">2</div>
-                    Joined
-                </div>
-                <div class="step done" id="step3">
-                    <div class="step-number">3</div>
-                    Eligible action (+100 Coins)
-                </div>
-            </div>
-
-            <button class="primary-btn" style="margin-top:14px;" onclick="shareReferral()">
-                🚀 Share Invite Link
-            </button>
-        </div>
-    </section>
-
-    <!-- TASKS TAB -->
-    <section id="tab-tasks" class="tab">
-        <div class="section-title">
-            <h2>Community Tasks</h2>
-            <span>Complete to earn instant coins</span>
-        </div>
-
-        <div class="card card-pad">
-            <div class="action" style="margin-bottom:0;" onclick="completeTask('tg_sub', 50, 'https://t.me/telegram')">
-                <div class="action-icon">📢</div>
-                <div class="action-main">
-                    <div class="action-title">Join Official Channel</div>
-                    <div class="action-sub">Stay updated with prime announcements</div>
-                </div>
-                <div class="reward" id="task-btn-tg_sub">+50</div>
-            </div>
-        </div>
-
-        <div class="card card-pad">
-            <div class="action" style="margin-bottom:0;" onclick="completeTask('yt_sub', 30, 'https://youtube.com')">
-                <div class="action-icon">📺</div>
-                <div class="action-main">
-                    <div class="action-title">Subscribe YouTube Channel</div>
-                    <div class="action-sub">Watch guides and payment proofs</div>
-                </div>
-                <div class="reward" id="task-btn-yt_sub">+30</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- WALLET TAB -->
-    <section id="tab-wallet" class="tab">
-        <div class="card wallet-card">
-            <div class="label">WITHDRAWABLE AMOUNT</div>
-            <div class="wallet-amount">₹<span id="walletInrTxt">0.00</span></div>
-            <div class="coins-line" style="justify-content:center;margin-top:6px;">
-                🪙 <span id="walletCoinTxt">0</span> Available Coins
-            </div>
-        </div>
-
-        <div class="card card-pad">
-            <label class="input-label" for="upiInput">UPI ID / Bank Details</label>
-            <input class="input" id="upiInput" type="text" placeholder="example@upi">
-            <button class="primary-btn" style="margin-top:14px;" onclick="requestWithdrawal()">
-                Withdraw to Bank / UPI
-            </button>
-        </div>
-    </section>
-
-    <!-- PROFILE TAB -->
-    <section id="tab-profile" class="tab">
-        <div class="card profile-card">
-            <div class="profile-big">
-                <div class="profile-avatar" id="pAvatar">U</div>
-                <div>
-                    <div class="profile-name" id="pName">Loading...</div>
-                    <div class="profile-id" id="pId">ID: Loading</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card card-pad">
-            <div class="setting">
-                <div class="setting-left">
-                    <div class="setting-icon">🌙</div>
-                    <div>
-                        <div class="setting-title">Dark Mode</div>
-                        <div class="setting-sub">Toggle theme</div>
-                    </div>
-                </div>
-                <button class="toggle" onclick="toggleTheme()"></button>
-            </div>
-        </div>
-    </section>
-
-</div>
-
-<!-- BOTTOM NAVIGATION -->
-<nav class="bottom-nav">
-    <button class="nav-item active" onclick="goTab('home')">
-        <div class="nav-icon">🏠</div>
-        Home
-    </button>
-    <button class="nav-item" onclick="goTab('earn')">
-        <div class="nav-icon">💰</div>
-        Earn
-    </button>
-    <button class="nav-item" onclick="goTab('tasks')">
-        <div class="nav-icon">✓</div>
-        Tasks
-    </button>
-    <button class="nav-item" onclick="goTab('wallet')">
-        <div class="nav-icon">💳</div>
-        Wallet
-    </button>
-    <button class="nav-item" onclick="goTab('profile')">
-        <div class="nav-icon">👤</div>
-        Profile
-    </button>
-</nav>
-
-<script>
-// Initialize Telegram Web App
-const tg = window.Telegram.WebApp;
-tg.ready();
-
-// Storage keys
-const STORAGE_KEYS = {
-    USER_DATA: 'REWARD4AD_userData',
-    THEME: 'REWARD4AD_theme',
-    AD_LOADING: 'REWARD4AD_adLoading'
-};
-
-// User data with persistence
-let userData = {
-    coins: 0,
-    inr: 0.00,
-    todayEarnings: 0,
-    tasksCompleted: 0,
-    referrals: 0,
-    completedTasks: []
-};
-
-let isAdLoading = false;
-
-// Save user data to localStorage
-function saveUserData() {
-    try {
-        localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(userData));
-    } catch(e) {
-        console.log('Storage limit exceeded or not available');
-    }
-}
-
-// Load user data from localStorage
-function loadUserDataFromStorage() {
-    try {
-        const stored = localStorage.getItem(STORAGE_KEYS.USER_DATA);
-        if (stored) {
-            userData = JSON.parse(stored);
-        }
-    } catch(e) {
-        console.log('Error loading data from storage');
-    }
-}
-
-// Save theme preference
-function saveTheme(isDark) {
-    try {
-        localStorage.setItem(STORAGE_KEYS.THEME, isDark ? 'dark' : 'light');
-    } catch(e) {
-        console.log('Theme save failed');
-    }
-}
-
-// Load theme preference
-function loadThemePreference() {
-    try {
-        const theme = localStorage.getItem(STORAGE_KEYS.THEME);
-        if (theme === 'light') {
-            document.body.classList.add('light');
-        } else {
-            document.body.classList.remove('light');
-        }
-    } catch(e) {
-        console.log('Theme load failed');
-    }
-}
-
-// Tab Navigation
-function goTab(tabName) {
-    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-    document.getElementById(`tab-${tabName}`).classList.add('active');
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-    event.target.closest('.nav-item').classList.add('active');
-}
-
-// Watch Ad with improved loading state
-function watchAd() {
-    if (isAdLoading) {
-        showToast('⏳ Ad is loading, please wait...');
-        return;
-    }
-
-    // Update UI to show loading state
-    isAdLoading = true;
-    const adButton = document.getElementById('adButton');
-    const adIcon = document.getElementById('adIcon');
-    const adTitle = document.getElementById('adTitle');
-    const adSub = document.getElementById('adSub');
-    const adReward = document.getElementById('adReward');
-
-    // Also update in earn tab
-    const adButton2 = document.getElementById('adButton2');
-    const adIcon2 = document.getElementById('adIcon2');
-    const adTitle2 = document.getElementById('adTitle2');
-    const adSub2 = document.getElementById('adSub2');
-    const adReward2 = document.getElementById('adReward2');
-
-    // Disable buttons and show loading
-    adButton.disabled = true;
-    adButton2.disabled = true;
-
-    adIcon.textContent = '⏳';
-    adTitle.textContent = 'Loading Ad...';
-    adSub.textContent = 'Please wait';
-    adReward.textContent = '';
-
-    adIcon2.textContent = '⏳';
-    adTitle2.textContent = 'Loading Ad...';
-    adSub2.textContent = 'Please wait';
-    adReward2.textContent = '';
-
-    if (window.ADSGRAM) {
-        ADSGRAM.show({blockId: 46024}).then(result => {
-            if (result) {
-                addCoins(5);
-                showToast('✅ +5 Coins earned!');
-            }
-            resetAdButton();
-        }).catch(err => {
-            showToast('❌ Ad failed, try again');
-            resetAdButton();
-        });
-    } else {
-        showToast('⏳ Ad SDK loading, please try again...');
-        resetAdButton();
-    }
-}
-
-// Reset ad button to original state
-function resetAdButton() {
-    isAdLoading = false;
-    const adButton = document.getElementById('adButton');
-    const adIcon = document.getElementById('adIcon');
-    const adTitle = document.getElementById('adTitle');
-    const adSub = document.getElementById('adSub');
-    const adReward = document.getElementById('adReward');
-
-    const adButton2 = document.getElementById('adButton2');
-    const adIcon2 = document.getElementById('adIcon2');
-    const adTitle2 = document.getElementById('adTitle2');
-    const adSub2 = document.getElementById('adSub2');
-    const adReward2 = document.getElementById('adReward2');
-
-    adButton.disabled = false;
-    adButton2.disabled = false;
-
-    adIcon.textContent = '▶️';
-    adTitle.textContent = 'Watch Rewarded Video';
-    adSub.textContent = 'Adsgram Unit 46024';
-    adReward.textContent = '+5';
-
-    adIcon2.textContent = '▶️';
-    adTitle2.textContent = 'Rewarded Video';
-    adSub2.textContent = 'Watch full video to credit coins';
-    adReward2.textContent = '+5';
-}
-
-// Copy Referral Link
-function copyReferral() {
-    const refInput = document.getElementById('refInput');
-    refInput.select();
-    document.execCommand('copy');
-    showToast('✅ Link copied!');
-}
-
-// Share Referral
-function shareReferral() {
-    const refInput = document.getElementById('refInput').value;
-    if (navigator.share) {
-        navigator.share({
-            title: 'RewardHub Prime',
-            text: 'Join me and earn rewards!',
-            url: refInput
-        });
-    } else {
-        copyReferral();
-    }
-}
-
-// Complete Task
-function completeTask(taskId, coins, url) {
-    if (!userData.completedTasks.includes(taskId)) {
-        window.open(url, '_blank');
-        userData.completedTasks.push(taskId);
-        addCoins(coins);
-        document.getElementById(`task-btn-${taskId}`).textContent = '✓ Done';
-        showToast(`✅ +${coins} Coins earned!`);
-        userData.tasksCompleted++;
-        updateUI();
-        saveUserData();
-    } else {
-        showToast('Task already completed');
-    }
-}
-
-// Request Withdrawal
-function requestWithdrawal() {
-    const upi = document.getElementById('upiInput').value;
-    if (!upi) {
-        showToast('❌ Please enter UPI ID');
-        return;
-    }
-    if (userData.coins < 5000) {
-        showToast('❌ Minimum 5,000 coins required');
-        return;
-    }
-    showToast('✅ Withdrawal request submitted!');
-    document.getElementById('upiInput').value = '';
-}
-
-// Add Coins
-function addCoins(amount) {
-    userData.coins += amount;
-    userData.inr = (userData.coins / 100).toFixed(2);
-    userData.todayEarnings += amount;
-    updateUI();
-    saveUserData();
-    createCoinPop();
-}
-
-// Toggle Theme
-function toggleTheme() {
-    document.body.classList.toggle('light');
-    const isDark = !document.body.classList.contains('light');
-    saveTheme(isDark);
-}
-
-// Show Toast
-function showToast(message) {
-    const toast = document.createElement('div');
-    toast.className = 'toast show';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 2000);
-}
-
-// Coin Pop Animation
-function createCoinPop() {
-    const pop = document.createElement('div');
-    pop.className = 'coin-pop';
-    pop.textContent = '+5 🪙';
-    pop.style.left = Math.random() * 80 + 10 + '%';
-    pop.style.top = Math.random() * 60 + 20 + '%';
-    document.body.appendChild(pop);
-    setTimeout(() => pop.remove(), 1000);
-}
-
-// Update UI
-function updateUI() {
-    document.getElementById('inrTxt').textContent = userData.inr;
-    document.getElementById('coinTxt').textContent = userData.coins;
-    document.getElementById('todayTxt').textContent = userData.todayEarnings;
-    document.getElementById('taskTxt').textContent = userData.tasksCompleted;
-    document.getElementById('refTxt').textContent = userData.referrals;
-    document.getElementById('walletInrTxt').textContent = userData.inr;
-    document.getElementById('walletCoinTxt').textContent = userData.coins;
-
-    // Update progress bar
-    const maxCoins = 5000;
-    const progress = (userData.coins / maxCoins) * 100;
-    document.getElementById('pBar').style.width = Math.min(progress, 100) + '%';
-    document.getElementById('pTxt').textContent = Math.min(Math.round(progress), 100) + '%';
-
-    // Update task buttons
-    if (userData.completedTasks.includes('tg_sub')) {
-        document.getElementById('task-btn-tg_sub').textContent = '✓ Done';
-    }
-    if (userData.completedTasks.includes('yt_sub')) {
-        document.getElementById('task-btn-yt_sub').textContent = '✓ Done';
-    }
-}
-
-// Load User Data from Telegram
-function loadUserData() {
-    const user = tg.initDataUnsafe?.user;
-    if (user) {
-        const initial = user.first_name?.charAt(0).toUpperCase() || 'U';
-        document.getElementById('uName').textContent = user.first_name || 'User';
-        document.getElementById('uId').textContent = `ID: ${user.id}`;
-        document.getElementById('uAvatar').textContent = initial;
-        document.getElementById('pName').textContent = user.first_name || 'User';
-        document.getElementById('pId').textContent = `ID: ${user.id}`;
-        document.getElementById('pAvatar').textContent = initial;
-    }
-    
-    // Generate referral link
-    const userId = user?.id || '12345';
-    const refLink = `https://t.me/REWARD4ADBOT?start=ref_${userId}`;
-    document.getElementById('refInput').value = refLink;
-}
-
-// Initialize on load
-document.addEventListener('DOMContentLoaded', () => {
-    // Load theme first
-    loadThemePreference();
-    
-    // Load user data from storage
-    loadUserDataFromStorage();
-    
-    // Load telegram user info
-    loadUserData();
-    
-    // Update UI
-    updateUI();
-});
-
-// Save data before page unload
-window.addEventListener('beforeunload', () => {
-    saveUserData();
-});
-
-// Save data periodically
-setInterval(() => {
-    saveUserData();
-}, 5000);
-</script>
-
-</body>
-</html>
+        <div c
